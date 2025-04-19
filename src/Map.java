@@ -70,13 +70,13 @@ public class Map extends JFrame {
 
                    break;
                case 2:
-                   createLine(5,"0 1 2 3 4");
+                   createLine(5," 2 ");
                    break;
                case 3:
                    createLine(5,"2");
                    break;
                case 4:
-                   createLine(5,"2");
+                   createLine(5,"2 3 4" );
                    break;
 
            }
