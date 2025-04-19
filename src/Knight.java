@@ -26,19 +26,22 @@ public class Knight {
 
 
 
-    public void placeEnemy(){
+    public void placeEnemy(JLabel[][] labels,int x, int y){
 
-JFrame jf = new JFrame();
+
 
 
 JLabel jl = new JLabel();
        jl.setBounds(50, 50, 256, 256);
-jf.setSize(new Dimension(1000,1000));
-jf.setLayout(null);
+
+
 jl.setIcon(knightIcon);
-jf.add(jl);
-        jf.setVisible(true);
+
+
         jl.setVisible(true);
+        labels[x][y].setIcon(knightIcon);
+
+
 
     }
 

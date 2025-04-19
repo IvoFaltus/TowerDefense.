@@ -11,7 +11,12 @@ public class Map extends JFrame {
     private static  int x= 5;
     private static int y = 5;
     private static int TILE_SIZE = 70; // pixels
-    public void createTile(Color color){
+
+       JLabel[][] labels5x5 = new JLabel[5][5];
+
+
+    public void createTile(int lineLength,Color color){
+
         JLabel tile = new JLabel(" ", SwingConstants.CENTER);
         tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
         tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -19,7 +24,42 @@ public class Map extends JFrame {
         tile.setBackground(color);
         tile.setOpaque(true);
         add(tile);
+
+boolean temp = false;
+        for(int y=0;y<lineLength;y++){
+
+            for(int x=0;x<lineLength;x++){
+                if(labels5x5[x][y]==null){
+                    labels5x5[x][y]=tile;
+                    temp = true;
+                    break;
+
+                }
+
+
+            }
+            if(temp){
+                break;
+            }
+        }
+
+
+
+
+
+
+
+
     }
+
+
+public void printLabelsAdded( ){
+
+    System.out.println(labels5x5.length * labels5x5[0].length);
+}
+
+
+
     public void createLine(int lineLength, String filledTiles) {
         // Parse input string into integer array
         String[] tiles = filledTiles.trim().split("\\s+");
@@ -27,15 +67,15 @@ public class Map extends JFrame {
 
         for (int i = 0; i < tiles.length; i++) {
             numbers[i] = Integer.parseInt(tiles[i]);
-            System.out.println(numbers[i]);
+
         }
 
         // Create the line
         for (int i = 0; i < lineLength; i++) {
             if (contains(numbers, i)) {
-                createTile(lightBrown);
+                createTile( lineLength,lightBrown);
             } else {
-                createTile(darkGreen);
+                createTile(lineLength,darkGreen);
             }
         }
     }
@@ -49,6 +89,7 @@ public class Map extends JFrame {
         return false;
     }
     public void MapWindow5x5() {
+
         setTitle("15x15 Map");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(x * TILE_SIZE, y* TILE_SIZE);
@@ -87,6 +128,20 @@ public class Map extends JFrame {
         pack(); // Adjust window to fit all tiles
        setLocationRelativeTo(null); // Center on screen
         setVisible(true);
+
+        Knight k = new Knight();
+        k.setKnightIcon();
+        k.placeEnemy(labels5x5, 5, 5);
+
+
+
+
+
+
+
+
+        revalidate();   // Recalculates the layout if needed
+        repaint();
     }
 
 
