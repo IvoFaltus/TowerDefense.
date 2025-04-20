@@ -3,7 +3,8 @@ import java.net.URL;
 
 public class wave {
     Map m;
-
+Tower TOWER = new Tower();
+Tower t = new Tower();
     public wave(Map map) {
         this.m = map;
     }
@@ -29,7 +30,7 @@ if(knight.getLastX()!=-1&&knight.getLastY()!=-1) {
 
 
     public void enemyPath() throws Exception {
-
+t.setTowerIcon(1);
         m.MapWindow5x5();
         moveEnemy(0, 0, k);
         m.mapRender();
@@ -37,6 +38,7 @@ if(knight.getLastX()!=-1&&knight.getLastY()!=-1) {
         m.mapRender();
         moveEnemy(2, 0, k);
         moveEnemy(0, 0, k2);
+TOWER.placeTower(0,2, m.labels5x5,1);
         m.mapRender();
         moveEnemy(1, 0, k2);
         moveEnemy(2, 1, k);

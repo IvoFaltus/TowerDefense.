@@ -6,9 +6,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Knight {
+    public Knight(int health) {
+        this.health = health;
+    }
 
-private int lastX =-1;
-private int lastY=-1;
+    public Knight() {
+    }
+
+    private int lastX = -1;
+    private int lastY = -1;
 
     public void setLastXY(int lastX, int lastY) {
         this.lastX = lastX;
@@ -24,14 +30,14 @@ private int lastY=-1;
     }
 
     public ArrayList addKnights() {
-         ArrayList<Knight> wave1 = new ArrayList<>();
-         Knight k = new Knight(100);
-         Knight k2 = new Knight(100);
-         k.setKnightIcon();
-         k2.setKnightIcon();
-         wave1.add(k);
-         wave1.add(k2);
-         return wave1;
+        ArrayList<Knight> wave1 = new ArrayList<>();
+        Knight k = new Knight(100);
+        Knight k2 = new Knight(100);
+        k.setKnightIcon();
+        k2.setKnightIcon();
+        wave1.add(k);
+        wave1.add(k2);
+        return wave1;
     }
 
     private int health;
@@ -73,65 +79,25 @@ private int lastY=-1;
         } else {
             this.knightIcon = new ImageIcon(url);
             System.out.println(" Image loaded!");
-           Image temp = this.knightIcon.getImage().getScaledInstance(60, 70, Image.SCALE_SMOOTH);
+            Image temp = this.knightIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
             this.knightIcon = new ImageIcon(temp);
         }
     }
 
-  
 
+    public void placeEnemy(int x, int y, JLabel[][] labels, Knight knight) {
 
-
-
-/*
-    public void placeEnemy(JLabel[][] labels,int x, int y)throws Exception{
-
-
-
-setKnightIcon();
-
-JLabel jl = new JLabel();
-       jl.setBounds(50, 50, 256, 256);
-
-
-jl.setIcon(knightIcon);
-
-
-
-        labels[x][y].setIcon(knightIcon);
-        jl.setVisible(true);
-
+        labels[x][y].setIcon(knight.getKnightIcon());
 
     }
-*/
-
-
-    public void placeEnemy(int x,int y, JLabel[][] labels, Knight knight){
-
-labels[x][y].setIcon(knight.getKnightIcon());
-
-    }
-
-
-
-
-
-
-    //region cons
-
-    public Knight(int health) {
-        this.health = health;
-    }
-
-    public Knight() {
-    }
-//endregion
-    //region setget
 
     public ImageIcon getKnightIcon() {
         return knightIcon;
     }
 
-    //endregion
-
+    public void setKnightIcon(ImageIcon knightIcon) {
+        this.knightIcon = knightIcon;
+    }
 }
+
+

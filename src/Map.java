@@ -150,7 +150,7 @@ public void printLabelsAdded( ){
 
         //revalidate();   // Recalculates the layout if needed
         //repaint();
-        Thread.sleep(1000);
+        Thread.sleep(500);
         return labels5x5;
     }
 
@@ -166,17 +166,7 @@ public void mapRender()throws Exception{
 
 }
 
-    public void enemyMove(int x,int y, Knight k)throws Exception{
 
-        k.setKnightIcon();
-        k.placeEnemy( x, y,labels5x5, k);
-
-        revalidate();
-        repaint();
-
-
-
-    }
 
 
 
