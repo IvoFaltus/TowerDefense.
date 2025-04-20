@@ -1,7 +1,6 @@
 import javax.swing.*;
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.lang.reflect.Array;
 
 public class Map extends JFrame {
 
@@ -13,6 +12,15 @@ public class Map extends JFrame {
     private static int TILE_SIZE = 70; // pixels
 
        JLabel[][] labels5x5 = new JLabel[5][5];
+
+
+
+
+
+
+
+
+
 
 
     public void createTile(int lineLength,Color color){
@@ -88,7 +96,7 @@ public void printLabelsAdded( ){
         }
         return false;
     }
-    public void MapWindow5x5() {
+    public JLabel[][] MapWindow5x5() throws InterruptedException {
 
         setTitle("15x15 Map");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,7 +106,7 @@ public void printLabelsAdded( ){
 
          setLayout(new GridLayout(x, y));
 
-        // Fill the window with buttons or labels representing tiles
+
         for (int i = 0; i < y; i++) {
            switch (i) {
                case 0:
@@ -129,9 +137,8 @@ public void printLabelsAdded( ){
        setLocationRelativeTo(null); // Center on screen
         setVisible(true);
 
-        Knight k = new Knight();
+        Knight k = new Knight(100);
         k.setKnightIcon();
-        k.placeEnemy(labels5x5, 5, 5);
 
 
 
@@ -140,9 +147,37 @@ public void printLabelsAdded( ){
 
 
 
-        revalidate();   // Recalculates the layout if needed
-        repaint();
+
+        //revalidate();   // Recalculates the layout if needed
+        //repaint();
+        Thread.sleep(1000);
+        return labels5x5;
     }
+
+public void mapRender()throws Exception{
+
+            Thread.sleep(2000);
+
+            revalidate();
+            repaint();
+
+
+
+
+}
+
+    public void enemyMove(int x,int y, Knight k)throws Exception{
+
+        k.setKnightIcon();
+        k.placeEnemy( x, y,labels5x5, k);
+
+        revalidate();
+        repaint();
+
+
+
+    }
+
 
 
 
