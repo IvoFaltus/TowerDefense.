@@ -70,7 +70,7 @@ if(knight.getLastX()!=-1&&knight.getLastY()!=-1) {
     public void enemyPath() throws Exception {
 t.setTowerIcon(1);
 playerChoice();
-       // m.MapWindow5x5();
+        m.MapWindow5x5();
 
 
 
