@@ -1,11 +1,15 @@
 import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 
-public class wave {
-    Map m;
+public class Wave {
+    public Wave() {
+    }
+
+    Map m = new Map();
 Tower TOWER = new Tower();
 Tower t = new Tower();
-    public wave(Map map) {
+    public Wave(Map map) {
         this.m = map;
     }
 
@@ -14,7 +18,41 @@ Tower t = new Tower();
     Knight k = (Knight) KNIGHT.addKnights().get(0);
     Knight k2 = (Knight) KNIGHT.addKnights().get(1);
 
+public void playerChoice(){
 
+    JTextField x = new JTextField(); JTextField y = new JTextField();
+x.setPreferredSize(new Dimension(100,20));
+y.setPreferredSize(new Dimension(100,20));
+
+
+
+    JLabel jlX = new JLabel("X: ");
+    JLabel jlY = new JLabel("Y: ");
+
+    JPanel jpX = new JPanel(new FlowLayout());
+        jpX.add(jlX);
+    jpX.add(x);
+    JPanel jpY = new JPanel(new FlowLayout());
+
+        jpY.add(jlY);
+    jpY.add(y);
+    JPanel jp = new JPanel();
+    jp.setLayout(new FlowLayout());
+
+        jp.add(jpX);
+        jp.add(jpY);
+
+    JFrame frame = new JFrame();
+frame.add(new JLabel("Enter coordinates you want to place a tower to"));
+        frame.setSize(new Dimension(300,100));
+    frame.add(jp);
+    frame.setLayout(new FlowLayout());
+    //frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true);
+
+}
     public void moveEnemy(int x, int y, Knight knight) throws Exception {
         URL url = getClass().getResource("/resources/pathPhoto.png");
         Icon i = new ImageIcon(url);
@@ -31,9 +69,8 @@ if(knight.getLastX()!=-1&&knight.getLastY()!=-1) {
 
     public void enemyPath() throws Exception {
 t.setTowerIcon(1);
-        m.MapWindow5x5();
-
-
+playerChoice();
+       // m.MapWindow5x5();
 
 
 
@@ -43,7 +80,7 @@ t.setTowerIcon(1);
         m.mapRender();
         moveEnemy(2, 0, k);
         moveEnemy(0, 0, k2);
-TOWER.placeTower(0,2, m.labels5x5,1);
+
         m.mapRender();
         moveEnemy(1, 0, k2);
         moveEnemy(2, 1, k);

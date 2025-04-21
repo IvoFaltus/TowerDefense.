@@ -4,11 +4,12 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        Map m = new Map();
+
+Wave w = new Wave();
 
 
         try {
-
+            w.wave1();
         } catch (Exception e) {
             e.printStackTrace();
         }
