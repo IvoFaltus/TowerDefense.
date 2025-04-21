@@ -32,6 +32,11 @@ if(knight.getLastX()!=-1&&knight.getLastY()!=-1) {
     public void enemyPath() throws Exception {
 t.setTowerIcon(1);
         m.MapWindow5x5();
+
+
+
+
+
         moveEnemy(0, 0, k);
         m.mapRender();
         moveEnemy(1, 0, k);
