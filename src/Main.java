@@ -10,6 +10,8 @@ Wave w = new Wave();
 
         try {
             w.wave1();
+            Player p = new Player();
+           // p.OpenInventory();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -8,14 +8,43 @@ public class Map extends JFrame {
     Color darkGreen = new Color(106, 170, 100);
     Color lightBrown  = new Color(194, 155, 99);
     private static  int x= 5;
-    private static int y = 5;
+    private static int y = 6;
     private static int TILE_SIZE = 70; // pixels
 
-       JLabel[][] labels5x5 = new JLabel[5][5];
+       JLabel[][] labels5x5 = new JLabel[5][6];
 
 
 
+public void map5x5(){
+    for (int i = 0; i < y; i++) {
+        switch (i) {
+            case 0:
 
+                createLine(5," 0 1 2");
+                break;
+            case 1:
+
+                createLine(5,"2");
+
+                break;
+            case 2:
+                createLine(5," 2 ");
+                break;
+            case 3:
+                createLine(5,"2");
+                break;
+            case 4:
+                createLine(5,"2 3 4" );
+                break;
+            case 5:
+               // createLine(5,"0 1 2 3 4" );
+                break;
+
+        }
+
+
+    }
+}
 
 
 
@@ -107,31 +136,7 @@ public void printLabelsAdded( ){
          setLayout(new GridLayout(x, y));
 
 
-        for (int i = 0; i < y; i++) {
-           switch (i) {
-               case 0:
-
-              createLine(5," 0 1 2");
-               break;
-               case 1:
-
-                   createLine(5,"2");
-
-                   break;
-               case 2:
-                   createLine(5," 2 ");
-                   break;
-               case 3:
-                   createLine(5,"2");
-                   break;
-               case 4:
-                   createLine(5,"2 3 4" );
-                   break;
-
-           }
-
-
-        }
+       map5x5();
 
         pack(); // Adjust window to fit all tiles
        setLocationRelativeTo(null); // Center on screen
@@ -149,7 +154,7 @@ public void printLabelsAdded( ){
 
 
         //revalidate();   // Recalculates the layout if needed
-        //repaint();
+
         Thread.sleep(500);
         return labels5x5;
     }

@@ -3,6 +3,10 @@ import java.awt.*;
 import java.net.URL;
 
 public class Tower {
+    public int getLvl() {
+        return lvl;
+    }
+
     public Tower() {
     }
 
