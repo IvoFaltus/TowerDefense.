@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.lang.reflect.Array;
 
@@ -9,11 +10,69 @@ public class Map extends JFrame {
     Color lightBrown  = new Color(194, 155, 99);
     private static  int x= 5;
     private static int y = 6;
-    private static int TILE_SIZE = 70; // pixels
+    private static int TILE_SIZE = 90; // pixels
 
        JLabel[][] labels5x5 = new JLabel[5][6];
 
+public void createOptionLine(int additionLines) {
+    JLabel tile = new JLabel(" ", SwingConstants.CENTER);
+    //tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
+    tile.setBackground(new Color(80, 80, 80));
+
+
+
+
+
+
+    tile.setOpaque(true);
+
+    JToolBar toolBar1 = new JToolBar();
+    JToolBar toolBar2 = new JToolBar();
+    JToolBar toolBar3 = new JToolBar();
+    JToolBar toolBar4 = new JToolBar();
+
+    JButton PauseButton = new JButton("Stop");
+    JButton StartButton = new JButton("Resume");
+    JButton towerButton = new JButton("Place Tower");
+    JButton HelpButton = new JButton("ask Help");
+
+    toolBar1.setBackground(new Color(80, 80, 80) );
+    toolBar2.setBackground(new Color(80, 80, 80) );
+    toolBar3.setBackground(new Color(80, 80, 80) );
+    toolBar4.setBackground(new Color(80, 80, 80) );
+
+    toolBar1.add(Box.createHorizontalStrut(20));
+    toolBar2.add(Box.createHorizontalStrut(20));
+    toolBar3.add(Box.createHorizontalStrut(5));
+    toolBar4.add(Box.createHorizontalStrut(20));
+
+    toolBar1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    toolBar2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    toolBar3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    toolBar4.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
+
+
+    toolBar1.setFloatable(false);
+    toolBar2.setFloatable(false);
+    toolBar3.setFloatable(false);
+    toolBar4.setFloatable(false);
+
+    toolBar1.add(StartButton);
+    toolBar2.add(PauseButton);
+toolBar3.add(towerButton);
+toolBar4.add(HelpButton);
+
+add(toolBar1,BorderLayout.CENTER);
+add(toolBar2,BorderLayout.CENTER);
+add(toolBar3,BorderLayout.CENTER);
+add(toolBar4,BorderLayout.CENTER);
+    for(int i=0;i<additionLines;i++){
+        add(tile);
+    }
+}
 
 public void map5x5(){
     for (int i = 0; i < y; i++) {
@@ -35,9 +94,6 @@ public void map5x5(){
                 break;
             case 4:
                 createLine(5,"2 3 4" );
-                break;
-            case 5:
-               // createLine(5,"0 1 2 3 4" );
                 break;
 
         }
@@ -133,11 +189,12 @@ public void printLabelsAdded( ){
 
 
 
-         setLayout(new GridLayout(x, y));
+         setLayout(new GridLayout(y, x));
 
 
        map5x5();
-
+       createOptionLine(1);
+//createLine(5," 0 1 2 3 4 5");
         pack(); // Adjust window to fit all tiles
        setLocationRelativeTo(null); // Center on screen
         setVisible(true);
