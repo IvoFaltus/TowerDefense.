@@ -6,6 +6,24 @@ public class Wave {
     public Wave() {
     }
 
+
+
+
+
+
+public static void heyWait(boolean condition)throws Exception{
+    while (!condition) {
+        try {
+            Thread.sleep(100);
+        } catch (Exception e) {
+
+        }
+    }
+
+
+}
+
+
     Map m = new Map();
 Tower TOWER = new Tower();
 Tower t = new Tower();
@@ -54,6 +72,15 @@ frame.add(new JLabel("Enter coordinates you want to place a tower to"));
 
 }
     public void moveEnemy(int x, int y, Knight knight) throws Exception {
+
+
+
+
+
+
+
+
+
         URL url = getClass().getResource("/resources/pathPhoto.png");
         Icon i = new ImageIcon(url);
 
@@ -64,12 +91,26 @@ if(knight.getLastX()!=-1&&knight.getLastY()!=-1) {
 }
         KNIGHT.placeEnemy(x, y, m.labels5x5, knight);
         knight.setLastXY(x,y);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
     public void enemyPath() throws Exception {
 t.setTowerIcon(1);
-playerChoice();
+
         m.MapWindow5x5();
 
 
@@ -80,6 +121,9 @@ playerChoice();
         m.mapRender();
         moveEnemy(2, 0, k);
         moveEnemy(0, 0, k2);
+        //TOWER.placeTower(m.labels5x5,1);
+        m.mapRender();
+//heyWait();
 
         m.mapRender();
         moveEnemy(1, 0, k2);

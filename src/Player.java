@@ -1,24 +1,25 @@
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Player {
 
     private ArrayList<Tower> towers = new ArrayList<>();
 private int chosenTower;
 
-    public void OpenInventory(){
-
+    public void OpenInventory() throws Exception {
+        ArrayList<JButton> buttons = new ArrayList<>();
+AtomicBoolean paused = new AtomicBoolean(false);
         Tower t1 = new Tower();
         Tower t2 = new Tower();
         Tower t3 = new Tower();
         t1.setTowerIcon(1);
         t2.setTowerIcon(1);
-        t3.setTowerIcon(2);
+
 towers.add(t1);
 towers.add(t2);
-towers.add(t3);
+
         Tower[] towersArray = new Tower[towers.size()];
         JFrame frame = new JFrame();
         JPanel jp = new JPanel(new GridLayout(towers.size()+2, 1));
@@ -31,9 +32,36 @@ towers.add(t3);
             System.out.println(towers.get(i).toString());
         towersArray[i] = towers.get(i);
 
-            jp.add(new JCheckBox("Tower LVL: "+towers.get(i).getLvl()));
 
+           JButton jb = new JButton("Tower LVL: "+towers.get(i).getLvl());
+            jp.add(jb);
+            buttons.add(jb);
         }
+
+
+
+
+        for(int i=0;i<buttons.size();i++){
+
+            buttons.get(i).addActionListener(e -> {
+                Map m = new Map();
+                try {
+                    Tower.placeTower(m.labels5x5,1);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                paused.set(true);
+            });
+        }
+
+
+
+
+
+
+
+
+        //kdyz se zmackne button pasued = true
         jp.add(new JLabel(towers.get(0).getTowerIcon()));
 jp.setVisible(true);
 
@@ -46,9 +74,7 @@ jp.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
-       /* chosenTower = JOptionPane.showOptionDialog(jp,"Choose Tower","Inventory",JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE,null,towersArray,towersArray[0]);*/
+        Wave.heyWait(paused.get());
 
     }
 
