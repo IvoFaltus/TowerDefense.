@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Wave {
     public Wave() {
     }
-
+Player p = new Player();
     Boolean pause = false;
 
 
@@ -89,7 +89,9 @@ public class Wave {
 
         buttons.get(1).addActionListener(e -> {
             try {
-                Tower.placeTower(m.labels5x5, 1);
+                p.OpenInventory(m.labels5x5);
+
+
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -129,7 +131,7 @@ public class Wave {
 
 
     public void enemyPath() throws Exception {
-        t.setTowerIcon(1);
+        t.setTowerIcon();
 
         m.MapWindow5x5();
         playesInput(m.StopResumePlaceHelpRemove());
@@ -170,6 +172,7 @@ public class Wave {
     }
 
     public void wave1() throws Exception {
+        p.addTowerWave1();
         enemyPath();
     }
 

@@ -4,12 +4,24 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.Time;
+import java.util.ArrayList;
 
 public class Tower {
+private boolean isActive = false;
 
+    public Tower(boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
 
     private boolean wait = true;
 
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 
     public int getLvl() {
         return lvl;
@@ -34,7 +46,7 @@ public class Tower {
     private ImageIcon towerIcon;
 private int lvl;
 
-    public static void placeTower(JLabel[][] labels, int lvl)throws Exception{
+    public static void placeTower(JLabel[][] labels, Tower tower   )throws Exception{
 
 
 
@@ -101,9 +113,9 @@ int[] timeleft = {20};
             int xValue = Integer.parseInt(x.getText());
             int yValue = Integer.parseInt(y.getText());
 
-            Tower t = new Tower(1);
-            t.setTowerIcon(lvl);
-            labels[xValue][yValue].setIcon(t.getTowerIcon());
+
+
+            labels[xValue][yValue].setIcon(tower.getTowerIcon());
             frame.dispose();
 
         });
@@ -122,7 +134,9 @@ int[] timeleft = {20};
 
 
 
-public void setTowerIcon( int lvl){
+public void setTowerIcon( ){
+        int lvl=1;
+        //incomplete
     URL url = null;
     switch (lvl){
         case 1:
