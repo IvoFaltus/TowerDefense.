@@ -1,10 +1,22 @@
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Map extends JFrame {
+
+    JButton PauseButton = new JButton("Stop");
+    //****
+
+    //****
+    JButton towerButton = new JButton("Place Tower");
+    JButton HelpButton = new JButton("ask Help");
+    JButton removeTower = new JButton("remove Tower");
+
 
 
     Color darkGreen = new Color(106, 170, 100);
@@ -34,23 +46,18 @@ public void createOptionLine(int additionLines) {
     JToolBar toolBar4 = new JToolBar();
     JToolBar toolBar5 = new JToolBar();
 
-    JButton PauseButton = new JButton("Stop");
-    //****
-    JButton StartButton = new JButton("Resume");
-    //****
-    JButton towerButton = new JButton("Place Tower");
+/*
         towerButton.addActionListener(e -> {
             try {
                 Player p = new Player();
-                p.OpenInventory();
+                p.OpenInventory(labels5x5);
 
                 //Tower.placeTower(labels5x5,1);
 
             } catch (Exception E) {
             }
         });
-    JButton HelpButton = new JButton("ask Help");
-    JButton removeTower = new JButton("remove Tower");
+*/
 
     toolBar1.setBackground(new Color(80, 80, 80) );
     toolBar2.setBackground(new Color(80, 80, 80) );
@@ -79,13 +86,13 @@ public void createOptionLine(int additionLines) {
     toolBar4.setFloatable(false);
     toolBar5.setFloatable(false);
 
-    toolBar1.add(StartButton);
+
     toolBar2.add(PauseButton);
 toolBar3.add(towerButton);
 toolBar4.add(HelpButton);
 toolBar5.add(removeTower);
 
-add(toolBar1,BorderLayout.CENTER);
+
 add(toolBar2,BorderLayout.CENTER);
 add(toolBar3,BorderLayout.CENTER);
 add(toolBar4,BorderLayout.CENTER);
@@ -102,6 +109,30 @@ add(toolBar5,BorderLayout.CENTER);
 
 
 }
+
+
+
+public ArrayList<JButton> StopResumePlaceHelpRemove(){
+    ArrayList<JButton> buttons = new ArrayList<>();
+    buttons.add(PauseButton);
+    buttons.add(towerButton);
+    buttons.add(HelpButton);
+    buttons.add(removeTower);
+return buttons;
+}
+
+
+
+/*
+ JButton PauseButton = new JButton("Stop");
+    //****
+    JButton StartButton = new JButton("Resume");
+    //****
+    JButton towerButton = new JButton("Place Tower");
+    JButton HelpButton = new JButton("ask Help");
+    JButton removeTower = new JButton("remove Tower");
+ */
+
 
 public void map5x5(){
     for (int i = 0; i < y; i++) {
@@ -175,11 +206,6 @@ boolean temp = false;
     }
 
 
-public void printLabelsAdded( ){
-
-    System.out.println(labels5x5.length * labels5x5[0].length);
-}
-
 
 
     public void createLine(int lineLength, String filledTiles) {
@@ -223,7 +249,7 @@ public void printLabelsAdded( ){
 
 
        map5x5();
-       createOptionLine(0);
+       createOptionLine(1);
 //createLine(5," 0 1 2 3 4 5");
         pack(); // Adjust window to fit all tiles
        setLocationRelativeTo(null); // Center on screen
@@ -268,9 +294,11 @@ public void printLabelsAdded( ){
 
     }
 
-public void mapRender()throws Exception{
+public void mapRender(Boolean pause)throws Exception{
 
             Thread.sleep(1000);
+
+            if(pause  ){  Thread.sleep(9000);}
 
             revalidate();
             repaint();

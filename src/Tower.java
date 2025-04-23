@@ -113,16 +113,6 @@ int[] timeleft = {20};
 
 
 
-
-
-
-
-
-
-
-
-
-
     }
     public void removeTower(int x, int y, JLabel[][] labels){
         Color c = new Color(106, 170, 100);

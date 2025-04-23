@@ -8,7 +8,7 @@ public class Player {
     private ArrayList<Tower> towers = new ArrayList<>();
 private int chosenTower;
 
-    public void OpenInventory() throws Exception {
+    public void OpenInventory(JLabel[][] labels) throws Exception {
         ArrayList<JButton> buttons = new ArrayList<>();
 AtomicBoolean paused = new AtomicBoolean(false);
         Tower t1 = new Tower();
@@ -44,9 +44,9 @@ towers.add(t2);
         for(int i=0;i<buttons.size();i++){
 
             buttons.get(i).addActionListener(e -> {
-                Map m = new Map();
+
                 try {
-                    Tower.placeTower(m.labels5x5,1);
+                    Tower.placeTower(labels,1);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -74,7 +74,7 @@ jp.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        Wave.heyWait(paused.get());
+
 
     }
 
