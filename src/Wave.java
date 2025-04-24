@@ -7,7 +7,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Wave {
     public Wave() {
     }
-Player p = new Player();
+
+    Player p = new Player();
     Boolean pause = false;
 
 
@@ -87,18 +88,8 @@ Player p = new Player();
 
     public void playesInput(ArrayList<JButton> buttons) throws Exception {
 
-        buttons.get(1).addActionListener(e -> {
-            try {
-                p.OpenInventory(m.labels5x5);
-
-
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        });//place tower button
 
         buttons.get(0).addActionListener(e -> {
-
 
 
             try {
@@ -109,11 +100,11 @@ Player p = new Player();
 
                 t[0] = new Timer(1000, e1 -> {
                     timeLeft[0]--;
-                    buttons.get(0).setText("stopped " + timeLeft[0]);
+                    buttons.getFirst().setText("stopped " + timeLeft[0]);
 
                     if (timeLeft[0] <= 0) {
                         t[0].stop();
-                        buttons.get(0).setText("Stop");
+                        buttons.getFirst().setText("Stop");
                         try {
                             heyWait(false);
                         } catch (Exception ex) {
@@ -124,11 +115,24 @@ Player p = new Player();
 
                 t[0].start(); // start the countdown
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception _) {
+
             }
         });//stop button
 
+        buttons.get(1).addActionListener(e -> {
+            try {
+                p.OpenInventory(m.labels5x5,false);
+
+
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });//place tower button
+
+        buttons.get(2).addActionListener(e -> {}); //ask help button incomplete
+        buttons.get(3).addActionListener(e -> {
+            try {p.OpenInventory(m.labels5x5,true);} catch (Exception ex) {throw new RuntimeException(ex);}}); //remove tower button
 
     }
 

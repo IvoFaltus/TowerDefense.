@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Player {
+    int addedTowersUsed =0;
+    int[] addedTowers={0};
     private int towersCount;
     private ArrayList<Tower> towers = new ArrayList<>();
     private ArrayList<Tower> inActivetowers = new ArrayList<>();
@@ -18,26 +20,40 @@ public class Player {
     }
 
 
-    public void OpenInventory(JLabel[][] labels) throws Exception {
+    public void OpenInventory(JLabel[][] labels,boolean wannaRemove) throws Exception {
+if(!wannaRemove){
         inActivetowers.clear();
 
 
         ArrayList<JButton> buttons = new ArrayList<>();
-AtomicBoolean paused = new AtomicBoolean(false);
+        AtomicBoolean paused = new AtomicBoolean(false);
+
+
+        for (int i = 0; i < towers.size(); i++) {
+
+            if (towers.get(i).isActive() == false) {
+                inActivetowers.add(towers.get(i));
+            }
+
+        }
+
+
+        for(int i=0;i<addedTowers[0];i++){
+
+            Tower t = new Tower();
+            t.setTowerIcon();
+            t.setActive(false);
+            inActivetowers.add(t);
+            addedTowersUsed++;
+            if(addedTowers[0]>0){
+            addedTowers[0]--;}
+        }
 
 
 
-for(int i=0;i<towers.size();i++){
-
-    if(towers.get(i).isActive()==false){
-       inActivetowers.add(towers.get(i));
-    }
-
-}
-
-;
+        ;
         JFrame frame = new JFrame();
-        JPanel jp = new JPanel(new GridLayout(towers.size()+2, 1));
+        JPanel jp = new JPanel(new GridLayout(towers.size() + 2, 1));
         Label label = new Label("Choose a tower to play:");
         label.setFont(new Font("SansSerif", Font.PLAIN, 14));
         jp.add(label);
@@ -54,7 +70,7 @@ for(int i=0;i<towers.size();i++){
                 try {
                     frame.dispose();
 
-                    Tower.placeTower(labels, inActivetowers.size(),5,5);
+                    Tower.placeTower(labels, inActivetowers.size(), 5, 5);
                     currentTower.setActive(true);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
@@ -62,7 +78,7 @@ for(int i=0;i<towers.size();i++){
             });
         }
 
-        if(inActivetowers.size()==0){
+        if (inActivetowers.size() == 0) {
             JFrame f = new JFrame("Warning");
             f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             f.setSize(300, 120);
@@ -125,31 +141,29 @@ for(int i=0;i<towers.size();i++){
 */
 
 
-
-
-
-
-
 //region x
         jp.add(new JLabel(towers.get(0).getTowerIcon()));
-jp.setVisible(true);
+        jp.setVisible(true);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = screenSize.width;
         int height = screenSize.height;
 
-        frame.setSize(new Dimension(300,100));
+        frame.setSize(new Dimension(300, 100));
         frame.setTitle("Inventory");
         frame.add(jp);
         frame.add(jp);
         frame.setLayout(new FlowLayout());
         frame.pack();
-        frame.setLocation(width/3,height/2);
+        frame.setLocation(width / 3, height / 2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        if(inActivetowers.size()!=0) {
+        if (inActivetowers.size() != 0) {
             frame.setVisible(true);
         }
 //endregion
-
+    }else{
+    Tower t = new Tower();
+    t.removeTower(inActivetowers,labels,5,5,addedTowers);
+}
     }
 
 
