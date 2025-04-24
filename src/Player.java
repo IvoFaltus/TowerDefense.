@@ -6,27 +6,36 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Player {
     private int towersCount;
     private ArrayList<Tower> towers = new ArrayList<>();
+    private ArrayList<Tower> inActivetowers = new ArrayList<>();
 
-    public void addTowerWave1() {
-        Tower t1 = new Tower();
-        t1.setTowerIcon();
-        for(int i=0;i<2;i++) {
-
-            towers.add(t1);
+    public void addTowers(int howManyTowers) {
+        for (int i = 0; i < howManyTowers; i++) {
+            Tower t = new Tower();          // create new instance
+            t.setTowerIcon();
+            t.setActive(false);
+            towers.add(t);
         }
     }
-private int chosenTower;
+
 
     public void OpenInventory(JLabel[][] labels) throws Exception {
+        inActivetowers.clear();
+
+
         ArrayList<JButton> buttons = new ArrayList<>();
 AtomicBoolean paused = new AtomicBoolean(false);
 
 
 
+for(int i=0;i<towers.size();i++){
 
+    if(towers.get(i).isActive()==false){
+       inActivetowers.add(towers.get(i));
+    }
 
+}
 
-        Tower[] towersArray = new Tower[towers.size()];
+;
         JFrame frame = new JFrame();
         JPanel jp = new JPanel(new GridLayout(towers.size()+2, 1));
         Label label = new Label("Choose a tower to play:");
@@ -34,27 +43,60 @@ AtomicBoolean paused = new AtomicBoolean(false);
         jp.add(label);
 
 
-        for(int i =0;i<towers.size();i++){
-            System.out.println(towers.get(i).toString());
-        towersArray[i] = towers.get(i);
+        for (int i = 0; i < inActivetowers.size(); i++) {
+            Tower currentTower = inActivetowers.get(i); // capture the correct tower
 
-
-           JButton jb = new JButton("Tower LVL: "+towers.get(i).getLvl());
+            JButton jb = new JButton("Tower");
             jp.add(jb);
             buttons.add(jb);
+
+            jb.addActionListener(e -> {
+                try {
+                    frame.dispose();
+
+                    Tower.placeTower(labels, inActivetowers.size(),5,5);
+                    currentTower.setActive(true);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        }
+
+        if(inActivetowers.size()==0){
+            JFrame f = new JFrame("Warning");
+            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            f.setSize(300, 120);
+            f.setLayout(new BorderLayout());
+
+            JLabel message = new JLabel("You're out of towers!", SwingConstants.CENTER);
+            JButton okButton = new JButton("OK");
+
+            okButton.addActionListener(e1 -> f.dispose());
+
+            f.add(message, BorderLayout.CENTER);
+            f.add(okButton, BorderLayout.SOUTH);
+
+            f.setLocationRelativeTo(null); // Center the frame
+            f.setVisible(true);
+
         }
 
 
 
-
+/*
         for(int i=0;i<buttons.size();i++){
 
             buttons.get(i).addActionListener(e -> {
 
                 try {
-                    if(returnNonActiveTower()!=0) {
-                        towers.get(returnNonActiveTower()).setTowerIcon();
-                        Tower.placeTower(labels, towers.get(returnNonActiveTower()));
+                    frame.dispose();
+
+                    if(inActivetowers.size()!=0) {
+
+                        Tower.placeTower(labels, inActivetowers.getFirst());
+                        inActivetowers.getFirst().setActive(true);
+
+
                     }else{
                         JFrame f = new JFrame("Warning");
                         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,6 +122,7 @@ AtomicBoolean paused = new AtomicBoolean(false);
 
             });
         }
+*/
 
 
 
@@ -87,8 +130,7 @@ AtomicBoolean paused = new AtomicBoolean(false);
 
 
 
-
-
+//region x
         jp.add(new JLabel(towers.get(0).getTowerIcon()));
 jp.setVisible(true);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -103,21 +145,16 @@ jp.setVisible(true);
         frame.pack();
         frame.setLocation(width/3,height/2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-
-    }
-
-
-
-    public int returnNonActiveTower() {
-        int tower = 0;
-        for(int i =0;i<towers.size();i++){
-            if(towers.get(i).isActive()){}
-            tower = i;
+        if(inActivetowers.size()!=0) {
+            frame.setVisible(true);
         }
-        return tower;
+//endregion
+
     }
+
+
+
+
 
 
 

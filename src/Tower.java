@@ -2,9 +2,12 @@ import javax.management.StringValueExp;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Tower {
 private boolean isActive = false;
@@ -46,7 +49,37 @@ private boolean isActive = false;
     private ImageIcon towerIcon;
 private int lvl;
 
-    public static void placeTower(JLabel[][] labels, Tower tower   )throws Exception{
+    public static void placeTower(JLabel[][] labels, int inActiveTowers, int rows, int cols   )throws Exception{
+
+
+
+        AtomicBoolean hasClicked = new AtomicBoolean(false); // shared click flag
+
+        if (inActiveTowers != 0) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    int finalI = i;
+                    int finalJ = j;
+
+                    JLabel tile = labels[finalI][finalJ];
+
+                    if (tile != null) {
+                        tile.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                if (!hasClicked.get() && tile.getIcon() == null) {
+                                    Tower t = new Tower();
+                                    t.setTowerIcon();
+                                    tile.setIcon(t.getTowerIcon());
+                                    t.setActive(true);
+                                    hasClicked.set(true);
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
 
 
 
@@ -54,10 +87,7 @@ private int lvl;
 
 
 
-
-
-
-
+/*
         JToggleButton ok = new JToggleButton("OK");
 
 
@@ -124,7 +154,7 @@ int[] timeleft = {20};
 
 
 
-
+*/
     }
     public void removeTower(int x, int y, JLabel[][] labels){
         Color c = new Color(106, 170, 100);

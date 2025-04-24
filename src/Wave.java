@@ -95,9 +95,12 @@ Player p = new Player();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        });//place tower
+        });//place tower button
 
         buttons.get(0).addActionListener(e -> {
+
+
+
             try {
                 heyWait(true);
                 int[] timeLeft = {10};
@@ -124,7 +127,7 @@ Player p = new Player();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        });//stop
+        });//stop button
 
 
     }
@@ -172,7 +175,7 @@ Player p = new Player();
     }
 
     public void wave1() throws Exception {
-        p.addTowerWave1();
+        p.addTowers(2);
         enemyPath();
     }
 

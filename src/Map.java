@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -168,39 +170,25 @@ public void map5x5(){
 
 
 
-    public void createTile(int lineLength,Color color){
-
+    public void createTile(int lineLength, Color color) {
         JLabel tile = new JLabel(" ", SwingConstants.CENTER);
         tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
         tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
         tile.setBackground(color);
         tile.setOpaque(true);
         add(tile);
 
-boolean temp = false;
-        for(int y=0;y<lineLength;y++){
 
-            for(int x=0;x<lineLength;x++){
-                if(labels5x5[x][y]==null){
-                    labels5x5[x][y]=tile;
-                    temp = true;
+        boolean placed = false;
+        for (int y = 0; y < lineLength && !placed; y++) {
+            for (int x = 0; x < lineLength; x++) {
+                if (labels5x5[x][y] == null) {
+                    labels5x5[x][y] = tile;
+                    placed = true;
                     break;
-
                 }
-
-
-            }
-            if(temp){
-                break;
             }
         }
-
-
-
-
-
-
 
 
     }
