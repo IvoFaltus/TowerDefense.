@@ -212,7 +212,7 @@ int[] timeleft = {20};
 
 
 
-public void setTowerIcon( ){
+public ImageIcon setTowerIcon( ){
         int lvl=1;
         //incomplete
     URL url = null;
@@ -232,7 +232,7 @@ public void setTowerIcon( ){
 this.towerIcon = new ImageIcon(url);
     Image temp = this.towerIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
     this.towerIcon = new ImageIcon(temp);
-
+return towerIcon;
 }
 
     public ImageIcon getTowerIcon() {

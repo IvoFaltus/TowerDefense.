@@ -6,6 +6,36 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Knight {
+
+
+    public void enemyHealth(Tower t, JLabel[][] labels, int lineLength,Knight knight) {
+try {
+    for (int y = 0; y < lineLength; y++) {
+        for (int x = 0; x < lineLength; x++) {
+
+            if (labels[x][y].getIcon() == knightIcon && ((labels[x - 1][y].getIcon() == t.getTowerIcon()
+            ) || (
+                    labels[x + 1][y].getIcon() == t.getTowerIcon()
+            ) || (
+                    labels[x][y - 1].getIcon() == t.getTowerIcon()
+            ) || (
+                    labels[x][y + 1].getIcon() == t.getTowerIcon()
+            ))) {
+
+                knight.setKnightIcon2(null);
+
+
+            }
+
+        }
+    }
+
+} catch (Exception e) {
+
+}
+    }
+
+
     public Knight(int health) {
         this.health = health;
     }
@@ -44,13 +74,14 @@ public class Knight {
     private ImageIcon knightIcon;
 
 
-    public void setKnightIcon() {
+    public ImageIcon setKnightIcon() {
         URL url;
 
 
         if (this.health > 90) {
             //no idea how to shorten this
             url = getClass().getResource("/resources/knight100.png");
+
         } else if (this.health <= 90 && this.health > 80) {
             url = getClass().getResource("/resources/knight80.png");
         } else if (this.health <= 80 && this.health > 70) {
@@ -82,6 +113,7 @@ public class Knight {
             Image temp = this.knightIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
             this.knightIcon = new ImageIcon(temp);
         }
+        return knightIcon;
     }
 
 
@@ -95,7 +127,7 @@ public class Knight {
         return knightIcon;
     }
 
-    public void setKnightIcon(ImageIcon knightIcon) {
+    public void setKnightIcon2(ImageIcon knightIcon) {
         this.knightIcon = knightIcon;
     }
 }

@@ -139,6 +139,8 @@ public class Wave {
 
     public void enemyPath() throws Exception {
         t.setTowerIcon();
+        k.enemyHealth(t,m.labels5x5,5,k);
+        t.setTowerIcon();
 
         m.MapWindow5x5();
         playesInput(m.StopResumePlaceHelpRemove());
