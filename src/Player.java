@@ -20,7 +20,8 @@ public class Player {
     }
 
 
-    public void OpenInventory(JLabel[][] labels,boolean wannaRemove) throws Exception {
+    public void OpenInventory(JLabel[][] labels,boolean wannaRemove, ArrayList<Integer> TowerIndexes) throws Exception {
+
 if(!wannaRemove){
         inActivetowers.clear();
 
@@ -70,7 +71,7 @@ if(!wannaRemove){
                 try {
                     frame.dispose();
 
-                    Tower.placeTower(labels, inActivetowers.size(), 5, 5);
+                    Tower.placeTower(labels, inActivetowers.size(), 5, 5, TowerIndexes);
                     currentTower.setActive(true);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);

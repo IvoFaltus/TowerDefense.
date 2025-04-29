@@ -7,32 +7,44 @@ import java.util.ArrayList;
 
 public class Knight {
 
+    private int currentX;
+    private int currentY;
 
-    public void enemyHealth(Tower t, JLabel[][] labels, int lineLength,Knight knight) {
-try {
-    for (int y = 0; y < lineLength; y++) {
-        for (int x = 0; x < lineLength; x++) {
+            ;
 
-            if (labels[x][y].getIcon() == knightIcon && ((labels[x - 1][y].getIcon() == t.getTowerIcon()
-            ) || (
-                    labels[x + 1][y].getIcon() == t.getTowerIcon()
-            ) || (
-                    labels[x][y - 1].getIcon() == t.getTowerIcon()
-            ) || (
-                    labels[x][y + 1].getIcon() == t.getTowerIcon()
-            ))) {
+    public void enemyHealth() {
 
-                knight.setKnightIcon2(null);
+/*
+        try {
 
+Knight k = new Knight();
+k.setKnightIcon();
 
+            for (int y = 0; y < lineLength; y++) {
+                for (int x = 0; x < lineLength; x++) {
+
+                    if (
+                            labels[x][y].getIcon() == k.getKnightIcon() && ((
+                                    labels[x - 1][y].getIcon() == t.getTowerIcon()
+                            ) || (
+                                    labels[x + 1][y].getIcon() == t.getTowerIcon()
+                            ) || (
+                                    labels[x][y - 1].getIcon() == t.getTowerIcon()
+                            ) || (
+                                    labels[x][y + 1].getIcon() == t.getTowerIcon()
+                            ))) {
+knight.setKnightIcon2(null);
+                        System.out.println("HELLO");
+                    }
+
+                }
             }
 
+        } catch (Exception e) {
+
         }
-    }
 
-} catch (Exception e) {
-
-}
+ */
     }
 
 
@@ -109,7 +121,7 @@ try {
             System.out.println(" Image not found!");
         } else {
             this.knightIcon = new ImageIcon(url);
-            System.out.println(" Image loaded!");
+
             Image temp = this.knightIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
             this.knightIcon = new ImageIcon(temp);
         }
@@ -125,6 +137,22 @@ try {
 
     public ImageIcon getKnightIcon() {
         return knightIcon;
+    }
+
+    public int getCurrentX() {
+        return currentX;
+    }
+
+    public void setCurrentX(int currentX) {
+        this.currentX = currentX;
+    }
+
+    public int getCurrentY() {
+        return currentY;
+    }
+
+    public void setCurrentY(int currentY) {
+        this.currentY = currentY;
     }
 
     public void setKnightIcon2(ImageIcon knightIcon) {

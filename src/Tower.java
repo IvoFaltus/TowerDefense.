@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,7 +101,7 @@ public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int 
     private ImageIcon towerIcon;
 private int lvl;
 
-    public static void placeTower(JLabel[][] labels, int inActiveTowers, int rows, int cols   )throws Exception{
+    public static void placeTower(JLabel[][] labels, int inActiveTowers, int rows, int cols, ArrayList<Integer> towerIndexes   )throws Exception{
 
 
 
@@ -111,6 +112,9 @@ private int lvl;
                 for (int j = 0; j < cols; j++) {
                     int finalI = i;
                     int finalJ = j;
+
+
+
 
                     JLabel tile = labels[finalI][finalJ];
 
@@ -124,9 +128,20 @@ private int lvl;
                                     tile.setIcon(t.getTowerIcon());
                                     t.setActive(true);
                                     hasClicked.set(true);
+
+                                    if(hasClicked.get()==true){
+
+                                        towerIndexes.add(finalI);
+                                        towerIndexes.add(finalJ);
+                                        System.out.println("VEZ JE NA INDEXECH "+ finalI+ " "+finalJ);
+                                        System.out.println(towerIndexes);
+
+                                    }
                                 }
+
                             }
                         });
+
                     }
                 }
             }
@@ -234,6 +249,25 @@ this.towerIcon = new ImageIcon(url);
     this.towerIcon = new ImageIcon(temp);
 return towerIcon;
 }
+
+
+
+
+
+
+
+    public ImageIcon setTowerIcon2( ){
+        towerIcon=null;
+       return towerIcon;
+    }
+
+
+
+
+
+
+
+
 
     public ImageIcon getTowerIcon() {
         return towerIcon;

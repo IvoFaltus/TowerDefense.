@@ -282,21 +282,77 @@ public void map5x5(){
 
     }
 
-public void mapRender(Boolean pause)throws Exception{
-
-            Thread.sleep(1000);
-
-            if(pause  ){  Thread.sleep(9000);}
-
-            revalidate();
-            repaint();
 
 
+    public void mapRender(Boolean pause, ArrayList<Knight> knights, Tower t, ArrayList<Integer> towerIndexes) throws Exception {
+        Thread.sleep(1000);
+
+        if (pause) {
+            Thread.sleep(9000);
+        }
+
+        revalidate();
+        repaint();
+
+        try {
+
+            boolean towerStrikes = false;
+
+            for (int y = 0; y < x; y++) {
+                for (int x = 0; x < y; x++) {
+
+                    // First tower
+                    if (towerIndexes.size() == 2) {
+                        if (towerIndexes.get(0) == x && towerIndexes.get(1) == y) {
+                            for (Knight knight : knights) {
+                                int kx = knight.getCurrentX();
+                                int ky = knight.getCurrentY();
+
+                                if ((x - 1 == kx && y == ky) ||
+                                        (x + 1 == kx && y == ky) ||
+                                        (x == kx && y - 1 == ky) ||
+                                        (x == kx && y + 1 == ky)) {
+                                    towerStrikes = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // Second tower
+                    if (towerIndexes.size() == 4) {
+                        if (towerIndexes.get(2) == x && towerIndexes.get(3) == y) {
+                            System.out.println("Yes jsou to indexy " + x + " " + y);
+
+                            for (Knight knight : knights) {
+                                int kx = knight.getCurrentX();
+                                int ky = knight.getCurrentY();
+
+                                if ((x - 1 == kx && y == ky) ||
+                                        (x + 1 == kx && y == ky) ||
+                                        (x == kx && y - 1 == ky) ||
+                                        (x == kx && y + 1 == ky)) {
+                                    towerStrikes = true;
 
 
-}
 
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
+            // You can use towerStrikes here:
+            if (towerStrikes) {
+knights.get(0).setKnightIcon2(null);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
