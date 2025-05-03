@@ -284,7 +284,8 @@ public void map5x5(){
 
 
 
-    public void mapRender(Boolean pause, ArrayList<Knight> knights, Tower t, ArrayList<Integer> towerIndexes) throws Exception {
+    public void mapRender(Boolean pause) throws Exception {
+
         Thread.sleep(1000);
 
         if (pause) {
@@ -294,65 +295,96 @@ public void map5x5(){
         revalidate();
         repaint();
 
-        try {
-
-            boolean towerStrikes = false;
-
-            for (int y = 0; y < x; y++) {
-                for (int x = 0; x < y; x++) {
-
-                    // First tower
-                    if (towerIndexes.size() == 2) {
-                        if (towerIndexes.get(0) == x && towerIndexes.get(1) == y) {
-                            for (Knight knight : knights) {
-                                int kx = knight.getCurrentX();
-                                int ky = knight.getCurrentY();
-
-                                if ((x - 1 == kx && y == ky) ||
-                                        (x + 1 == kx && y == ky) ||
-                                        (x == kx && y - 1 == ky) ||
-                                        (x == kx && y + 1 == ky)) {
-                                    towerStrikes = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    // Second tower
-                    if (towerIndexes.size() == 4) {
-                        if (towerIndexes.get(2) == x && towerIndexes.get(3) == y) {
-                            System.out.println("Yes jsou to indexy " + x + " " + y);
-
-                            for (Knight knight : knights) {
-                                int kx = knight.getCurrentX();
-                                int ky = knight.getCurrentY();
-
-                                if ((x - 1 == kx && y == ky) ||
-                                        (x + 1 == kx && y == ky) ||
-                                        (x == kx && y - 1 == ky) ||
-                                        (x == kx && y + 1 == ky)) {
-                                    towerStrikes = true;
-
-
-
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // You can use towerStrikes here:
-            if (towerStrikes) {
-knights.get(0).setKnightIcon2(null);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
+
+
+
+    public void towerStrikeWatcher( ArrayList<Knight> knights, ArrayList<Integer> towerIndexes) {
+        System.out.println(knights.size()+" velikost");
+        new Thread(() -> {
+            try {
+                while (true) {
+                    boolean towerStrikes = false;
+                    int temp = -1;
+                    int indexOfHitKnight = -1;
+
+                    for (int y = 0; y < this.y; y++) {
+                        for (int x = 0; x < this.x; x++) {
+
+                            // First tower
+                            if (towerIndexes.size() >= 2 && towerIndexes.get(0) == x && towerIndexes.get(1) == y) {
+                                indexOfHitKnight = -1;
+                                for (Knight knight : knights) {
+                                    indexOfHitKnight++;
+                                    int kx = knight.getCurrentX();
+                                    int ky = knight.getCurrentY();
+
+                                    if ((x - 1 == kx && y == ky) ||
+                                            (x + 1 == kx && y == ky) ||
+                                            (x == kx && y - 1 == ky) ||
+                                            (x == kx && y + 1 == ky)) {
+                                        towerStrikes = true;
+                                        temp = indexOfHitKnight;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // Second tower
+                            if (towerIndexes.size() >= 4 && towerIndexes.get(2) == x && towerIndexes.get(3) == y) {
+                                indexOfHitKnight = -1;
+                                for (Knight knight : knights) {
+                                    indexOfHitKnight++;
+                                    int kx = knight.getCurrentX();
+                                    int ky = knight.getCurrentY();
+
+                                    if ((x - 1 == kx && y == ky) ||
+                                            (x + 1 == kx && y == ky) ||
+                                            (x == kx && y - 1 == ky) ||
+                                            (x == kx && y + 1 == ky)) {
+                                        towerStrikes = true;
+                                        temp = indexOfHitKnight;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (towerStrikes && temp >= 0 && temp < knights.size()) {
+                        Knight hitKnight = knights.get(temp);
+                        Thread.sleep(100);
+knights.get(temp).setKnightIcon2(null);
+                        // Get knight's current position
+                        int kx = hitKnight.getCurrentX();
+                        int ky = hitKnight.getCurrentY();
+
+                        // Remove icon from the tile
+                        labels5x5[ky][kx].setIcon(null);
+
+                        // Force UI to update immediately
+                        labels5x5[ky][kx].revalidate();
+                        labels5x5[ky][kx].repaint();
+
+                        // Remove knight from list
+
+
+                        System.out.println("Knight removed!");
+                    }
+
+                    Thread.sleep(50); // delay between checks
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+
+    }
+
+
+
+
 
 
 

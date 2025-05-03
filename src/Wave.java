@@ -20,6 +20,16 @@ public class Wave {
     }
 
 
+
+
+
+
+
+
+
+
+
+
     Map m = new Map();
     Tower TOWER = new Tower();
     Tower t = new Tower();
@@ -32,7 +42,7 @@ public class Wave {
 
     Knight k = (Knight) KNIGHT.addKnights().get(0);
     Knight k2 = (Knight) KNIGHT.addKnights().get(1);
-
+/*
     public void playerChoice() {
 
         JTextField x = new JTextField();
@@ -68,7 +78,7 @@ public class Wave {
         frame.setVisible(true);
 
     }
-
+*/
     public void moveEnemy(int x, int y, Knight knight) throws Exception {
 
 knight.setCurrentX(x);
@@ -83,6 +93,7 @@ knight.setCurrentY(y);
         KNIGHT.placeEnemy(x, y, m.labels5x5, knight);
         knight.setLastXY(x, y);
 
+        m.towerStrikeWatcher(knights,TowerIndexes);
 
     }
     ArrayList<Integer> TowerIndexes = new ArrayList<>();
@@ -123,7 +134,9 @@ knight.setCurrentY(y);
 
         buttons.get(1).addActionListener(e -> {
             try {
-                p.OpenInventory(m.labels5x5,false, TowerIndexes);
+
+ p.OpenInventory(m.labels5x5,false, TowerIndexes);
+
 
 
             } catch (Exception ex) {
@@ -137,9 +150,9 @@ knight.setCurrentY(y);
 
     }
 
-
+    ArrayList<Knight> knights = new ArrayList<>();
     public void enemyPath() throws Exception {
-        ArrayList<Knight> knights = new ArrayList<>();
+
         knights.add(k);
         knights.add(k2);
         t.setTowerIcon();
@@ -151,37 +164,38 @@ knight.setCurrentY(y);
 
 
         moveEnemy(0, 0, k);
-        m.mapRender(pause,knights,t, TowerIndexes);
+        m.mapRender(pause);
         moveEnemy(1, 0, k);
-        m.mapRender(pause,knights,t, TowerIndexes);
+        m.mapRender(pause);
         moveEnemy(2, 0, k);
-        moveEnemy(0, 0, k2);
+
         //TOWER.placeTower(m.labels5x5,1);
-        m.mapRender(pause,knights,t, TowerIndexes);
+        m.mapRender(pause);
 //heyWait();
 
-        m.mapRender(pause,knights,t, TowerIndexes);
-        moveEnemy(1, 0, k2);
+        m.mapRender(pause);
+        moveEnemy(0, 0, k2);
         moveEnemy(2, 1, k);
-        m.mapRender(pause,knights,t, TowerIndexes);
+        m.mapRender(pause);
         moveEnemy(2, 2, k);
+        moveEnemy(1, 0, k2);
+        m.mapRender(pause);
         moveEnemy(2, 0, k2);
-        m.mapRender(pause,knights,t, TowerIndexes);
-        moveEnemy(2, 1, k2);
         moveEnemy(2, 3, k);
-        m.mapRender(pause,knights,t, TowerIndexes);
-        moveEnemy(2, 2, k2);
+        m.mapRender(pause);
+        moveEnemy(2, 1, k2);
         moveEnemy(2, 4, k);
-        m.mapRender(pause,knights,t, TowerIndexes);
-        moveEnemy(2, 3, k2);
+        m.mapRender(pause);
+        moveEnemy(2, 2, k2);
         moveEnemy(3, 4, k);
-        m.mapRender(pause,knights,t, TowerIndexes);
-        moveEnemy(2, 4, k2);
+        m.mapRender(pause);
+        moveEnemy(2, 3, k2);
         moveEnemy(4, 4, k);
-        m.mapRender(pause,knights,t, TowerIndexes);
+        m.mapRender(pause);
+        moveEnemy(2, 4, k2);
+        m.mapRender(pause);
         moveEnemy(3, 4, k2);
-        m.mapRender(pause,knights,t, TowerIndexes);
-
+        m.mapRender(pause);
     }
 
     public void wave1() throws Exception {
@@ -189,16 +203,6 @@ knight.setCurrentY(y);
         enemyPath();
     }
 
-/*
-    public void wave1() throws Exception {
-        boolean isOver = false;
 
-
-        enemyPath();
-        Thread.sleep(1000);
-
-
-    }
-*/
 
 }

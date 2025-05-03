@@ -20,8 +20,8 @@ public class Player {
     }
 
 
-    public void OpenInventory(JLabel[][] labels,boolean wannaRemove, ArrayList<Integer> TowerIndexes) throws Exception {
-
+    public boolean OpenInventory(JLabel[][] labels,boolean wannaRemove, ArrayList<Integer> TowerIndexes) throws Exception {
+boolean successful = false;
 if(!wannaRemove){
         inActivetowers.clear();
 
@@ -70,7 +70,7 @@ if(!wannaRemove){
             jb.addActionListener(e -> {
                 try {
                     frame.dispose();
-
+//dodelat
                     Tower.placeTower(labels, inActivetowers.size(), 5, 5, TowerIndexes);
                     currentTower.setActive(true);
                 } catch (Exception ex) {
@@ -165,6 +165,8 @@ if(!wannaRemove){
     Tower t = new Tower();
     t.removeTower(inActivetowers,labels,5,5,addedTowers);
 }
+successful = true;
+return  successful;
     }
 
 
