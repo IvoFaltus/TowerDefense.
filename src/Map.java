@@ -10,7 +10,17 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Map extends JFrame {
+public void endMenu(ArrayList<Knight> knights, int endX, int endY){
 
+    for(int i=0;i<knights.size();i++){
+        if(knights.get(i).getCurrentX()== endX&&knights.get(i).getCurrentY()==endY){}
+
+    }
+
+
+
+
+}
     JButton PauseButton = new JButton("Stop");
     //****
 
@@ -367,10 +377,29 @@ knights.get(temp).setKnightIcon2(null);
                         labels5x5[ky][kx].repaint();
 
                         // Remove knight from list
+                        int temp2 =0;
+
+                        for(int i=0;i<knights.size();i++){
+
+                            if(knights.get(i).getKnightIcon()!=null){
+                                temp2++;
+
+                            }
+
+                        }
+                        if(temp2>0){
+                            //
+                        }
+
+
+
+
+
 
 
                         System.out.println("Knight removed!");
                     }
+
 
                     Thread.sleep(50); // delay between checks
                 }
