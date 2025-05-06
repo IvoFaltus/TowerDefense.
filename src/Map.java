@@ -9,22 +9,19 @@ import java.awt.event.MouseEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Map extends JFrame {
-public void endMenu(ArrayList<Knight> knights, int endX, int endY){
+public class Map extends JPanel {
+    public void endMenu(ArrayList<Knight> knights, int endX, int endY){
 
-    for(int i=0;i<knights.size();i++){
-        if(knights.get(i).getCurrentX()== endX&&knights.get(i).getCurrentY()==endY){}
+        for(int i=0;i<knights.size();i++){
+            if(knights.get(i).getCurrentX()== endX&&knights.get(i).getCurrentY()==endY){}
+
+        }
+
+
+
 
     }
-
-
-
-
-}
     JButton PauseButton = new JButton("Stop");
-    //****
-
-    //****
     JButton towerButton = new JButton("Place Tower");
     JButton HelpButton = new JButton("ask Help");
     JButton removeTower = new JButton("remove Tower");
@@ -37,26 +34,26 @@ public void endMenu(ArrayList<Knight> knights, int endX, int endY){
     private static int y = 6;
     private static int TILE_SIZE = 90; // pixels
 
-       JLabel[][] labels5x5 = new JLabel[5][6];
+    JLabel[][] labels5x5 = new JLabel[5][6];
 
-public void createOptionLine(int additionLines) {
-    JLabel tile = new JLabel(" ", SwingConstants.CENTER);
-    //tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    public void createOptionLine(int additionLines) {
+        JLabel tile = new JLabel(" ", SwingConstants.CENTER);
+        //tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-    tile.setBackground(new Color(80, 80, 80));
-
-
+        tile.setBackground(new Color(80, 80, 80));
 
 
 
 
-    tile.setOpaque(true);
 
-    JToolBar toolBar1 = new JToolBar();
-    JToolBar toolBar2 = new JToolBar();
-    JToolBar toolBar3 = new JToolBar();
-    JToolBar toolBar4 = new JToolBar();
-    JToolBar toolBar5 = new JToolBar();
+
+        tile.setOpaque(true);
+
+        JToolBar toolBar1 = new JToolBar();
+        JToolBar toolBar2 = new JToolBar();
+        JToolBar toolBar3 = new JToolBar();
+        JToolBar toolBar4 = new JToolBar();
+        JToolBar toolBar5 = new JToolBar();
 
 /*
         towerButton.addActionListener(e -> {
@@ -71,115 +68,96 @@ public void createOptionLine(int additionLines) {
         });
 */
 
-    toolBar1.setBackground(new Color(80, 80, 80) );
-    toolBar2.setBackground(new Color(80, 80, 80) );
-    toolBar3.setBackground(new Color(80, 80, 80) );
-    toolBar4.setBackground(new Color(80, 80, 80) );
-    toolBar5.setBackground(new Color(80, 80, 80) );
+        toolBar1.setBackground(new Color(80, 80, 80) );
+        toolBar2.setBackground(new Color(80, 80, 80) );
+        toolBar3.setBackground(new Color(80, 80, 80) );
+        toolBar4.setBackground(new Color(80, 80, 80) );
+        toolBar5.setBackground(new Color(80, 80, 80) );
 
-    toolBar1.add(Box.createHorizontalStrut(20));
-    toolBar2.add(Box.createHorizontalStrut(20));
-    toolBar3.add(Box.createHorizontalStrut(5));
-    toolBar4.add(Box.createHorizontalStrut(20));
-    toolBar5.add(Box.createHorizontalStrut(5));
+        toolBar1.add(Box.createHorizontalStrut(20));
+        toolBar2.add(Box.createHorizontalStrut(20));
+        toolBar3.add(Box.createHorizontalStrut(5));
+        toolBar4.add(Box.createHorizontalStrut(20));
+        toolBar5.add(Box.createHorizontalStrut(5));
 
-    toolBar1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    toolBar2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    toolBar3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    toolBar4.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    toolBar5.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-
-
-
-    toolBar1.setFloatable(false);
-    toolBar2.setFloatable(false);
-    toolBar3.setFloatable(false);
-    toolBar4.setFloatable(false);
-    toolBar5.setFloatable(false);
-
-
-    toolBar2.add(PauseButton);
-toolBar3.add(towerButton);
-toolBar4.add(HelpButton);
-toolBar5.add(removeTower);
-
-
-add(toolBar2,BorderLayout.CENTER);
-add(toolBar3,BorderLayout.CENTER);
-add(toolBar4,BorderLayout.CENTER);
-add(toolBar5,BorderLayout.CENTER);
-    for(int i=0;i<additionLines;i++){
-        add(tile);
-    }
+        toolBar1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBar2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBar3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBar4.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBar5.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 
 
 
+        toolBar1.setFloatable(false);
+        toolBar2.setFloatable(false);
+        toolBar3.setFloatable(false);
+        toolBar4.setFloatable(false);
+        toolBar5.setFloatable(false);
 
 
+        toolBar2.add(PauseButton);
+        toolBar3.add(towerButton);
+        toolBar4.add(HelpButton);
+        toolBar5.add(removeTower);
 
 
-}
-
-
-
-public ArrayList<JButton> StopResumePlaceHelpRemove(){
-    ArrayList<JButton> buttons = new ArrayList<>();
-    buttons.add(PauseButton);
-    buttons.add(towerButton);
-    buttons.add(HelpButton);
-    buttons.add(removeTower);
-return buttons;
-}
-
-
-
-/*
- JButton PauseButton = new JButton("Stop");
-    //****
-    JButton StartButton = new JButton("Resume");
-    //****
-    JButton towerButton = new JButton("Place Tower");
-    JButton HelpButton = new JButton("ask Help");
-    JButton removeTower = new JButton("remove Tower");
- */
-
-
-public void map5x5(){
-    for (int i = 0; i < y; i++) {
-        switch (i) {
-            case 0:
-
-                createLine(5," 0 1 2");
-                break;
-            case 1:
-
-                createLine(5,"2");
-
-                break;
-            case 2:
-                createLine(5," 2 ");
-                break;
-            case 3:
-                createLine(5,"2");
-                break;
-            case 4:
-                createLine(5,"2 3 4" );
-                break;
-
+        add(toolBar2,BorderLayout.CENTER);
+        add(toolBar3,BorderLayout.CENTER);
+        add(toolBar4,BorderLayout.CENTER);
+        add(toolBar5,BorderLayout.CENTER);
+        for(int i=0;i<additionLines;i++){
+            add(tile);
         }
 
 
+
+
+
+
+
+
     }
-}
 
 
 
+    public ArrayList<JButton> StopResumePlaceHelpRemove(){
+        ArrayList<JButton> buttons = new ArrayList<>();
+        buttons.add(PauseButton);
+        buttons.add(towerButton);
+        buttons.add(HelpButton);
+        buttons.add(removeTower);
+        return buttons;
+    }
 
 
+    public void map5x5(){
+        for (int i = 0; i < y; i++) {
+            switch (i) {
+                case 0:
+
+                    createLine(5," 0 1 2");
+                    break;
+                case 1:
+
+                    createLine(5,"2");
+
+                    break;
+                case 2:
+                    createLine(5," 2 ");
+                    break;
+                case 3:
+                    createLine(5,"2");
+                    break;
+                case 4:
+                    createLine(5,"2 3 4" );
+                    break;
+
+            }
 
 
+        }
+    }
     public void createTile(int lineLength, Color color) {
         JLabel tile = new JLabel(" ", SwingConstants.CENTER);
         tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
@@ -235,32 +213,27 @@ public void map5x5(){
         return false;
     }
 
-    public JLabel[][] MapWindow5x5() throws InterruptedException {
-
-        setTitle("15x15 Map");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public JPanel MapWindow5x5() throws InterruptedException {
+JPanel jp = new JPanel();
+jp.add(this);
+        //setTitle("Map");
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(x * TILE_SIZE, y* TILE_SIZE);
 
 
 
-         setLayout(new GridLayout(y, x));
+        setLayout(new GridLayout(y, x));
 
 
-       map5x5();
-       createOptionLine(1);
+        map5x5();
+        createOptionLine(1);
 //createLine(5," 0 1 2 3 4 5");
-        pack(); // Adjust window to fit all tiles
-       setLocationRelativeTo(null); // Center on screen
+        //pack(); // Adjust window to fit all tiles
+        //setLocationRelativeTo(null); // Center on screen
         setVisible(true);
 
         Knight k = new Knight(100);
         k.setKnightIcon();
-
-
-
-
-
-
 
 
 
@@ -270,26 +243,7 @@ public void map5x5(){
 
 
 
-/*
-        for(int i2=0;i2<rows;i2++){
-            labels5x5[0][i2].setText(String.valueOf(i2));
-            for(int j=0;j<cols;j++){
-
-                if(i2==0){
-                    labels5x5[j][i2].setText(String.valueOf(j));
-                }
-            }
-        }
-*/
-
-
-
-        return labels5x5;
-
-
-
-
-
+return jp;
     }
 
 
@@ -364,7 +318,7 @@ public void map5x5(){
                     if (towerStrikes && temp >= 0 && temp < knights.size()) {
                         Knight hitKnight = knights.get(temp);
                         Thread.sleep(100);
-knights.get(temp).setKnightIcon2(null);
+                        knights.get(temp).setKnightIcon2(null);
                         // Get knight's current position
                         int kx = hitKnight.getCurrentX();
                         int ky = hitKnight.getCurrentY();

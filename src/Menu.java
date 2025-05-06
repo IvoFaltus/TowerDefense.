@@ -7,67 +7,103 @@ public class Menu extends JFrame {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int screenWidth = screenSize.width;
     int screenHeight = screenSize.height;
-public void buttonPreset(JButton button){
-    Dimension buttonSize = new Dimension(200, 50);
-    button.setMaximumSize(buttonSize);
-    button.setAlignmentX(Component.CENTER_ALIGNMENT);
-    button.setBackground(new Color(150, 150, 160));
-    button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
-    button.setFont(new Font("Impact", Font.PLAIN, 18));
-    button.setFocusPainted(false);
+    public void buttonPreset(JButton button){
+        Dimension buttonSize = new Dimension(200, 50);
+        button.setMaximumSize(buttonSize);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBackground(new Color(150, 150, 160));
+        button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        button.setFont(new Font("Impact", Font.PLAIN, 18));
+        button.setFocusPainted(false);
 
 
-}
-
-
-
-public JPanel background(JPanel panel){
-    JPanel background = new JPanel();
-    background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
-    background.setBackground(new Color(194, 155, 99));
-    background.setOpaque(true);
-    background.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
-    background.add(panel);
-    return background;
-}
+    }
 
 
 
-public void youLost(){
+    public void staticInfo(){
+        Menu frame = new Menu();
+        JLabel text = new JLabel("<html>" +
+                "<div style='text-align: center;'>" +
+                "<p>You can choose from 2 modes: <b>Dynamic</b> and <b>Static</b>.</p>" +
+
+                "<p><b>Dynamic mode</b>: Enemies <b>move independently</b> and give you <i>no time to overthink</i>.</p>" +
+
+                "<p><b>To complete the game, you must play Dynamic mode.</b></p>" +
+
+                "<p><b>Static mode</b>: Ideal for <i>practice and learning mechanics</i>.</p>" +
+
+                "<br>" +
+
+                "<p>Your goal: <b>Place towers</b> to stop enemies from reaching the finish.</p>" +
+                "<p>Towers deal damage when <b>placed next to enemies</b> (non-diagonally).</p>" +
+                "</div></html>");
+        text.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        text.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+
+JPanel jp = new JPanel();
+
+//jp.setOpaque(false);
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+        jp.setOpaque(false);
+jp.add(getSpacer(20));
+        jp.add(text);
+
+        frame.add(background(jp));
+        frame.setDesign(1000,300);
+frame.setVisible(true);
+
+    }
+    public void dynamicInfo(){}
+    public void mainInfo(){}
+
+
+
+    public JPanel background(JPanel panel){
+        JPanel background = new JPanel();
+        background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+        background.setBackground(new Color(194, 155, 99));
+        background.setOpaque(true);
+        background.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding
+        background.add(panel);
+        return background;
+    }
+    public void youLost(){
 
 
 
 
-}
-public void youWon()throws Exception{
+    }
+    public void youWon()throws Exception{
 
-    JPanel panel = new JPanel();
-    panel.setPreferredSize(new Dimension(100,100));
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-    panel.setOpaque(false); // So background shows through
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(100,100));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false); // So background shows through
 
-    JLabel jb = new JLabel("You won");
-    jb.setFont(new Font("Impact", Font.PLAIN, 60));
+        JLabel jb = new JLabel("You won");
+        jb.setFont(new Font("Impact", Font.PLAIN, 60));
 
-    panel.add(getSpacer(60));
-    panel.add(jb);
+        panel.add(getSpacer(60));
+        panel.add(jb);
 
-    Menu frame = new Menu();
-    jb.setAlignmentX(Component.CENTER_ALIGNMENT);
-jb.setAlignmentY(Component.CENTER_ALIGNMENT);
-    frame.setVisible(true);
+        Menu frame = new Menu();
+        jb.setAlignmentX(Component.CENTER_ALIGNMENT);
+        jb.setAlignmentY(Component.CENTER_ALIGNMENT);
+        frame.setVisible(true);
 
-    JPanel panel2 = new JPanel();
-    panel2.setOpaque(true);
-    panel2.setPreferredSize(new Dimension(100,30));
-    frame.setDesign(300,300);
+        JPanel panel2 = new JPanel();
+        panel2.setOpaque(true);
+        panel2.setPreferredSize(new Dimension(100,30));
+        frame.setDesign(300,300);
 
-    frame.add(background(panel),SwingConstants.CENTER);
+        frame.add(background(panel),SwingConstants.CENTER);
 
-    Thread.sleep(2000);
-    frame.dispose();
+        Thread.sleep(2000);
+        frame.dispose();
 
-}
+    }
 
 
     // Spacer generator
@@ -107,7 +143,7 @@ jb.setAlignmentY(Component.CENTER_ALIGNMENT);
 
 
         for (JButton button : new JButton[]{mainMenu, nextLevel, replay, options}) {
-           buttonPreset(button);
+            buttonPreset(button);
         }
 
         // Add components with spacing
@@ -169,38 +205,38 @@ jb.setAlignmentY(Component.CENTER_ALIGNMENT);
     public void mainMenu(){
         Menu frame = new Menu();
         frame.setTitle("Main Menu");
-JButton mode1 = new JButton("Static Mode");
-JButton mode2 = new JButton("Dynamic Mode");
-JButton options = new JButton("Options");
-JButton help = new JButton("Help");
+        JButton mode1 = new JButton("Static Mode");
+        JButton mode2 = new JButton("Dynamic Mode");
+        JButton options = new JButton("Options");
+        JButton info = new JButton("Info");
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false); // So background shows through
-for(JButton button:new JButton[]{mode1,mode2,options,help  }){
+        for(JButton button:new JButton[]{mode1,mode2,options,info  }){
 
-    buttonPreset(button);
+            buttonPreset(button);
         }
         panel.add(getSpacer(10));
-panel.add(mode1);
-panel.add(getSpacer(10));
-panel.add(mode2);
+        panel.add(mode1);
         panel.add(getSpacer(10));
-panel.add(options);
+        panel.add(mode2);
         panel.add(getSpacer(10));
-panel.add(help);
+        panel.add(options);
+        panel.add(getSpacer(10));
+        panel.add(info);
 
-frame.setVisible(true);
-frame.add(background(panel));
-frame.setDesign(300,300);
+        frame.setVisible(true);
+        frame.add(background(panel));
+        frame.setDesign(300,300);
 
 
 
 
-mode1.addActionListener(e->{frame.dispose();});
-mode2.addActionListener(e->{ frame.dispose();});
-options.addActionListener(e->{ frame.dispose();});
-help.addActionListener(e->{ frame.dispose();});
+        mode1.addActionListener(e->{frame.dispose();});
+        mode2.addActionListener(e->{ frame.dispose();});
+        options.addActionListener(e->{ frame.dispose();});
+        info.addActionListener(e->{ frame.dispose();});
 
 
 

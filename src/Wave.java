@@ -43,47 +43,11 @@ public class Wave {
 
     Knight k = (Knight) KNIGHT.addKnights().get(0);
     Knight k2 = (Knight) KNIGHT.addKnights().get(1);
-/*
-    public void playerChoice() {
 
-        JTextField x = new JTextField();
-        JTextField y = new JTextField();
-        x.setPreferredSize(new Dimension(100, 20));
-        y.setPreferredSize(new Dimension(100, 20));
-
-
-        JLabel jlX = new JLabel("X: ");
-        JLabel jlY = new JLabel("Y: ");
-
-        JPanel jpX = new JPanel(new FlowLayout());
-        jpX.add(jlX);
-        jpX.add(x);
-        JPanel jpY = new JPanel(new FlowLayout());
-
-        jpY.add(jlY);
-        jpY.add(y);
-        JPanel jp = new JPanel();
-        jp.setLayout(new FlowLayout());
-
-        jp.add(jpX);
-        jp.add(jpY);
-
-        JFrame frame = new JFrame();
-        frame.add(new JLabel("Enter coordinates you want to place a tower to"));
-        frame.setSize(new Dimension(300, 100));
-        frame.add(jp);
-        frame.setLayout(new FlowLayout());
-        //frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-    }
-*/
     public void moveEnemy(int x, int y, Knight knight) throws Exception {
 
-knight.setCurrentX(x);
-knight.setCurrentY(y);
+        knight.setCurrentX(x);
+        knight.setCurrentY(y);
         URL url = getClass().getResource("/resources/pathPhoto.png");
         Icon i = new ImageIcon(url);
 
@@ -136,7 +100,7 @@ knight.setCurrentY(y);
         buttons.get(1).addActionListener(e -> {
             try {
 
- p.OpenInventory(m.labels5x5,false, TowerIndexes);
+                p.OpenInventory(m.labels5x5,false, TowerIndexes);
 
 
 
@@ -157,7 +121,7 @@ knight.setCurrentY(y);
         knights.add(k);
         knights.add(k2);
         t.setTowerIcon();
-       // k.enemyHealth(t,m.labels5x5,5,k);
+        // k.enemyHealth(t,m.labels5x5,5,k);
         t.setTowerIcon();
 
         m.MapWindow5x5();

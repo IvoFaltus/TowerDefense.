@@ -10,41 +10,11 @@ public class Knight {
     private int currentX;
     private int currentY;
 
-            ;
+    ;
 
     public void enemyHealth() {
 
-/*
-        try {
 
-Knight k = new Knight();
-k.setKnightIcon();
-
-            for (int y = 0; y < lineLength; y++) {
-                for (int x = 0; x < lineLength; x++) {
-
-                    if (
-                            labels[x][y].getIcon() == k.getKnightIcon() && ((
-                                    labels[x - 1][y].getIcon() == t.getTowerIcon()
-                            ) || (
-                                    labels[x + 1][y].getIcon() == t.getTowerIcon()
-                            ) || (
-                                    labels[x][y - 1].getIcon() == t.getTowerIcon()
-                            ) || (
-                                    labels[x][y + 1].getIcon() == t.getTowerIcon()
-                            ))) {
-knight.setKnightIcon2(null);
-                        System.out.println("HELLO");
-                    }
-
-                }
-            }
-
-        } catch (Exception e) {
-
-        }
-
- */
     }
 
 

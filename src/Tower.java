@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Tower {
-private boolean isActive = false;
+    private boolean isActive = false;
 
     public Tower(boolean isActive) {
         this.isActive = isActive;
@@ -35,7 +35,7 @@ private boolean isActive = false;
 
 
 
-public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int rows, int cols, int[] addedTowers){
+    public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int rows, int cols, int[] addedTowers){
 
 
 
@@ -47,7 +47,7 @@ public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int 
 
 
 
-    AtomicBoolean hasClicked = new AtomicBoolean(false); // shared click flag
+        AtomicBoolean hasClicked = new AtomicBoolean(false); // shared click flag
 
 
         for (int i = 0; i < rows; i++) {
@@ -85,7 +85,7 @@ public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int 
 
 
 
-}
+    }
 
 
 
@@ -99,7 +99,7 @@ public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int 
 
     Map map = new Map();
     private ImageIcon towerIcon;
-private int lvl;
+    private int lvl;
 
     public static void placeTower(JLabel[][] labels, int inActiveTowers, int rows, int cols, ArrayList<Integer> towerIndexes)throws Exception{
 
@@ -160,28 +160,28 @@ private int lvl;
 
 
 
-public ImageIcon setTowerIcon( ){
+    public ImageIcon setTowerIcon( ){
         int lvl=1;
         //incomplete
-    URL url = null;
-    switch (lvl){
-        case 1:
-             url = getClass().getResource("/resources/tower1.png");
-            break;
-        case 2:
-             url = getClass().getResource("/resources/tower2.png");
-            break;
-        case 3:
-            url = getClass().getResource("/resources/tower3.png");
-            break;
+        URL url = null;
+        switch (lvl){
+            case 1:
+                url = getClass().getResource("/resources/tower1.png");
+                break;
+            case 2:
+                url = getClass().getResource("/resources/tower2.png");
+                break;
+            case 3:
+                url = getClass().getResource("/resources/tower3.png");
+                break;
 
 
+        }
+        this.towerIcon = new ImageIcon(url);
+        Image temp = this.towerIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        this.towerIcon = new ImageIcon(temp);
+        return towerIcon;
     }
-this.towerIcon = new ImageIcon(url);
-    Image temp = this.towerIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
-    this.towerIcon = new ImageIcon(temp);
-return towerIcon;
-}
 
 
 
@@ -191,7 +191,7 @@ return towerIcon;
 
     public ImageIcon setTowerIcon2( ){
         towerIcon=null;
-       return towerIcon;
+        return towerIcon;
     }
 
 
