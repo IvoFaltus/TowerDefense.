@@ -237,27 +237,28 @@ public class Map extends JFrame {
         }).start();
     }
 
+    private boolean watcherStarted = false;
+
     public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY) {
-        System.out.println(towers.get(0).getDurability()+" dur");
-        System.out.println(towers.get(1).getDurability()+" dur");
+        if (watcherStarted) return;
+        watcherStarted = true;
+
+        System.out.println(towers.get(0).getDurability() + " dur");
+        System.out.println(towers.get(1).getDurability() + " dur");
         System.out.println();
 
         new Thread(() -> {
-
             int knightsDead = 0;
 
-
-
+            // Set positions
             for (int i = 0; i < towerIndexes.size(); i += 2) {
                 int x = towerIndexes.get(i);
                 int y = towerIndexes.get(i + 1);
-
                 int towerIndex = i / 2;
                 if (towerIndex < towers.size()) {
                     towers.get(towerIndex).setPosition(x, y);
                 }
             }
-
 
             try {
                 while (true) {
@@ -282,6 +283,7 @@ public class Map extends JFrame {
                                             (x == kx && y + 1 == ky)) {
                                         towerStrikes = true;
                                         temp = indexOfHitKnight;
+
                                         for (Tower tower : towers) {
                                             if (tower.isAt(x, y)) {
                                                 tower.setDurability(tower.getDurability() - 1);
@@ -290,22 +292,15 @@ public class Map extends JFrame {
                                             }
                                         }
 
-
                                         for (Knight k : knights) {
                                             if ((k.isAt(x - 1, y))
                                                     || (k.isAt(x + 1, y))
                                                     || (k.isAt(x, y - 1))
-                                                    || (k.isAt(x, y + 1))
-                                            ) {
-
+                                                    || (k.isAt(x, y + 1))) {
                                                 k.setHealth(0);
                                             }
                                         }
-
-
                                         break;
-
-
                                     }
                                 }
                             }
@@ -324,6 +319,7 @@ public class Map extends JFrame {
                                             (x == kx && y + 1 == ky)) {
                                         towerStrikes = true;
                                         temp = indexOfHitKnight;
+
                                         for (Tower tower : towers) {
                                             if (tower.isAt(x, y)) {
                                                 tower.setDurability(tower.getDurability() - 1);
@@ -338,87 +334,49 @@ public class Map extends JFrame {
                         }
                     }
 
+                    // Handle knight being hit
                     if (towerStrikes && temp >= 0 && temp < knights.size()) {
                         Knight hitKnight = knights.get(temp);
                         Thread.sleep(100);
-                        knights.get(temp).setKnightIcon2(null);
-                        knights.get(temp).setHealth(0);
-                        // Get knight's current position
+                        hitKnight.setKnightIcon2(null);
+                        hitKnight.setHealth(0);
                         int kx = hitKnight.getCurrentX();
                         int ky = hitKnight.getCurrentY();
-
-                        // Remove icon from the tile
                         labels5x5[ky][kx].setIcon(null);
-
-                        // Force UI to update immediately
                         labels5x5[ky][kx].revalidate();
                         labels5x5[ky][kx].repaint();
-
-                        // Remove knight from list
-                        int temp2 = 0;
-
-                        for (int i = 0; i < knights.size(); i++) {
-
-                            if (knights.get(i).getKnightIcon() != null) {
-                                temp2++;
-
-                            }
-
-                        }
-                        if (temp2 > 0) {
-                            //
-                        }
-
-
                     }
-                    int velikost = 0;
 
                     Thread.sleep(50);
 
+                    // Win/Loss check
                     boolean allDead = true;
                     boolean atFinish = false;
                     for (Knight knight : knights) {
+                        if (knight.getHealth() > 0) {allDead = false;
 
-                        if (knight.getHealth() > 0) {
-                            allDead = false;
                         }
-                        if (knight.isAt(finishX, finishY)) {
-
-                            atFinish = true;
-                        }
-
+                        if (knight.isAt(finishX, finishY)&&knight.getKnightIcon()!=null) {atFinish = true;
+                            System.out.println("Knight at finish");}
                     }
 
                     if (allDead) {
-
-                        Menu m = new Menu(toggle);
                         this.dispose();
-
                         toggle.setGameResult(ProgramToggle.Result.WON);
-
                         break;
                     }
 
                     if (atFinish) {
-
-
                         this.dispose();
-                        Menu m = new Menu(toggle);
                         toggle.setGameResult(ProgramToggle.Result.LOST);
-
                         break;
                     }
-
 
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
         }).start();
-
-
     }
 
     public ProgramToggle getToggle() {

@@ -25,7 +25,7 @@ private int y;
         this.y = y;
     }
     public boolean isAt(int x, int y) {
-        return this.x == x && this.y == y;
+        return this.x == y && this.y == y;
     }
 
     public boolean isActive() {
@@ -55,20 +55,10 @@ private int y;
     }
 
 
-    public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int rows, int cols, int[] addedTowers){
-
-
-
-
-
-
-
-
-
-
+    public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int rows, int cols,
+                            int[] addedTowers, ArrayList<Integer> towerIndexes) {
 
         AtomicBoolean hasClicked = new AtomicBoolean(false); // shared click flag
-
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -81,30 +71,34 @@ private int y;
                     tile.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            if (!hasClicked.get() && tile.getIcon() !=null) {
+                            if (!hasClicked.get() && tile.getIcon() != null) {
+                                // Remove the visual icon
+                                tile.setIcon(null);
+                                hasClicked.set(true);
+
+                                // Add tower back to inventory
                                 Tower t1 = new Tower();
                                 t1.setActive(false);
                                 t1.setTowerIcon();
                                 addedTowers[0]++;
                                 inActiveTowers.add(t1);
-                                tile.setIcon(null);
 
-                                hasClicked.set(true);
+                                // Remove coordinates from towerIndexes
+                                for (int k = 0; k < towerIndexes.size(); k += 2) {
+                                    int x = towerIndexes.get(k);
+                                    int y = towerIndexes.get(k + 1);
+                                    if (x == finalI && y == finalJ) {
+                                        towerIndexes.remove(k + 1);
+                                        towerIndexes.remove(k);
+                                        break;
+                                    }
+                                }
                             }
                         }
                     });
                 }
             }
         }
-
-
-
-
-
-
-
-
-
     }
 
 

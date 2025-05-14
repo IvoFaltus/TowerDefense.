@@ -103,7 +103,7 @@ for(int i =0;i<towers.size();i++){
             }
         } else {
             for (Tower t : towers) {
-                t.removeTower(towers, labels, 5, 5, addedTowers);
+                t.removeTower(towers, labels, 5, 5, addedTowers, TowerIndexes);
             }
         }
 
