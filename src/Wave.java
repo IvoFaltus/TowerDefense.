@@ -6,10 +6,24 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Wave {
 
+    ArrayList<Tower> towers = new ArrayList<>();
+
+
+
     public Wave() {
     }
 
+    int finalx =4;
+int finaly=4;
+
+
     Player p = new Player();
+
+
+
+
+
+
     Boolean pause = false;
 
 
@@ -23,6 +37,28 @@ public class Wave {
 
 
 
+    public ArrayList<Tower> addTowers(int howManyTowers) {
+
+        for (int i = 0; i < howManyTowers; i++) {
+            Tower t = new Tower();
+            t.setDurability(2);// create new instance
+            t.setTowerIcon();
+            t.setActive(false);
+            towers.add(t);
+        }
+
+        return towers;
+    }
+
+
+    Map m;
+
+    private ProgramToggle toggle;
+
+    public Wave(ProgramToggle toggle) {
+        this.toggle = toggle;
+m = new Map(toggle);
+    }
 
 
 
@@ -31,7 +67,6 @@ public class Wave {
 
 
 
-    Map m = new Map();
     Tower TOWER = new Tower();
     Tower t = new Tower();
 
@@ -58,7 +93,7 @@ public class Wave {
         KNIGHT.placeEnemy(x, y, m.labels5x5, knight);
         knight.setLastXY(x, y);
 
-        m.towerStrikeWatcher(knights,TowerIndexes);
+        m.towerStrikeWatcher(knights,TowerIndexes,towers,finalx,finaly);
 
     }
     ArrayList<Integer> TowerIndexes = new ArrayList<>();
@@ -100,7 +135,7 @@ public class Wave {
         buttons.get(1).addActionListener(e -> {
             try {
 
-                p.OpenInventory(m.labels5x5,false, TowerIndexes);
+                p.OpenInventory(m.labels5x5,false, TowerIndexes, towers);
 
 
 
@@ -111,60 +146,80 @@ public class Wave {
 
         buttons.get(2).addActionListener(e -> {}); //ask help button incomplete
         buttons.get(3).addActionListener(e -> {
-            try {p.OpenInventory(m.labels5x5,true, TowerIndexes);} catch (Exception ex) {throw new RuntimeException(ex);}}); //remove tower button
+            try {p.OpenInventory(m.labels5x5,true, TowerIndexes, towers);} catch (Exception ex) {throw new RuntimeException(ex);}}); //remove tower button
 
     }
+    private void moveSafe(int x, int y, Knight knight) {
+        try {
 
+            moveEnemy(x, y, knight);
+            knight.setPosition(x,y);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     ArrayList<Knight> knights = new ArrayList<>();
     public void enemyPath() throws Exception {
-
         knights.add(k);
         knights.add(k2);
-        t.setTowerIcon();
-        // k.enemyHealth(t,m.labels5x5,5,k);
-        t.setTowerIcon();
 
+        t.setTowerIcon();
         m.MapWindow5x5();
         playesInput(m.StopResumePlaceHelpRemove());
 
+        ArrayList<Runnable> steps = new ArrayList<>();
 
-        moveEnemy(0, 0, k);
-        m.mapRender(pause);
-        moveEnemy(1, 0, k);
-        m.mapRender(pause);
-        moveEnemy(2, 0, k);
+        // Add coordinated steps for both knights (per frame)
+        steps.add(() -> {
+            moveSafe(0, 0, k);  // k moves
+        });
+        steps.add(() -> {
+            moveSafe(1, 0, k);  // k moves
+        });
+        steps.add(() -> {
+            moveSafe(2, 0, k);  // k moves
+            moveSafe(0, 0, k2); // k2 starts here
+        });
+        steps.add(() -> {
+            moveSafe(2, 1, k);
+        });
+        steps.add(() -> {
+            moveSafe(2, 2, k);
+            moveSafe(1, 0, k2);
+        });
+        steps.add(() -> {
+            moveSafe(2, 3, k);
+            moveSafe(2, 0, k2);
+        });
+        steps.add(() -> {
+            moveSafe(2, 4, k);
+            moveSafe(2, 1, k2);
+        });
+        steps.add(() -> {
+            moveSafe(3, 4, k);
+            moveSafe(2, 2, k2);
+        });
+        steps.add(() -> {
+            moveSafe(4, 4, k);
+            moveSafe(2, 3, k2);
+        });
+        steps.add(() -> {
+            moveSafe(3, 4, k2);
+        });
 
-        //TOWER.placeTower(m.labels5x5,1);
-        m.mapRender(pause);
-//heyWait();
-
-        m.mapRender(pause);
-        moveEnemy(0, 0, k2);
-        moveEnemy(2, 1, k);
-        m.mapRender(pause);
-        moveEnemy(2, 2, k);
-        moveEnemy(1, 0, k2);
-        m.mapRender(pause);
-        moveEnemy(2, 0, k2);
-        moveEnemy(2, 3, k);
-        m.mapRender(pause);
-        moveEnemy(2, 1, k2);
-        moveEnemy(2, 4, k);
-        m.mapRender(pause);
-        moveEnemy(2, 2, k2);
-        moveEnemy(3, 4, k);
-        m.mapRender(pause);
-        moveEnemy(2, 3, k2);
-        moveEnemy(4, 4, k);
-        m.mapRender(pause);
-        moveEnemy(2, 4, k2);
-        m.mapRender(pause);
-        moveEnemy(3, 4, k2);
-        m.mapRender(pause);
+        runStepsWithRender(steps, 0);
     }
 
+    private void runStepsWithRender(ArrayList<Runnable> steps, int index) {
+        if (index < steps.size()) {
+            steps.get(index).run();
+            m.mapRender(pause, () -> runStepsWithRender(steps, index + 1));
+        }
+    }
     public void wave1() throws Exception {
-        p.addTowers(2);
+
+
+        addTowers(2);
         enemyPath();
     }
 

@@ -7,79 +7,66 @@ public class Player {
     int addedTowersUsed =0;
     int[] addedTowers={0};
     private int towersCount;
-    private ArrayList<Tower> towers = new ArrayList<>();
-    private ArrayList<Tower> inActivetowers = new ArrayList<>();
-
-    public void addTowers(int howManyTowers) {
-        for (int i = 0; i < howManyTowers; i++) {
-            Tower t = new Tower();          // create new instance
-            t.setTowerIcon();
-            t.setActive(false);
-            towers.add(t);
-        }
-    }
 
 
-    public boolean OpenInventory(JLabel[][] labels,boolean wannaRemove, ArrayList<Integer> TowerIndexes) throws Exception {
+    public boolean OpenInventory(JLabel[][] labels, boolean wannaRemove, ArrayList<Integer> TowerIndexes, ArrayList<Tower> towers) throws Exception {
         boolean successful = false;
-        if(!wannaRemove){
-            inActivetowers.clear();
+int[] inActiveTowers={0};
 
+for(int i =0;i<towers.size();i++){
 
+    if(towers.get(i).isActive()==false){
+        inActiveTowers[0]++;
+    }
+}
+        if (!wannaRemove) {
             ArrayList<JButton> buttons = new ArrayList<>();
-            AtomicBoolean paused = new AtomicBoolean(false);
-
-
-            for (int i = 0; i < towers.size(); i++) {
-
-                if (towers.get(i).isActive() == false) {
-                    inActivetowers.add(towers.get(i));
-                }
-
-            }
-
-
-            for(int i=0;i<addedTowers[0];i++){
-
-                Tower t = new Tower();
-                t.setTowerIcon();
-                t.setActive(false);
-                inActivetowers.add(t);
-                addedTowersUsed++;
-                if(addedTowers[0]>0){
-                    addedTowers[0]--;}
-            }
-
-
-
-            ;
             JFrame frame = new JFrame();
-            JPanel jp = new JPanel(new GridLayout(towers.size() + 2, 1));
+            JPanel jp = new JPanel();
+            jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+
             Label label = new Label("Choose a tower to play:");
             label.setFont(new Font("SansSerif", Font.PLAIN, 14));
             jp.add(label);
 
+            int availableTowers = 0;
 
-            for (int i = 0; i < inActivetowers.size(); i++) {
-                Tower currentTower = inActivetowers.get(i); // capture the correct tower
 
-                JButton jb = new JButton("Tower");
-                jp.add(jb);
-                buttons.add(jb);
 
-                jb.addActionListener(e -> {
-                    try {
-                        frame.dispose();
-//dodelat
-                        Tower.placeTower(labels, inActivetowers.size(), 5, 5, TowerIndexes);
-                        currentTower.setActive(true);
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+
+
+            for (Tower currentTower : towers) {
+                if (!currentTower.isActive() && currentTower.getDurability() > 0) {
+                    availableTowers++;
+
+                    JButton jb = new JButton("Tower " + currentTower.getDurability() + "/2 durability");
+                    JLabel jl = new JLabel(currentTower.getTowerIcon());
+
+                    if (currentTower.getDurability() <= 0) {
+                        jb.setEnabled(false); // Disable button if durability is 0
+                    } else {
+                        jb.addActionListener(e -> {
+                            try {
+                                frame.dispose();
+                                Tower.placeTower(labels,inActiveTowers ,5, 5, TowerIndexes, towers);
+                                currentTower.setActive(true);
+                                currentTower.setDurability(currentTower.getDurability() - 1);
+                                if (currentTower.getDurability() <= 0) {
+                                    currentTower.setActive(true); // prevent reuse
+                                }
+                            } catch (Exception ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        });
                     }
-                });
+
+                    jp.add(jb);
+                    jp.add(jl);
+                    buttons.add(jb);
+                }
             }
 
-            if (inActivetowers.size() == 0) {
+            if (availableTowers == 0) {
                 JFrame f = new JFrame("Warning");
                 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 f.setSize(300, 120);
@@ -87,48 +74,44 @@ public class Player {
 
                 JLabel message = new JLabel("You're out of towers!", SwingConstants.CENTER);
                 JButton okButton = new JButton("OK");
-
                 okButton.addActionListener(e1 -> f.dispose());
 
                 f.add(message, BorderLayout.CENTER);
                 f.add(okButton, BorderLayout.SOUTH);
-
-                f.setLocationRelativeTo(null); // Center the frame
+                f.setLocationRelativeTo(null);
                 f.setVisible(true);
+            } else {
+                JButton closeButton = new JButton("Close");
+                closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                closeButton.addActionListener(e -> frame.dispose());
+                jp.add(Box.createVerticalStrut(10));
+                jp.add(closeButton);
 
-            }
+                jp.setVisible(true);
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                int width = screenSize.width;
+                int height = screenSize.height;
 
-
-
-
-
-
-//region x
-            jp.add(new JLabel(towers.get(0).getTowerIcon()));
-            jp.setVisible(true);
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            int width = screenSize.width;
-            int height = screenSize.height;
-
-            frame.setSize(new Dimension(300, 100));
-            frame.setTitle("Inventory");
-            frame.add(jp);
-            frame.add(jp);
-            frame.setLayout(new FlowLayout());
-            frame.pack();
-            frame.setLocation(width / 3, height / 2);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            if (inActivetowers.size() != 0) {
+                frame.setSize(new Dimension(300, 100));
+                frame.setTitle("Inventory");
+                frame.add(jp);
+                frame.setLayout(new FlowLayout());
+                frame.pack();
+                frame.setLocation(width / 3, height / 2);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
             }
-//endregion
-        }else{
-            Tower t = new Tower();
-            t.removeTower(inActivetowers,labels,5,5,addedTowers);
+        } else {
+            for (Tower t : towers) {
+                t.removeTower(towers, labels, 5, 5, addedTowers);
+            }
         }
+
         successful = true;
-        return  successful;
+        return successful;
     }
+
+
 
 
 

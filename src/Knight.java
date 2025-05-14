@@ -6,17 +6,87 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Knight {
+    private boolean isAlive;
+private int x;
+private int y;
+
+public void setPosition(int x, int y) {
+
+    this.x = x;
+    this.y = y;
+}
+
+
+public String getPosition(){
+
+    return this.x+","+this.y;
+}
+
+
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+
+    public boolean isAt(int x,int y) {
+        return this.x == x && this.y == y;
+    }
+
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
 
     private int currentX;
     private int currentY;
+public boolean AllKnightsDead(ArrayList<Knight> knights) throws Exception {
+    boolean temp = false;
+    int numberOfKnights = 0;
 
-    ;
+
+
+
+
+
+
+
+    for(int i=0;i<knights.size();i++){
+        if(knights.get(i).getHealth()==0){
+            numberOfKnights++;
+        }
+    }
+    if(numberOfKnights==knights.size()){
+        temp = true;
+    }
+
+
+    Menu m =new Menu(null);
+    m.youWon();
+    return temp;
+}
+
 
     public void enemyHealth() {
 
 
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+
+    public void setDEfaultHealth(int health) {
+        this.health =100;
+    }
+
+
+
+
+    public int getHealth() {
+        return health;
+    }
 
     public Knight(int health) {
         this.health = health;

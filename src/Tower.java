@@ -14,8 +14,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Tower {
     private boolean isActive = false;
 
-    public Tower(boolean isActive) {
-        this.isActive = isActive;
+
+private int x;
+private int y;
+
+
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public boolean isAt(int x, int y) {
+        return this.x == x && this.y == y;
     }
 
     public boolean isActive() {
@@ -31,8 +41,18 @@ public class Tower {
     public int getLvl() {
         return lvl;
     }
+    private int durability = 2; // default
 
 
+
+
+
+    public void reduceDurability() {
+        durability--;
+        if (durability <= 0) {
+            this.setActive(false); // remove tower from map logic
+        }
+    }
 
 
     public void removeTower(ArrayList<Tower> inActiveTowers, JLabel[][] labels, int rows, int cols, int[] addedTowers){
@@ -88,9 +108,13 @@ public class Tower {
     }
 
 
+    public int getDurability() {
+        return durability;
+    }
 
-
-
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
 
     static Wave w = new Wave();
 
@@ -101,13 +125,13 @@ public class Tower {
     private ImageIcon towerIcon;
     private int lvl;
 
-    public static void placeTower(JLabel[][] labels, int inActiveTowers, int rows, int cols, ArrayList<Integer> towerIndexes)throws Exception{
+    public static void placeTower(JLabel[][] labels, int[] inActiveTowers, int rows, int cols, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers)throws Exception{
 
 
 
         AtomicBoolean hasClicked = new AtomicBoolean(false); // shared click flag
 
-        if (inActiveTowers != 0) {
+        if (inActiveTowers[0] != 0) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     int finalI = i;
@@ -134,8 +158,8 @@ public class Tower {
 
                                         towerIndexes.add(finalI);
                                         towerIndexes.add(finalJ);
-                                        System.out.println("VEZ JE NA INDEXECH "+ finalI+ " "+finalJ);
-                                        System.out.println(towerIndexes);
+                                       // System.out.println("VEZ JE NA INDEXECH "+ finalI+ " "+finalJ);
+                                       // System.out.println(towerIndexes);
 
                                     }
                                 }
