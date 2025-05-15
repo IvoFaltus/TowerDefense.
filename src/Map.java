@@ -265,10 +265,18 @@ public class Map extends JFrame {
                     boolean towerStrikes = false;
                     int temp = -1;
                     int indexOfHitKnight = -1;
+                    boolean temp2 = false;
 
                     for (int y = 0; y < this.y; y++) {
                         for (int x = 0; x < this.x; x++) {
+for(Tower tower: towers){
 
+    if(tower.isAt(x,y)&&tower.getTowerIcon()!=null){
+        temp2=true;
+
+    }
+
+}
                             // First tower
                             if (towerIndexes.size() >= 2 && towerIndexes.get(0) == x && towerIndexes.get(1) == y) {
                                 indexOfHitKnight = -1;
