@@ -50,7 +50,7 @@ for(int i =0;i<towers.size();i++){
                                 frame.dispose();
                                 Tower.placeTower(labels,inActiveTowers ,5, 5, TowerIndexes, towers);
                                 currentTower.setActive(true);
-                                currentTower.setDurability(currentTower.getDurability() - 1);
+
                                 if (currentTower.getDurability() <= 0) {
                                     currentTower.setActive(true); // prevent reuse
                                 }

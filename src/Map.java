@@ -8,23 +8,28 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Map extends JFrame {
     boolean won = false;
     private ProgramToggle toggle;
+    boolean stop2 = false;
 
     public Map(ProgramToggle toggle) {
-        this.toggle =toggle;
+        this.toggle = toggle;
     }
 
     public Map() {
     }
 
+    ArrayList<Knight> knights2 = new ArrayList<>();
     JButton PauseButton = new JButton("Stop");
     JButton towerButton = new JButton("Place Tower");
     JButton HelpButton = new JButton("ask Help");
     JButton removeTower = new JButton("remove Tower");
-
+    boolean stop = false;
 
     Color darkGreen = new Color(106, 170, 100);
     Color lightBrown = new Color(194, 155, 99);
@@ -242,26 +247,21 @@ public class Map extends JFrame {
     public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY) {
         if (watcherStarted) return;
         watcherStarted = true;
-
-        System.out.println(towers.get(0).getDurability() + " dur");
-        System.out.println(towers.get(1).getDurability() + " dur");
-        System.out.println();
+        if (!stop2) {
+            knights2 = knights;
+            stop2 = true;
+        }
 
         new Thread(() -> {
             int knightsDead = 0;
-
-            // Set positions
-            for (int i = 0; i < towerIndexes.size(); i += 2) {
-                int x = towerIndexes.get(i);
-                int y = towerIndexes.get(i + 1);
-                int towerIndex = i / 2;
-                if (towerIndex < towers.size()) {
-                    towers.get(towerIndex).setPosition(x, y);
-                }
-            }
+            Set<Knight> processedKnights = new HashSet<>();
 
             try {
                 while (true) {
+                    if (towers.size() > 0) {
+                        System.out.println("Durability: " + towers.get(0).getDurability());
+                    }
+                    // System.out.println("knights.size = "+knights.size());
                     boolean towerStrikes = false;
                     int temp = -1;
                     int indexOfHitKnight = -1;
@@ -285,11 +285,8 @@ public class Map extends JFrame {
                                         temp = indexOfHitKnight;
 
                                         for (Tower tower : towers) {
-                                            if (tower.isAt(x, y)) {
-                                                tower.setDurability(tower.getDurability() - 1);
-                                                System.out.println("yes1");
-                                                break;
-                                            }
+                                            tower.getPosition();
+
                                         }
 
                                         for (Knight k : knights) {
@@ -297,7 +294,29 @@ public class Map extends JFrame {
                                                     || (k.isAt(x + 1, y))
                                                     || (k.isAt(x, y - 1))
                                                     || (k.isAt(x, y + 1))) {
-                                                k.setHealth(0);
+
+                                                if (!processedKnights.contains(k)) {
+                                                    k.setHealth(0);
+                                                    processedKnights.add(k);
+
+
+                                                    if (towers.size() > 0) {
+
+                                                        Tower targetTower = towers.get(0);
+
+
+                                                        targetTower.setDurability(targetTower.getDurability() - 1);
+
+                                                        if (targetTower.getDurability() <= 0) {
+                                                            targetTower.setTowerIcon2();
+                                                            labels5x5[x][y].setIcon(null);
+                                                            labels5x5[x][y].revalidate();
+                                                            labels5x5[x][y].repaint();
+                                                            towers.remove(targetTower); // ✅ tower removed
+                                                            System.out.println("Tower destroyed and removed!");
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                         break;
@@ -319,14 +338,8 @@ public class Map extends JFrame {
                                             (x == kx && y + 1 == ky)) {
                                         towerStrikes = true;
                                         temp = indexOfHitKnight;
+                                        stop = false;
 
-                                        for (Tower tower : towers) {
-                                            if (tower.isAt(x, y)) {
-                                                tower.setDurability(tower.getDurability() - 1);
-                                                System.out.println("yes");
-                                                break;
-                                            }
-                                        }
                                         break;
                                     }
                                 }
@@ -336,6 +349,8 @@ public class Map extends JFrame {
 
                     // Handle knight being hit
                     if (towerStrikes && temp >= 0 && temp < knights.size()) {
+
+
                         Knight hitKnight = knights.get(temp);
                         Thread.sleep(100);
                         hitKnight.setKnightIcon2(null);
@@ -353,11 +368,15 @@ public class Map extends JFrame {
                     boolean allDead = true;
                     boolean atFinish = false;
                     for (Knight knight : knights) {
-                        if (knight.getHealth() > 0) {allDead = false;
+                        if (knight.getHealth() > 0) {
+
+                            allDead = false;
 
                         }
-                        if (knight.isAt(finishX, finishY)&&knight.getKnightIcon()!=null) {atFinish = true;
-                            System.out.println("Knight at finish");}
+                        if (knight.isAt(finishX, finishY) && knight.getKnightIcon() != null) {
+                            atFinish = true;
+                            System.out.println("Knight at finish");
+                        }
                     }
 
                     if (allDead) {

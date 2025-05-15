@@ -24,6 +24,22 @@ private int y;
         this.x = x;
         this.y = y;
     }
+
+
+
+    public void getPosition(){
+
+        System.out.print("["+this.x+",");
+        System.out.print(this.y+"]");
+        System.out.println();
+    }
+
+
+
+
+
+
+
     public boolean isAt(int x, int y) {
         return this.x == y && this.y == y;
     }

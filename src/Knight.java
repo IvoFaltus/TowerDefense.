@@ -122,6 +122,20 @@ public boolean AllKnightsDead(ArrayList<Knight> knights) throws Exception {
         return wave1;
     }
 
+    public void knightPreset(){
+
+        this.setKnightIcon();
+        this.setHealth(100);
+    }
+
+
+
+
+
+
+
+
+
     private int health;
     private ImageIcon knightIcon;
 

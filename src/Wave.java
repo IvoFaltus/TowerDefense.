@@ -37,11 +37,11 @@ int finaly=4;
 
 
 
-    public ArrayList<Tower> addTowers(int howManyTowers) {
+    public ArrayList<Tower> addTowers(int howManyTowers, int durabilty) {
 
         for (int i = 0; i < howManyTowers; i++) {
             Tower t = new Tower();
-            t.setDurability(2);// create new instance
+            t.setDurability(durabilty);// create new instance
             t.setTowerIcon();
             t.setActive(false);
             towers.add(t);
@@ -76,8 +76,9 @@ m = new Map(toggle);
 
     Knight KNIGHT = new Knight();
 
-    Knight k = (Knight) KNIGHT.addKnights().get(0);
-    Knight k2 = (Knight) KNIGHT.addKnights().get(1);
+    Knight k = new Knight();
+    Knight k2 = new Knight();
+    Knight k3 = new Knight();
 
     public void moveEnemy(int x, int y, Knight knight) throws Exception {
 
@@ -160,8 +161,12 @@ m = new Map(toggle);
     }
     ArrayList<Knight> knights = new ArrayList<>();
     public void enemyPath() throws Exception {
+        k.knightPreset();
         knights.add(k);
+        k2.knightPreset();
         knights.add(k2);
+        k3.knightPreset();
+        knights.add(k3);
 
         t.setTowerIcon();
         m.MapWindow5x5();
@@ -169,19 +174,15 @@ m = new Map(toggle);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // Add coordinated steps for both knights (per frame)
-        steps.add(() -> {
-            moveSafe(0, 0, k);  // k moves
-        });
-        steps.add(() -> {
-            moveSafe(1, 0, k);  // k moves
-        });
-        steps.add(() -> {
-            moveSafe(2, 0, k);  // k moves
-            moveSafe(0, 0, k2); // k2 starts here
-        });
+        // k moves first
+        steps.add(() -> moveSafe(0, 0, k));
+        steps.add(() -> moveSafe(1, 0, k));
+        steps.add(() -> moveSafe(2, 0, k));
+
+        // k2 starts after k moves 3 steps
         steps.add(() -> {
             moveSafe(2, 1, k);
+            moveSafe(0, 0, k2);
         });
         steps.add(() -> {
             moveSafe(2, 2, k);
@@ -195,17 +196,31 @@ m = new Map(toggle);
             moveSafe(2, 4, k);
             moveSafe(2, 1, k2);
         });
+
+        // k3 starts after k2 moves 4 steps
         steps.add(() -> {
             moveSafe(3, 4, k);
             moveSafe(2, 2, k2);
+            moveSafe(0, 0, k3);
         });
         steps.add(() -> {
             moveSafe(4, 4, k);
             moveSafe(2, 3, k2);
+            moveSafe(1, 0, k3);
         });
         steps.add(() -> {
             moveSafe(3, 4, k2);
+            moveSafe(2, 0, k3);
         });
+        steps.add(() -> {
+            moveSafe(4, 4, k2);
+            moveSafe(2, 1, k3);
+        });
+        steps.add(() -> moveSafe(2, 2, k3));
+        steps.add(() -> moveSafe(2, 3, k3));
+        steps.add(() -> moveSafe(2, 4, k3));
+        steps.add(() -> moveSafe(3, 4, k3));
+        steps.add(() -> moveSafe(4, 4, k3));
 
         runStepsWithRender(steps, 0);
     }
@@ -219,7 +234,7 @@ m = new Map(toggle);
     public void wave1() throws Exception {
 
 
-        addTowers(2);
+        addTowers(1,2);
         enemyPath();
     }
 
