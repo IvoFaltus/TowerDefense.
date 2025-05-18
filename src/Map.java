@@ -13,6 +13,21 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Map extends JFrame {
+
+    private int enemySpeed;
+    public Map(int enemySpeed) {
+
+        this.enemySpeed = enemySpeed;
+    }
+
+    public Map(ProgramToggle toggle,int enemySpeed) {
+        this.toggle = toggle;
+        this.enemySpeed = enemySpeed;
+    }
+
+
+
+
     boolean won = false;
     private ProgramToggle toggle;
     boolean stop2 = false;
@@ -232,8 +247,8 @@ public class Map extends JFrame {
 
 
     public void mapRender(Boolean pause, Runnable nextStep) {
-        int delay = pause ? 9000 : 1000; // delay in milliseconds
-
+        int delay = pause ? 9000 : enemySpeed; // delay in milliseconds
+        System.out.println("enemy speed is "+ enemySpeed);
         new Timer(delay, e -> {
             ((Timer) e.getSource()).stop(); // stop the timer after one run
             revalidate();
@@ -278,7 +293,7 @@ for(Tower tower: towers){
 
 }
                             // First tower
-                            if (towerIndexes.size() >= 2 && towerIndexes.get(0) == x && towerIndexes.get(1) == y) {
+                            if (towerIndexes.size() >= 2 && towerIndexes.get(0) == x && towerIndexes.get(1) == y && temp2) {
                                 indexOfHitKnight = -1;
                                 for (Knight knight : knights) {
                                     indexOfHitKnight++;
@@ -333,7 +348,7 @@ for(Tower tower: towers){
                             }
 
                             // Second tower
-                            if (towerIndexes.size() >= 4 && towerIndexes.get(2) == x && towerIndexes.get(3) == y) {
+                            if (towerIndexes.size() >= 4 && towerIndexes.get(2) == x && towerIndexes.get(3) == y&& temp2) {
                                 indexOfHitKnight = -1;
                                 for (Knight knight : knights) {
                                     indexOfHitKnight++;

@@ -61,7 +61,7 @@ public boolean AllKnightsDead(ArrayList<Knight> knights) throws Exception {
     }
 
 
-    Menu m =new Menu(null);
+    Menu m =new Menu(null,null);
     m.youWon();
     return temp;
 }

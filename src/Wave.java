@@ -54,14 +54,18 @@ int finaly=4;
     Map m;
 
     private ProgramToggle toggle;
-
+private int enemySpeed;
     public Wave(ProgramToggle toggle) {
         this.toggle = toggle;
-m = new Map(toggle);
+m = new Map(toggle, enemySpeed);
     }
 
 
-
+    public Wave(ProgramToggle toggle, int enemySpeed) {
+        this.toggle = toggle;
+        this.enemySpeed = enemySpeed;
+        m = new Map(toggle, enemySpeed);
+    }
 
 
 

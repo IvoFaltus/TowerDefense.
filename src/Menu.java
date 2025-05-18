@@ -1,13 +1,30 @@
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 
 public class Menu extends JFrame {
     private ProgramToggle toggle;
+    private Clip music;
 
+    public Menu(ProgramToggle toggle, Clip music ) {
+        this.toggle = toggle;
+        this.music = music;
+
+    }
+    private int enemySpeed;
+
+    public Menu(ProgramToggle toggle, Clip music, int enemySpeed) {
+        this.toggle = toggle;
+        this.music = music;
+        this.enemySpeed = enemySpeed;
+    }
     public Menu(ProgramToggle toggle) {
         this.toggle = toggle;
+
     }
 
+    public Menu(){}
     // Get screen resolution
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int screenWidth = screenSize.width;
@@ -200,13 +217,23 @@ public class Menu extends JFrame {
         volumeLabel.setFont(new Font("Impact", Font.PLAIN, 18));
 
         // === Slider and value label side-by-side ===
-        JSlider volume = new JSlider(0, 100, 50);
+        JSlider volume = new JSlider(0, 100, 50); // Default at 50%
         volume.setBackground(new Color(194, 155, 99));
 
         JLabel volumeValues = new JLabel(volume.getValue() + "%");
 
         volume.addChangeListener(e -> {
-            volumeValues.setText(volume.getValue() + "%");
+            int sliderValue = volume.getValue();
+            volumeValues.setText(sliderValue + "%");
+
+            Clip clip = music;
+            if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                float min = gainControl.getMinimum(); // e.g. -80.0f
+                float max = gainControl.getMaximum(); // e.g. 0.0f
+                float dB = min + (sliderValue / 100.0f) * (max - min);
+                gainControl.setValue(dB);
+            }
         });
 
         JPanel volumePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
@@ -218,17 +245,39 @@ public class Menu extends JFrame {
         JLabel diffLabel = new JLabel("Difficulty:");
         diffLabel.setFont(new Font("Impact", Font.PLAIN, 18));
 
-        String[] options = {"Easy", "Medium", "Hard"};
+        String[] options = {"Easy", "Medium", "Hard", "Extreme"};
         JComboBox<String> dropOptions = new JComboBox<>(options);
         dropOptions.setSelectedIndex(0);
 
-        // Put label and combo in one line
+        dropOptions.addActionListener(e -> {
+            switch (dropOptions.getSelectedIndex()){
+                case 0:
+                    enemySpeed = 2000;
+                    break;
+                case 1:
+                    enemySpeed = 1000;
+                    break;
+                case 2:
+                    enemySpeed = 500;
+                    break;
+                case 3:
+                    enemySpeed = 300;
+                    break;
+            }
+
+
+
+        });
+
+
+
+
         JPanel difficultyPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         difficultyPanel.setOpaque(false);
         difficultyPanel.add(diffLabel);
         difficultyPanel.add(dropOptions);
 
-
+        // === Back button ===
         JButton backButton = new JButton("Back");
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButtonPreset(backButton);
@@ -238,10 +287,9 @@ public class Menu extends JFrame {
                 case 0 -> mainMenu();
                 case 1 -> winMenu();
                 case 2 -> lostMenu();
-                default -> mainMenu(); // fallback just in case
+                default -> mainMenu(); // fallback
             }
         });
-
 
         panel.add(getSpacer(10));
         panel.add(volumeLabel);
@@ -252,11 +300,15 @@ public class Menu extends JFrame {
         panel.add(getSpacer(10));
         panel.add(backButton);
 
-
         frame.add(background(panel));
         frame.setDesign(300, 300);
         frame.setVisible(true);
     }
+
+
+
+
+
 
 public void countDown(){
 
@@ -467,7 +519,8 @@ public void countDown(){
     }
 
     public void mainMenu() {
-Wave w = new Wave(toggle);
+Wave w = new Wave(toggle, enemySpeed);
+
         Menu frame = new Menu(toggle);
         frame.setTitle("Main Menu");
         JButton mode1 = new JButton("Static Mode");

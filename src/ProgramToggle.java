@@ -21,11 +21,14 @@ public class ProgramToggle {
 
 
     public void start(){
-
+Audio a = new Audio();
+a.playMusic();
+        int enemySpeed = 1000;
         this.setGameResult(Result.RUNNING);
-        Map m = new Map();
 
-        Menu m2 = new Menu(this);
+
+
+        Menu m2 = new Menu(this, a.getBackgroundmusic(), enemySpeed);
        m2.mainMenu();
         new Thread(() -> {
             try {
