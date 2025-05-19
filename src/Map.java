@@ -23,6 +23,9 @@ public class Map extends JFrame {
     public Map(ProgramToggle toggle,int enemySpeed) {
         this.toggle = toggle;
         this.enemySpeed = enemySpeed;
+        if(enemySpeed==0){
+            this.enemySpeed=1000;
+        }
     }
 
 
@@ -273,6 +276,11 @@ public class Map extends JFrame {
 
             try {
                 while (true) {
+                    for(Tower t:towers){
+                        t.setTowerIcon();
+                    }
+
+
                     if (towers.size() > 0) {
                         System.out.println("Durability: " + towers.get(0).getDurability());
                     }

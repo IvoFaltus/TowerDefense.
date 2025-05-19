@@ -198,7 +198,7 @@ private int y;
         int lvl=1;
         //incomplete
         URL url = null;
-        switch (lvl){
+        switch (durability){
             case 1:
                 url = getClass().getResource("/resources/tower1.png");
                 break;
