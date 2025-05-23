@@ -15,10 +15,21 @@ public class Tower {
     private boolean isActive = false;
 
 
-private int x;
-private int y;
+private int x =-10;
+private int y =-10;
 
 
+    private static int idCounter = 0;
+    private final int id;
+
+    public Tower() {
+        this.id = idCounter++;
+        // ... other init code
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public void setPosition(int x, int y) {
         this.x = x;
@@ -27,11 +38,10 @@ private int y;
 
 
 
-    public void getPosition(){
+    public int[] getPosition(){
 
-        System.out.print("["+this.x+",");
-        System.out.print(this.y+"]");
-        System.out.println();
+
+        return new int[]{this.x, this.y};
     }
 
 
@@ -41,7 +51,7 @@ private int y;
 
 
     public boolean isAt(int x, int y) {
-        return this.x == y && this.y == y;
+        return this.x == x && this.y == y;
     }
 
     public boolean isActive() {
@@ -57,7 +67,7 @@ private int y;
     public int getLvl() {
         return lvl;
     }
-    private int durability = 2; // default
+    private int durability; // default
 
 
 
@@ -128,8 +138,6 @@ private int y;
 
     static Wave w = new Wave();
 
-    public Tower() {
-    }
 
     Map map = new Map();
     private ImageIcon towerIcon;
@@ -165,6 +173,19 @@ private int y;
                                     hasClicked.set(true);
 
                                     if(hasClicked.get()==true){
+t.setPosition(finalI, finalJ);
+
+
+for(Tower tower : towers){
+
+    if(tower.getPosition()==null){
+        tower.setPosition(finalI, finalJ);
+    }
+}
+
+
+
+
 
                                         towerIndexes.add(finalI);
                                         towerIndexes.add(finalJ);
@@ -198,15 +219,24 @@ private int y;
         int lvl=1;
         //incomplete
         URL url = null;
-        switch (durability){
+        switch (this.durability){
             case 1:
-                url = getClass().getResource("/resources/tower1.png");
+                url = getClass().getResource("/resources/towerDmg.png");
                 break;
             case 2:
-                url = getClass().getResource("/resources/tower2.png");
+                url = getClass().getResource("/resources/towerDmg.png");
                 break;
             case 3:
-                url = getClass().getResource("/resources/tower3.png");
+                url = getClass().getResource("/resources/towerDmg.png");
+                break;
+            case 4:
+                url = getClass().getResource("/resources/tower.png");
+                break;
+                case 0:
+                    url = getClass().getResource("/resources/tower.png");
+                    break;
+            default:
+                url = getClass().getResource("/resources/tower.png");
                 break;
 
 
@@ -229,12 +259,13 @@ private int y;
     }
 
 
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Tower{" +
+                "y=" + y +
+                ", x=" + x +
+                '}';
+    }
 
     public ImageIcon getTowerIcon() {
         return towerIcon;
@@ -246,9 +277,26 @@ private int y;
 
     public Tower(int lvl) {
         this.lvl = lvl;
+        this.id = idCounter++;
     }
 
     public boolean isWait() {
         return wait;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }

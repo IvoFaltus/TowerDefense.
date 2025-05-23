@@ -17,7 +17,7 @@ private Clip backgroundmusic;
 
     public void playMusic(){
     try{
-File musicpath = new File("src/resources/music.wav");
+File musicpath = new File("src/resources/music2.wav");
 
 if(musicpath.exists()){
 

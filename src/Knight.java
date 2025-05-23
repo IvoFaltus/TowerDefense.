@@ -144,29 +144,13 @@ public boolean AllKnightsDead(ArrayList<Knight> knights) throws Exception {
         URL url;
 
 
-        if (this.health > 90) {
-            //no idea how to shorten this
-            url = getClass().getResource("/resources/knight100.png");
 
-        } else if (this.health <= 90 && this.health > 80) {
-            url = getClass().getResource("/resources/knight80.png");
-        } else if (this.health <= 80 && this.health > 70) {
-            url = getClass().getResource("/resources/knight70.png");
-        } else if (this.health <= 70 && this.health > 60) {
-            url = getClass().getResource("/resources/knight60.png");
-        } else if (this.health <= 60 && this.health > 50) {
-            url = getClass().getResource("/resources/knight50.png");
-        } else if (this.health <= 50 && this.health > 40) {
-            url = getClass().getResource("/resources/knight40.png");
-        } else if (this.health <= 40 && this.health > 30) {
-            url = getClass().getResource("/resources/knight30.png");
-        } else if (this.health <= 30 && this.health > 20) {
-            url = getClass().getResource("/resources/knight20.png");
-        } else if (this.health <= 20 && this.health > 10) {
-            url = getClass().getResource("/resources/knight10.png");
-        } else {
-            url = getClass().getResource("/resources/knight5.png");
-        }
+            //no idea how to shorten this
+            url = getClass().getResource("/resources/knight.png");
+
+
+
+
 
         knightIcon = new ImageIcon(url);
 

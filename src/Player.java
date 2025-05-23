@@ -40,7 +40,8 @@ for(int i =0;i<towers.size();i++){
                     availableTowers++;
 
                     JButton jb = new JButton("Tower " + currentTower.getDurability() + "/2 durability");
-                    JLabel jl = new JLabel(currentTower.getTowerIcon());
+                    Image scaled = currentTower.getTowerIcon().getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+                    JLabel jl = new JLabel(new ImageIcon(scaled));
 
                     if (currentTower.getDurability() <= 0) {
                         jb.setEnabled(false); // Disable button if durability is 0

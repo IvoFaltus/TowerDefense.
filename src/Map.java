@@ -15,20 +15,19 @@ import java.util.Set;
 public class Map extends JFrame {
 
     private int enemySpeed;
+
     public Map(int enemySpeed) {
 
         this.enemySpeed = enemySpeed;
     }
 
-    public Map(ProgramToggle toggle,int enemySpeed) {
+    public Map(ProgramToggle toggle, int enemySpeed) {
         this.toggle = toggle;
         this.enemySpeed = enemySpeed;
-        if(enemySpeed==0){
-            this.enemySpeed=1000;
+        if (enemySpeed == 0) {
+            this.enemySpeed = 1000;
         }
     }
-
-
 
 
     boolean won = false;
@@ -56,77 +55,60 @@ public class Map extends JFrame {
     private static int TILE_SIZE = 90; // pixels
 
     JLabel[][] labels5x5 = new JLabel[5][6];
+    JLabel[][] labels7x7 = new JLabel[7][7];
+    JLabel[][] labels10x10 = new JLabel[10][10];
 
     public void createOptionLine(int additionLines) {
-        JLabel tile = new JLabel(" ", SwingConstants.CENTER);
-        //tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        // Toolbar s hlavními tlačítky
+        JToolBar toolBarPause = new JToolBar();
+        JToolBar toolBarPlace = new JToolBar();
+        JToolBar toolBarHelp = new JToolBar();
+        JToolBar toolBarRemove = new JToolBar();
 
-        tile.setBackground(new Color(80, 80, 80));
-
-
-        tile.setOpaque(true);
-
-        JToolBar toolBar1 = new JToolBar();
-        JToolBar toolBar2 = new JToolBar();
-        JToolBar toolBar3 = new JToolBar();
-        JToolBar toolBar4 = new JToolBar();
-        JToolBar toolBar5 = new JToolBar();
-
-/*
-        towerButton.addActionListener(e -> {
-            try {
-                Player p = new Player();
-                p.OpenInventory(labels5x5);
-
-                //Tower.placeTower(labels5x5,1);
-
-            } catch (Exception E) {
-            }
-        });
-*/
-
-        toolBar1.setBackground(new Color(80, 80, 80));
-        toolBar2.setBackground(new Color(80, 80, 80));
-        toolBar3.setBackground(new Color(80, 80, 80));
-        toolBar4.setBackground(new Color(80, 80, 80));
-        toolBar5.setBackground(new Color(80, 80, 80));
-
-        toolBar1.add(Box.createHorizontalStrut(20));
-        toolBar2.add(Box.createHorizontalStrut(20));
-        toolBar3.add(Box.createHorizontalStrut(5));
-        toolBar4.add(Box.createHorizontalStrut(20));
-        toolBar5.add(Box.createHorizontalStrut(5));
-
-        toolBar1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        toolBar2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        toolBar3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        toolBar4.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        toolBar5.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBarPause.add(Box.createHorizontalStrut(20));
+toolBarHelp.add(Box.createHorizontalStrut(10));
 
 
-        toolBar1.setFloatable(false);
-        toolBar2.setFloatable(false);
-        toolBar3.setFloatable(false);
-        toolBar4.setFloatable(false);
-        toolBar5.setFloatable(false);
 
+        Color barColor = new Color(80, 80, 80);
 
-        toolBar2.add(PauseButton);
-        toolBar3.add(towerButton);
-        toolBar4.add(HelpButton);
-        toolBar5.add(removeTower);
+        toolBarPause.setBackground(barColor);
+        toolBarPlace.setBackground(barColor);
+        toolBarHelp.setBackground(barColor);
+        toolBarRemove.setBackground(barColor);
 
+        toolBarPause.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBarPlace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBarHelp.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        toolBarRemove.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        add(toolBar2, BorderLayout.CENTER);
-        add(toolBar3, BorderLayout.CENTER);
-        add(toolBar4, BorderLayout.CENTER);
-        add(toolBar5, BorderLayout.CENTER);
+        toolBarPause.setFloatable(false);
+        toolBarPlace.setFloatable(false);
+        toolBarHelp.setFloatable(false);
+        toolBarRemove.setFloatable(false);
+
+        toolBarPause.add(PauseButton);
+        toolBarPlace.add(towerButton);
+        toolBarHelp.add(HelpButton);
+        toolBarRemove.add(removeTower);
+
+        // Přidání toolbarů do hlavního okna
+        add(toolBarPause, BorderLayout.SOUTH);
+        add(toolBarPlace, BorderLayout.SOUTH);
+        add(toolBarHelp, BorderLayout.SOUTH);
+        add(toolBarRemove, BorderLayout.SOUTH);
+
+        // Přidání dalších prázdných řádků podle potřeby
         for (int i = 0; i < additionLines; i++) {
-            add(tile);
+            JToolBar filler = new JToolBar();
+            filler.setFloatable(false);
+            filler.setBackground(barColor);
+            filler.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            filler.add(Box.createHorizontalStrut(10));
+            add(filler, BorderLayout.SOUTH);
         }
-
-
     }
+
 
 
     public ArrayList<JButton> StopResumePlaceHelpRemove() {
@@ -139,26 +121,26 @@ public class Map extends JFrame {
     }
 
 
-    public void map5x5() {
+    public void map5x5(JLabel[][] labels) {
         for (int i = 0; i < y; i++) {
             switch (i) {
                 case 0:
 
-                    createLine(5, " 0 1 2");
+                    createLine(5, " 0 1 2", labels);
                     break;
                 case 1:
 
-                    createLine(5, "2");
+                    createLine(5, "2", labels);
 
                     break;
                 case 2:
-                    createLine(5, " 2 ");
+                    createLine(5, " 2 ", labels);
                     break;
                 case 3:
-                    createLine(5, "2");
+                    createLine(5, "2", labels);
                     break;
                 case 4:
-                    createLine(5, "2 3 4");
+                    createLine(5, "2 3 4", labels);
                     break;
 
             }
@@ -166,8 +148,130 @@ public class Map extends JFrame {
 
         }
     }
+    public void map5x5_w2(JLabel[][] labels) {
+        for (int i = 0; i < y; i++) {
+            switch (i) {
+                case 0:
+                    createLine(5, "0 1 2 3 4", labels);  // top row → →
+                    break;
+                case 1:
+                    createLine(5, "0 4", labels);        // ↓ ↓
+                    break;
+                case 2:
+                    createLine(5, "0 1 2 3 4", labels);  // middle → →
+                    break;
+                case 3:
+                    createLine(5, "0 4", labels);        // ↓ ↓
+                    break;
+                case 4:
+                    createLine(5, "0 1 2 3 4", labels);  // bottom → →
+                    break;
+            }
+        }
+    }
+    public void map7x7_w3(JLabel[][] labels) {
+        for (int i = 0; i < 7; i++) {
+            switch (i) {
+                case 0:
+                    createLine(7, "0 1 2 3 4 5", labels); // vstup
+                    break;
+                case 1:
+                    createLine(7, "2 5", labels);
+                    break;
+                case 2:
+                    createLine(7, "2 5", labels);
+                    break;
+                case 3:
+                    createLine(7, "2 5 6", labels); // bod rozdělení
+                    break;
+                case 4:
+                    createLine(7, "2 3 6", labels); // dvě cesty
+                    break;
+                case 5:
+                    createLine(7, "3 4 6", labels);
+                    break;
+                case 6:
+                    createLine(7, "4 5 6", labels); // výstupy
+                    break;
+            }
+        }
+    }
+    public void map10x10_w4(JLabel[][] labels) {
+        for (int i = 0; i < 10; i++) {
+            switch (i) {
+                case 0:
+                    createLine(10, "1", labels); // vstup
+                    break;
+                case 1:
+                    createLine(10, "1", labels);
+                    break;
+                case 2:
+                    createLine(10, "1", labels); // rozdělení
+                    break;
+                case 3:
+                    createLine(10, "1 2 3 4 5 6 7 8 9", labels);
+                    break;
+                case 4:
+                    createLine(10, "1 4 9", labels);
+                    break;
+                case 5:
+                    createLine(10, "1 4 9", labels); // průsečík
+                    break;
+                case 6:
+                    createLine(10, "1 2 3 4 5 6 7 8 9", labels); // spojení cest
+                    break;
+                case 7:
+                    createLine(10, "4 7 9 ", labels);
+                    break;
+                case 8:
+                    createLine(10, "4 7 9", labels);
+                    break;
+                case 9:
+                    createLine(10, "4 5 6 7 8 9", labels); // výstup
+                    break;
+            }
+        }
+    }
+    public void map10x10_w5(JLabel[][] labels) {
+        for (int i = 0; i < 10; i++) {
+            switch (i) {
+                case 0:
+                    createLine(10, "1", labels); // vstup
+                    break;
+                case 1:
+                    createLine(10, "1", labels);
+                    break;
+                case 2:
+                    createLine(10, "1", labels); // rozdělení
+                    break;
+                case 3:
+                    createLine(10, "1 2 3 4 5 6 7 8 9", labels);
+                    break;
+                case 4:
+                    createLine(10, "1 4 9", labels);
+                    break;
+                case 5:
+                    createLine(10, "1 4 9", labels); // průsečík
+                    break;
+                case 6:
+                    createLine(10, "1 2 3 4 5 6 7 8 9", labels); // spojení cest
+                    break;
+                case 7:
+                    createLine(10, "4 7 9 ", labels);
+                    break;
+                case 8:
+                    createLine(10, "4 7 9", labels);
+                    break;
+                case 9:
+                    createLine(10, "4 5 6 7 8 9", labels); // výstup
+                    break;
+            }
+        }
+    }
 
-    public void createTile(int lineLength, Color color) {
+
+
+    public void createTile(int lineLength, Color color, JLabel[][] labels) {
         JLabel tile = new JLabel(" ", SwingConstants.CENTER);
         tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
         tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -179,8 +283,8 @@ public class Map extends JFrame {
         boolean placed = false;
         for (int y = 0; y < lineLength && !placed; y++) {
             for (int x = 0; x < lineLength; x++) {
-                if (labels5x5[x][y] == null) {
-                    labels5x5[x][y] = tile;
+                if (labels[x][y] == null) {
+                    labels[x][y] = tile;
                     placed = true;
                     break;
                 }
@@ -191,7 +295,7 @@ public class Map extends JFrame {
     }
 
 
-    public void createLine(int lineLength, String filledTiles) {
+    public void createLine(int lineLength, String filledTiles, JLabel[][] labels5x5) {
         // Parse input string into integer array
         String[] tiles = filledTiles.trim().split("\\s+");
         int[] numbers = new int[tiles.length];
@@ -204,9 +308,9 @@ public class Map extends JFrame {
         // Create the line
         for (int i = 0; i < lineLength; i++) {
             if (contains(numbers, i)) {
-                createTile(lineLength, lightBrown);
+                createTile(lineLength, lightBrown, labels5x5);
             } else {
-                createTile(lineLength, darkGreen);
+                createTile(lineLength, darkGreen, labels5x5);
             }
         }
     }
@@ -220,7 +324,45 @@ public class Map extends JFrame {
         return false;
     }
 
-    public void MapWindow5x5() throws InterruptedException {
+    public void MapWindow5x5(int wave) throws InterruptedException {
+
+
+        switch (wave) {
+            case 1:
+               // System.out.println(x);
+                //System.out.println(y);
+              x=5;
+               y=6;
+                break;
+            case 2:
+
+                x=5;
+                y=6;
+                break;
+            case 3:
+
+                x=7;
+                y=8;
+                break;
+            case 4:
+                x=10;
+                y=11;
+                break;
+            case 5:
+                x=10;
+                y=10;
+                break;
+            case 6:
+                break;
+
+        }
+
+
+
+
+
+
+
 
         setTitle("Map");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -230,8 +372,36 @@ public class Map extends JFrame {
         setLayout(new GridLayout(y, x));
 
 
-        map5x5();
-        createOptionLine(1);
+        switch (wave) {
+            case 1:
+
+                map5x5(labels5x5);
+                createOptionLine(1);
+                break;
+            case 2:
+
+                map5x5_w2(labels5x5);
+                createOptionLine(1);
+                break;
+            case 3:
+
+                map7x7_w3(labels7x7);
+                createOptionLine(3);
+                break;
+            case 4:
+                map10x10_w4(labels10x10);
+                createOptionLine(6);
+                break;
+            case 5:
+                map10x10_w5(labels10x10);
+                createOptionLine(6);
+                break;
+            case 6:
+                break;
+
+        }
+
+
 //createLine(5," 0 1 2 3 4 5");
         pack(); // Adjust window to fit all tiles
         setLocationRelativeTo(null); // Center on screen
@@ -242,16 +412,16 @@ public class Map extends JFrame {
 
 
         revalidate();   // Recalculates the layout if needed
-
+        System.out.println("map drawn");
         Thread.sleep(500);
 
-
+        System.out.println("Wave: " + wave + " | Grid: " + y + "x" + x);
     }
 
 
     public void mapRender(Boolean pause, Runnable nextStep) {
         int delay = pause ? 9000 : enemySpeed; // delay in milliseconds
-        System.out.println("enemy speed is "+ enemySpeed);
+        // System.out.println("enemy speed is "+ enemySpeed);
         new Timer(delay, e -> {
             ((Timer) e.getSource()).stop(); // stop the timer after one run
             revalidate();
@@ -260,173 +430,164 @@ public class Map extends JFrame {
         }).start();
     }
 
-    private boolean watcherStarted = false;
+    private boolean watcherRunning = false;
 
     public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY) {
-        if (watcherStarted) return;
-        watcherStarted = true;
-        if (!stop2) {
-            knights2 = knights;
-            stop2 = true;
+        if (watcherRunning) return;         // ✅ prevent multiple threads
+        watcherRunning = true;              // ✅ mark as running
+        stop = false;
+
+
+
+
+
+
+
+
+/*
+        System.out.println("Tower at (" + targetTower[0].getX() + "," + targetTower[0].getY() + ") durability now: " + targetTower[0].getDurability());
+        if (destroyTower) {
+            targetTower[0].setDurability(targetTower[0].getDurability() - 1);
+        }
+
+
+        destroyTower = false;
+        */
+        // Place towers on the map
+        for (Tower t : towers) {
+            t.setPosition(-99, -99); // mark as "not placed"
+
+        }
+
+        for (int i = 0; i < towers.size(); i++) {
+            if (i * 2 + 1 < towerIndexes.size() && towers.get(i).getTowerIcon() != null) {
+
+                int x = towerIndexes.get(i * 2);
+                int y = towerIndexes.get(i * 2 + 1);
+
+                // System.out.println("tower indexes " + towerIndexes.size());
+                towers.get(i).setPosition(x, y);
+                // System.out.println("Tower[" + i + "] at (" + towers.get(i).getX() + ", " + towers.get(i).getY() + ")");
+            }
         }
 
         new Thread(() -> {
-            int knightsDead = 0;
-            Set<Knight> processedKnights = new HashSet<>();
-
             try {
+                ArrayList<Tower> towersToRemove = new ArrayList<>();
+
                 while (true) {
-                    for(Tower t:towers){
-                        t.setTowerIcon();
-                    }
+                    for (Tower tower : new ArrayList<>(towers)) {
+                        tower.setTowerIcon();
 
 
-                    if (towers.size() > 0) {
-                        System.out.println("Durability: " + towers.get(0).getDurability());
-                    }
-                    // System.out.println("knights.size = "+knights.size());
-                    boolean towerStrikes = false;
-                    int temp = -1;
-                    int indexOfHitKnight = -1;
-                    boolean temp2 = false;
+                        if (tower.getDurability() <= 0 || tower.getX() < 0 || tower.getY() < 0) continue;
 
-                    for (int y = 0; y < this.y; y++) {
-                        for (int x = 0; x < this.x; x++) {
-for(Tower tower: towers){
+                        int x = tower.getX();
+                        int y = tower.getY();
+                        boolean towerHitThisRound = false;
 
-    if(tower.isAt(x,y)&&tower.getTowerIcon()!=null){
-        temp2=true;
+                        for (Knight knight : knights) {
+                            if (knight.getHealth() <= 0) continue;
 
-    }
+                            int kx = knight.getCurrentX();
+                            int ky = knight.getCurrentY();
 
-}
-                            // First tower
-                            if (towerIndexes.size() >= 2 && towerIndexes.get(0) == x && towerIndexes.get(1) == y && temp2) {
-                                indexOfHitKnight = -1;
-                                for (Knight knight : knights) {
-                                    indexOfHitKnight++;
-                                    int kx = knight.getCurrentX();
-                                    int ky = knight.getCurrentY();
-
-                                    if ((x - 1 == kx && y == ky) ||
+                            boolean adjacent =
+                                    (x - 1 == kx && y == ky) ||
                                             (x + 1 == kx && y == ky) ||
                                             (x == kx && y - 1 == ky) ||
-                                            (x == kx && y + 1 == ky)) {
-                                        towerStrikes = true;
-                                        temp = indexOfHitKnight;
+                                            (x == kx && y + 1 == ky);
 
-                                        for (Tower tower : towers) {
-                                            tower.getPosition();
+                            if (adjacent) {
+                                if (!towerHitThisRound) {
+                                    //tower.setDurability(tower.getDurability()-1);
+                                    // System.out.println("Tower at (" + x + "," + y + ") durability now: " + tower.getDurability());
 
-                                        }
-
-                                        for (Knight k : knights) {
-                                            if ((k.isAt(x - 1, y))
-                                                    || (k.isAt(x + 1, y))
-                                                    || (k.isAt(x, y - 1))
-                                                    || (k.isAt(x, y + 1))) {
-
-                                                if (!processedKnights.contains(k)) {
-                                                    k.setHealth(0);
-                                                    processedKnights.add(k);
-
-
-                                                    if (towers.size() > 0) {
-
-                                                        Tower targetTower = towers.get(0);
-
-
-                                                        targetTower.setDurability(targetTower.getDurability() - 1);
-
-                                                        if (targetTower.getDurability() <= 0) {
-                                                            targetTower.setTowerIcon2();
-                                                            labels5x5[x][y].setIcon(null);
-                                                            labels5x5[x][y].revalidate();
-                                                            labels5x5[x][y].repaint();
-                                                            towers.remove(targetTower); // ✅ tower removed
-                                                            System.out.println("Tower destroyed and removed!");
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        break;
+                                    tower.setTowerIcon();
+                                    if (tower.getDurability() > 0) {
+                                        labels5x5[x][y].setIcon(tower.getTowerIcon());
+                                        labels5x5[x][y].revalidate();
+                                        labels5x5[x][y].repaint();
                                     }
+
+                                    towerHitThisRound = true;
                                 }
-                            }
 
-                            // Second tower
-                            if (towerIndexes.size() >= 4 && towerIndexes.get(2) == x && towerIndexes.get(3) == y&& temp2) {
-                                indexOfHitKnight = -1;
-                                for (Knight knight : knights) {
-                                    indexOfHitKnight++;
-                                    int kx = knight.getCurrentX();
-                                    int ky = knight.getCurrentY();
+                                knight.setHealth(0);
+                                knight.setKnightIcon2(null);
+                                int finalKx = kx;
+                                int finalKy = ky;
+                                SwingUtilities.invokeLater(() -> {
+                                    labels5x5[finalKy][finalKx].setIcon(null);
+                                    labels5x5[finalKy][finalKx].revalidate();
+                                    labels5x5[finalKy][finalKx].repaint();
+                                });
 
-                                    if ((x - 1 == kx && y == ky) ||
-                                            (x + 1 == kx && y == ky) ||
-                                            (x == kx && y - 1 == ky) ||
-                                            (x == kx && y + 1 == ky)) {
-                                        towerStrikes = true;
-                                        temp = indexOfHitKnight;
-                                        stop = false;
-
-                                        break;
-                                    }
-                                }
+                                Thread.sleep(200);
                             }
                         }
+
+                        if (tower.getDurability() <= 0 && !towersToRemove.contains(tower)) {
+                            // System.out.println("Tower at (" + x + "," + y + ") destroyed!");
+                            tower.setTowerIcon2();
+                            tower.setPosition(-99, -99); // mark as removed
+
+                            SwingUtilities.invokeLater(() -> {
+                                labels5x5[x][y].setIcon(null);
+                                labels5x5[x][y].revalidate();
+                                labels5x5[x][y].repaint();
+                            });
+
+                            //towersToRemove.add(tower);
+                        }
                     }
-
-                    // Handle knight being hit
-                    if (towerStrikes && temp >= 0 && temp < knights.size()) {
-
-
-                        Knight hitKnight = knights.get(temp);
-                        Thread.sleep(100);
-                        hitKnight.setKnightIcon2(null);
-                        hitKnight.setHealth(0);
-                        int kx = hitKnight.getCurrentX();
-                        int ky = hitKnight.getCurrentY();
-                        labels5x5[ky][kx].setIcon(null);
-                        labels5x5[ky][kx].revalidate();
-                        labels5x5[ky][kx].repaint();
-                    }
-
-                    Thread.sleep(50);
-
-                    // Win/Loss check
                     boolean allDead = true;
-                    boolean atFinish = false;
+                    boolean reachedEnd = false;
+
                     for (Knight knight : knights) {
                         if (knight.getHealth() > 0) {
-
                             allDead = false;
+                            if (knight.isAt(finishX, finishY)) {
+                                reachedEnd = true;
+                                break;
+                            }
+                        }
+                    }
 
+                    if (reachedEnd) {
+                        // System.out.println("Knight reached the end! Game lost.");
+                        if (!stop) {
+                            toggle.setGameResult(ProgramToggle.Result.LOST);
+
+                            stop = true;
                         }
-                        if (knight.isAt(finishX, finishY) && knight.getKnightIcon() != null) {
-                            atFinish = true;
-                            System.out.println("Knight at finish");
-                        }
+                        this.dispose();
+                        break;
                     }
 
                     if (allDead) {
+                        //  System.out.println("All knights dead! Game won.");
+                        if (!stop) {
+
+
+                            toggle.setGameResult(ProgramToggle.Result.WON);
+
+                            stop = true;
+                        }
                         this.dispose();
-                        toggle.setGameResult(ProgramToggle.Result.WON);
                         break;
                     }
 
-                    if (atFinish) {
-                        this.dispose();
-                        toggle.setGameResult(ProgramToggle.Result.LOST);
-                        break;
-                    }
-
+                    //towers.removeAll(towersToRemove);
+                    Thread.sleep(50);
+                    watcherRunning = false;
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
+
     }
 
     public ProgramToggle getToggle() {
@@ -436,4 +597,6 @@ for(Tower tower: towers){
     public void setToggle(ProgramToggle toggle) {
         this.toggle = toggle;
     }
+
+
 }

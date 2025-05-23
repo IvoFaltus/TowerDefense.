@@ -10,6 +10,7 @@ public class Main {
 
 
         try {
+Map m = new Map();
 
 
 ProgramToggle programToggle = new ProgramToggle();
