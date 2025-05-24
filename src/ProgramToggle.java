@@ -5,8 +5,20 @@ public class ProgramToggle {
         return waves;
     }
 
+    public ProgramToggle(int currentWave) {
+        this.currentWave = currentWave;
+    }
+
     public void setWaves(ArrayList<Boolean> waves) {
         this.waves = waves;
+    }
+
+    public int getCurrentWave() {
+        return currentWave;
+    }
+
+    public void setCurrentWave(int currentWave) {
+        this.currentWave = currentWave;
     }
 
     ArrayList<Boolean> waves= new ArrayList<>();
@@ -32,20 +44,18 @@ private boolean wave3Passed;
         this.gameResult = gameResult;
     }
 
+private int currentWave=3;
+
 
     public void start() {
 
 
-        waves.add(wave1Passed);
-        waves.add(wave2Passed);
-        waves.add(wave3Passed);
-
         Audio a = new Audio();
-//a.playMusic();
+a.playMusic();
         int enemySpeed = 1000;
         this.setGameResult(Result.RUNNING);
 
-        Menu m2 = new Menu(this, a.getBackgroundmusic(), enemySpeed,waves);
+        Menu m2 = new Menu(this, a.getBackgroundmusic(), enemySpeed,waves,currentWave);
         m2.mainMenu();
 
 

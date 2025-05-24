@@ -4,11 +4,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Wave {
+public class  Wave {
 
     ArrayList<Tower> towers = new ArrayList<>();
+    ArrayList<Point> knightPath = new ArrayList<>();
 
-private int currentWave;
+    AtomicBoolean towerIsBeingPlaced = new AtomicBoolean(false);
+    AtomicBoolean atleastOneTowerIsPlaced = new AtomicBoolean(false);
+
+    public Wave(ProgramToggle toggle, int enemySpeed) {
+        this.toggle = toggle;
+        this.enemySpeed = enemySpeed;
+    }
 
     public Wave() {
         m = new Map(toggle, enemySpeed);
@@ -38,7 +45,7 @@ private ArrayList<Boolean> waves;
 
 
 
-    public ArrayList<Tower> addTowers(int howManyTowers, int durabilty) {
+    public ArrayList<Tower> addTowers(int howManyTowers, int durabilty){
 
         for (int i = 0; i < howManyTowers; i++) {
             Tower t = new Tower();
@@ -67,6 +74,7 @@ m = new Map(toggle, enemySpeed);
         this.enemySpeed = enemySpeed;
         this.waves = waves;
         m = new Map(toggle, enemySpeed);
+
     }
 
     public Wave(ProgramToggle toggle, ArrayList<Boolean> waves) {
@@ -89,13 +97,7 @@ m = new Map(toggle, enemySpeed);
     Knight k3 = new Knight();
     Knight k4 = new Knight();
 
-    public int getCurrentWave() {
-        return currentWave;
-    }
 
-    public void setCurrentWave(int currentWave) {
-        this.currentWave = currentWave;
-    }
 
     public ArrayList<Boolean> getWaves() {
         return waves;
@@ -119,24 +121,33 @@ m = new Map(toggle, enemySpeed);
         KNIGHT.placeEnemy(x, y,labels, knight);
         knight.setLastXY(x, y);
 
-        m.towerStrikeWatcher(knights,TowerIndexes,towers,finalx,finaly);
+        m.towerStrikeWatcher(knights,TowerIndexes,towers,finalx,finaly,labels);
 
     }
     ArrayList<Integer> TowerIndexes = new ArrayList<>();
 
-    public void playesInput(ArrayList<JButton> buttons, JLabel[][] labels) throws Exception {
+    public void playesInput(ArrayList<JButton> buttons, JLabel[][] labels, ArrayList<Point> knightPathh, int lineLength) throws Exception {
 
+        // ⏱️ Timer to monitor tower placement state
+        Timer monitorTowerPlacing = new Timer(100, e -> {
+            boolean placing = towerIsBeingPlaced.get();
+            for (JButton button : buttons) {
+                button.setEnabled(!placing);
+            }
+            if(!atleastOneTowerIsPlaced.get()){
+
+                buttons.get(3).setEnabled(false);
+            }
+        });
+        monitorTowerPlacing.start();
 
         buttons.get(0).addActionListener(e -> {
-
-
             try {
                 buttons.get(0).setEnabled(false);
                 heyWait(true);
                 int[] timeLeft = {15};
 
                 Timer[] t = new Timer[1];
-
                 t[0] = new Timer(1000, e1 -> {
                     timeLeft[0]--;
                     buttons.getFirst().setText("stopped " + timeLeft[0]);
@@ -158,25 +169,27 @@ m = new Map(toggle, enemySpeed);
             } catch (Exception c) {
 
             }
-        });//stop button
+        }); // stop button
 
         buttons.get(1).addActionListener(e -> {
             try {
-
-                p.OpenInventory(labels,false, TowerIndexes, towers);
-
-
-
+                p.OpenInventory(labels, false, TowerIndexes, towers, knightPathh, towerIsBeingPlaced, lineLength,atleastOneTowerIsPlaced);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        });//place tower button
+        }); // place tower button
 
-        buttons.get(2).addActionListener(e -> {}); //ask help button incomplete
+        buttons.get(2).addActionListener(e -> {}); // ask help button incomplete
+
         buttons.get(3).addActionListener(e -> {
-            try {p.OpenInventory(labels,true, TowerIndexes, towers);} catch (Exception ex) {throw new RuntimeException(ex);}}); //remove tower button
-
+            try {
+                p.OpenInventory(labels, true, TowerIndexes, towers, knightPathh, towerIsBeingPlaced, lineLength,atleastOneTowerIsPlaced);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }); // remove tower button
     }
+
     private void moveSafe(int x, int y, Knight knight,int wave) throws Exception {
         try {
 
@@ -242,8 +255,9 @@ m = new Map(toggle, enemySpeed);
         knights.add(k3);
 
         t.setTowerIcon();
-        m.MapWindow5x5(1);
-        playesInput(m.StopResumePlaceHelpRemove(), m.labels5x5);
+
+        knightPath=m.MapWindow5x5(1);
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels5x5,knightPath,5);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
@@ -317,8 +331,8 @@ m = new Map(toggle, enemySpeed);
     public void enemyPath2() throws Exception {
         finalx = 4;
         finaly = 4;
-        m.MapWindow5x5(2);
-        playesInput(m.StopResumePlaceHelpRemove(),m.labels5x5);
+        knightPath=m.MapWindow5x5(2);
+        playesInput(m.StopResumePlaceHelpRemove(),m.labels5x5,knightPath,5);
 
         k.knightPreset();
         knights.add(k);
@@ -355,10 +369,10 @@ m = new Map(toggle, enemySpeed);
     }
 
     public void enemyPath3() throws Exception {
-        m.MapWindow5x5(3);
+        knightPath=m.MapWindow5x5(3);
         finalx = 6;
         finaly = 6;
-        playesInput(m.StopResumePlaceHelpRemove(), m.labels7x7);
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels7x7,knightPath,7);
 
         k.knightPreset();
         knights.add(k);
@@ -535,10 +549,10 @@ m = new Map(toggle, enemySpeed);
 
 
     public void enemyPath4() throws Exception {
-        m.MapWindow5x5(4);
+        knightPath=m.MapWindow5x5(4);
         finalx = 9;
         finaly = 9;
-        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10);
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10,knightPath,10);
 
         k.knightPreset(); knights.add(k);
         k2.knightPreset(); knights.add(k2);
@@ -728,7 +742,7 @@ m = new Map(toggle, enemySpeed);
     }
 
     public void enemypath5() throws Exception {
-        m.MapWindow5x5(5);}
+        knightPath=m.MapWindow5x5(5);}
     //endregion
 
 
@@ -736,7 +750,6 @@ m = new Map(toggle, enemySpeed);
     //region waves
     public void wave1() throws Exception {
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
-        currentWave=1;
 
 
         addTowers(2,2);
@@ -745,7 +758,7 @@ m = new Map(toggle, enemySpeed);
     }
     public void wave2() throws Exception {
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
-        currentWave=2;
+
         knights.clear();
         towers.clear();
         addTowers(3,2);
@@ -757,7 +770,7 @@ m = new Map(toggle, enemySpeed);
     }
     public void wave3()throws Exception{
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
-        currentWave=3;
+
         knights.clear();
         towers.clear();
         addTowers(3,2);
@@ -768,7 +781,7 @@ m = new Map(toggle, enemySpeed);
     }
     public void wave4()throws Exception{
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
-        currentWave=4;
+
         knights.clear();
         towers.clear();
         addTowers(3,2);
@@ -779,7 +792,7 @@ m = new Map(toggle, enemySpeed);
     }
     public void wave5()throws Exception{
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
-        currentWave=5;
+
         knights.clear();
         towers.clear();
         addTowers(3,2);

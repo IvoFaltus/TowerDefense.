@@ -145,7 +145,7 @@ public boolean AllKnightsDead(ArrayList<Knight> knights) throws Exception {
 
 
 
-            //no idea how to shorten this
+
             url = getClass().getResource("/resources/knight.png");
 
 

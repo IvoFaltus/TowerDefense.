@@ -29,7 +29,6 @@ public class Map extends JFrame {
         }
     }
 
-
     boolean won = false;
     private ProgramToggle toggle;
     boolean stop2 = false;
@@ -58,17 +57,39 @@ public class Map extends JFrame {
     JLabel[][] labels7x7 = new JLabel[7][7];
     JLabel[][] labels10x10 = new JLabel[10][10];
 
+
+    /**
+     * Handles the rendering of the map based on the current game state.
+     * It updates the map's display by triggering a repaint and recalculating the layout.
+     * Additionally, it controls the delay between rendering steps based on whether the game is paused or not.
+     *
+     * @param pause a boolean indicating whether the game is paused or not. If true, the game will pause the render.
+     * @param nextStep a Runnable that represents the next action to perform (e.g., moving the next enemy).
+     */
+    public void mapRender(Boolean pause, Runnable nextStep) {
+        int delay = pause ? 9000 : enemySpeed; // delay in milliseconds
+        // System.out.println("enemy speed is "+ enemySpeed);
+        new Timer(delay, e -> {
+            ((Timer) e.getSource()).stop(); // stop the timer after one run
+            revalidate();
+            repaint();
+            nextStep.run(); // call the next step (e.g. move next enemy)
+        }).start();
+    }
+    /**
+     * Creates toolbars for pause, tower placement, help, and remove tower functionality
+     * and adds them to the main window with improved styling.
+     *
+     * @param additionLines the number of additional lines to add below the toolbars
+     */
     public void createOptionLine(int additionLines) {
-        // Toolbar s hlavními tlačítky
         JToolBar toolBarPause = new JToolBar();
         JToolBar toolBarPlace = new JToolBar();
         JToolBar toolBarHelp = new JToolBar();
         JToolBar toolBarRemove = new JToolBar();
 
         toolBarPause.add(Box.createHorizontalStrut(20));
-toolBarHelp.add(Box.createHorizontalStrut(10));
-
-
+        toolBarHelp.add(Box.createHorizontalStrut(10));
 
         Color barColor = new Color(80, 80, 80);
 
@@ -87,18 +108,21 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
         toolBarHelp.setFloatable(false);
         toolBarRemove.setFloatable(false);
 
+        styleButton(PauseButton);
+        styleButton(towerButton);
+        styleButton(HelpButton);
+        styleButton(removeTower);
+
         toolBarPause.add(PauseButton);
         toolBarPlace.add(towerButton);
         toolBarHelp.add(HelpButton);
         toolBarRemove.add(removeTower);
 
-        // Přidání toolbarů do hlavního okna
         add(toolBarPause, BorderLayout.SOUTH);
         add(toolBarPlace, BorderLayout.SOUTH);
         add(toolBarHelp, BorderLayout.SOUTH);
         add(toolBarRemove, BorderLayout.SOUTH);
 
-        // Přidání dalších prázdných řádků podle potřeby
         for (int i = 0; i < additionLines; i++) {
             JToolBar filler = new JToolBar();
             filler.setFloatable(false);
@@ -109,8 +133,26 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
         }
     }
 
+    private void styleButton(JButton button) {
+        button.setFont(new Font("Arial", Font.BOLD, 10));
+        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(100, 100, 100));
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(80, 40));
+        button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(60, 60, 60)),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        button.setOpaque(true);
+        button.setContentAreaFilled(true);
+        button.setBorderPainted(false);
+    }
 
-
+    /**
+     * Returns a list of buttons used for pausing, placing towers, asking for help, and removing towers.
+     * @return a list of the buttons
+     */
     public ArrayList<JButton> StopResumePlaceHelpRemove() {
         ArrayList<JButton> buttons = new ArrayList<>();
         buttons.add(PauseButton);
@@ -119,19 +161,19 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
         buttons.add(removeTower);
         return buttons;
     }
-
-
+//region map drawing
+    /**
+     * Creates a map with 5x5 grid.
+     * @param labels 2D array of labels for the map
+     */
     public void map5x5(JLabel[][] labels) {
         for (int i = 0; i < y; i++) {
             switch (i) {
                 case 0:
-
                     createLine(5, " 0 1 2", labels);
                     break;
                 case 1:
-
                     createLine(5, "2", labels);
-
                     break;
                 case 2:
                     createLine(5, " 2 ", labels);
@@ -142,12 +184,14 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                 case 4:
                     createLine(5, "2 3 4", labels);
                     break;
-
             }
-
-
         }
     }
+
+    /**
+     * Creates a map with 5x5 grid and additional variations.
+     * @param labels 2D array of labels for the map
+     */
     public void map5x5_w2(JLabel[][] labels) {
         for (int i = 0; i < y; i++) {
             switch (i) {
@@ -169,6 +213,11 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
             }
         }
     }
+
+    /**
+     * Creates a map with 7x7 grid and additional variations.
+     * @param labels 2D array of labels for the map
+     */
     public void map7x7_w3(JLabel[][] labels) {
         for (int i = 0; i < 7; i++) {
             switch (i) {
@@ -196,6 +245,11 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
             }
         }
     }
+
+    /**
+     * Creates a map with 10x10 grid and additional variations.
+     * @param labels 2D array of labels for the map
+     */
     public void map10x10_w4(JLabel[][] labels) {
         for (int i = 0; i < 10; i++) {
             switch (i) {
@@ -232,6 +286,11 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
             }
         }
     }
+
+    /**
+     * Creates a map with 10x10 grid and additional variations.
+     * @param labels 2D array of labels for the map
+     */
     public void map10x10_w5(JLabel[][] labels) {
         for (int i = 0; i < 10; i++) {
             switch (i) {
@@ -268,9 +327,13 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
             }
         }
     }
-
-
-
+//endregion
+    /**
+     * Creates a tile with the given dimensions and color.
+     * @param lineLength the number of tiles in the line
+     * @param color the color of the tile
+     * @param labels the 2D array of labels for the map
+     */
     public void createTile(int lineLength, Color color, JLabel[][] labels) {
         JLabel tile = new JLabel(" ", SwingConstants.CENTER);
         tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
@@ -278,7 +341,6 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
         tile.setBackground(color);
         tile.setOpaque(true);
         add(tile);
-
 
         boolean placed = false;
         for (int y = 0; y < lineLength && !placed; y++) {
@@ -290,22 +352,22 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                 }
             }
         }
-
-
     }
 
-
+    /**
+     * Creates a line of tiles based on the input string and places them on the grid.
+     * @param lineLength the number of tiles in the line
+     * @param filledTiles a string representing the filled tiles
+     * @param labels5x5 the 2D array of labels for the map
+     */
     public void createLine(int lineLength, String filledTiles, JLabel[][] labels5x5) {
-        // Parse input string into integer array
         String[] tiles = filledTiles.trim().split("\\s+");
         int[] numbers = new int[tiles.length];
 
         for (int i = 0; i < tiles.length; i++) {
             numbers[i] = Integer.parseInt(tiles[i]);
-
         }
 
-        // Create the line
         for (int i = 0; i < lineLength; i++) {
             if (contains(numbers, i)) {
                 createTile(lineLength, lightBrown, labels5x5);
@@ -315,6 +377,12 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
         }
     }
 
+    /**
+     * Checks if a value exists in an array.
+     * @param array the array to search through
+     * @param value the value to search for
+     * @return true if the value exists, false otherwise
+     */
     public boolean contains(int[] array, int value) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == value) {
@@ -324,150 +392,127 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
         return false;
     }
 
-    public void MapWindow5x5(int wave) throws InterruptedException {
-
+    /**
+     * Creates the map window and sets up the knight path based on the current wave.
+     * @param wave the current wave number
+     * @return a list of points representing the knight's path
+     * @throws InterruptedException if the thread is interrupted
+     */
+    public ArrayList MapWindow5x5(int wave) throws InterruptedException {
+        ArrayList<Point> KnightPath = new ArrayList<>();
 
         switch (wave) {
             case 1:
-               // System.out.println(x);
-                //System.out.println(y);
-              x=5;
-               y=6;
+                x = 5;
+                y = 6;
                 break;
             case 2:
-
-                x=5;
-                y=6;
+                x = 5;
+                y = 6;
                 break;
             case 3:
-
-                x=7;
-                y=8;
+                x = 7;
+                y = 8;
                 break;
             case 4:
-                x=10;
-                y=11;
+                x = 10;
+                y = 11;
                 break;
             case 5:
-                x=10;
-                y=10;
+                x = 10;
+                y = 10;
                 break;
             case 6:
                 break;
-
         }
-
-
-
-
-
-
-
 
         setTitle("Map");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(x * TILE_SIZE, y * TILE_SIZE);
-
-
         setLayout(new GridLayout(y, x));
 
-
+        JLabel[][] usedlabels;
         switch (wave) {
             case 1:
-
                 map5x5(labels5x5);
                 createOptionLine(1);
+                usedlabels = labels5x5;
                 break;
             case 2:
-
                 map5x5_w2(labels5x5);
                 createOptionLine(1);
+                usedlabels = labels5x5;
                 break;
             case 3:
-
                 map7x7_w3(labels7x7);
                 createOptionLine(3);
+                usedlabels = labels7x7;
                 break;
             case 4:
                 map10x10_w4(labels10x10);
                 createOptionLine(6);
+                usedlabels = labels10x10;
                 break;
             case 5:
                 map10x10_w5(labels10x10);
                 createOptionLine(6);
+                usedlabels = labels10x10;
                 break;
-            case 6:
+            default:
+                usedlabels = labels5x5;
                 break;
-
         }
 
+        if (usedlabels != null) {
+            for (int row = 0; row < usedlabels.length; row++) {
+                for (int col = 0; col < usedlabels[row].length; col++) {
+                    JLabel label = usedlabels[row][col];
+                    if (label != null && label.getBackground().equals(lightBrown)) {
+                        KnightPath.add(new Point(row, col));
+                    }
+                }
+            }
+        }
 
-//createLine(5," 0 1 2 3 4 5");
-        pack(); // Adjust window to fit all tiles
-        setLocationRelativeTo(null); // Center on screen
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
 
         Knight k = new Knight(100);
         k.setKnightIcon();
 
-
-        revalidate();   // Recalculates the layout if needed
+        revalidate();
         System.out.println("map drawn");
         Thread.sleep(500);
 
         System.out.println("Wave: " + wave + " | Grid: " + y + "x" + x);
+
+        return KnightPath;
     }
-
-
-    public void mapRender(Boolean pause, Runnable nextStep) {
-        int delay = pause ? 9000 : enemySpeed; // delay in milliseconds
-        // System.out.println("enemy speed is "+ enemySpeed);
-        new Timer(delay, e -> {
-            ((Timer) e.getSource()).stop(); // stop the timer after one run
-            revalidate();
-            repaint();
-            nextStep.run(); // call the next step (e.g. move next enemy)
-        }).start();
-    }
-
-    private boolean watcherRunning = false;
-
-    public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY) {
-        if (watcherRunning) return;         // ✅ prevent multiple threads
-        watcherRunning = true;              // ✅ mark as running
+private boolean watcherRunning = false;
+    /**
+     * Handles the movement and actions of the tower strikes based on knight positions.
+     * @param knights the list of knights
+     * @param towerIndexes the list of tower positions
+     * @param towers the list of towers
+     * @param finishX the x-coordinate of the finish line
+     * @param finishY the y-coordinate of the finish line
+     * @param labelss the 2D array of labels for the map
+     */
+    public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY, JLabel[][] labelss) {
+        if (watcherRunning) return;
+        watcherRunning = true;
         stop = false;
 
-
-
-
-
-
-
-
-/*
-        System.out.println("Tower at (" + targetTower[0].getX() + "," + targetTower[0].getY() + ") durability now: " + targetTower[0].getDurability());
-        if (destroyTower) {
-            targetTower[0].setDurability(targetTower[0].getDurability() - 1);
-        }
-
-
-        destroyTower = false;
-        */
-        // Place towers on the map
         for (Tower t : towers) {
-            t.setPosition(-99, -99); // mark as "not placed"
-
+            t.setPosition(-99, -99);
         }
 
         for (int i = 0; i < towers.size(); i++) {
             if (i * 2 + 1 < towerIndexes.size() && towers.get(i).getTowerIcon() != null) {
-
                 int x = towerIndexes.get(i * 2);
                 int y = towerIndexes.get(i * 2 + 1);
-
-                // System.out.println("tower indexes " + towerIndexes.size());
                 towers.get(i).setPosition(x, y);
-                // System.out.println("Tower[" + i + "] at (" + towers.get(i).getX() + ", " + towers.get(i).getY() + ")");
             }
         }
 
@@ -478,7 +523,6 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                 while (true) {
                     for (Tower tower : new ArrayList<>(towers)) {
                         tower.setTowerIcon();
-
 
                         if (tower.getDurability() <= 0 || tower.getX() < 0 || tower.getY() < 0) continue;
 
@@ -492,22 +536,18 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                             int kx = knight.getCurrentX();
                             int ky = knight.getCurrentY();
 
-                            boolean adjacent =
-                                    (x - 1 == kx && y == ky) ||
-                                            (x + 1 == kx && y == ky) ||
-                                            (x == kx && y - 1 == ky) ||
-                                            (x == kx && y + 1 == ky);
+                            boolean adjacent = (x - 1 == kx && y == ky) ||
+                                    (x + 1 == kx && y == ky) ||
+                                    (x == kx && y - 1 == ky) ||
+                                    (x == kx && y + 1 == ky);
 
                             if (adjacent) {
                                 if (!towerHitThisRound) {
-                                    //tower.setDurability(tower.getDurability()-1);
-                                    // System.out.println("Tower at (" + x + "," + y + ") durability now: " + tower.getDurability());
-
                                     tower.setTowerIcon();
                                     if (tower.getDurability() > 0) {
-                                        labels5x5[x][y].setIcon(tower.getTowerIcon());
-                                        labels5x5[x][y].revalidate();
-                                        labels5x5[x][y].repaint();
+                                        labelss[x][y].setIcon(tower.getTowerIcon());
+                                        labelss[x][y].revalidate();
+                                        labelss[x][y].repaint();
                                     }
 
                                     towerHitThisRound = true;
@@ -518,27 +558,23 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                                 int finalKx = kx;
                                 int finalKy = ky;
                                 SwingUtilities.invokeLater(() -> {
-                                    labels5x5[finalKy][finalKx].setIcon(null);
-                                    labels5x5[finalKy][finalKx].revalidate();
-                                    labels5x5[finalKy][finalKx].repaint();
+                                    labelss[finalKy][finalKx].setIcon(null);
+                                    labelss[finalKy][finalKx].revalidate();
+                                    labelss[finalKy][finalKx].repaint();
                                 });
-
-                                Thread.sleep(200);
+                                Thread.sleep(50);
                             }
                         }
 
                         if (tower.getDurability() <= 0 && !towersToRemove.contains(tower)) {
-                            // System.out.println("Tower at (" + x + "," + y + ") destroyed!");
                             tower.setTowerIcon2();
                             tower.setPosition(-99, -99); // mark as removed
 
                             SwingUtilities.invokeLater(() -> {
-                                labels5x5[x][y].setIcon(null);
-                                labels5x5[x][y].revalidate();
-                                labels5x5[x][y].repaint();
+                                labelss[x][y].setIcon(null);
+                                labelss[x][y].revalidate();
+                                labelss[x][y].repaint();
                             });
-
-                            //towersToRemove.add(tower);
                         }
                     }
                     boolean allDead = true;
@@ -555,7 +591,6 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                     }
 
                     if (reachedEnd) {
-                        // System.out.println("Knight reached the end! Game lost.");
                         if (!stop) {
                             toggle.setGameResult(ProgramToggle.Result.LOST);
 
@@ -566,10 +601,7 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                     }
 
                     if (allDead) {
-                        //  System.out.println("All knights dead! Game won.");
                         if (!stop) {
-
-
                             toggle.setGameResult(ProgramToggle.Result.WON);
 
                             stop = true;
@@ -578,7 +610,6 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
                         break;
                     }
 
-                    //towers.removeAll(towersToRemove);
                     Thread.sleep(50);
                     watcherRunning = false;
                 }
@@ -597,6 +628,5 @@ toolBarHelp.add(Box.createHorizontalStrut(10));
     public void setToggle(ProgramToggle toggle) {
         this.toggle = toggle;
     }
-
 
 }

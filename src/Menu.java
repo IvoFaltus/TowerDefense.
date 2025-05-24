@@ -7,42 +7,89 @@ import java.util.ArrayList;
 public class Menu extends JFrame {
     private ProgramToggle toggle;
     private Clip music;
-private int currentWave =1;
+     private int currentWave;
 
 
-    public Menu(ProgramToggle toggle, Clip music ) {
+
+
+
+    public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves, int currentWave) {
+        this.toggle = toggle;
+        this.music = music;
+        this.enemySpeed = enemySpeed;
+        this.waves = waves;
+        this.currentWave = currentWave;
+    }
+
+    public Menu(ProgramToggle toggle, int currentWave) {
+        this.toggle = toggle;
+        this.currentWave = currentWave;
+    }
+
+    public Menu(ProgramToggle toggle) {
+        this.toggle = toggle;
+        this.currentWave = currentWave;
+    }
+    public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves) {
+        this.toggle = toggle;
+        this.music = music;
+        this.enemySpeed = enemySpeed;
+        this.waves = waves;
+        this.currentWave = currentWave;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public Menu() {
+    }
+
+    public Menu(ProgramToggle toggle, Clip music) {
         this.toggle = toggle;
         this.music = music;
 
     }
+
     private int enemySpeed;
-private ArrayList<Boolean> waves;
+    private ArrayList<Boolean> waves;
 
 
     private ArrayList<JButton> levelButtons = new ArrayList<>();
 
-    // Dummy tracker (replace with actual save/progress logic)
-    public int getHighestUnlockedLevel() {
-        return currentWave - 1; // or return 0 if nothing is completed
-    }
 
     // Launch wave from level select
     public void startWave(int wave) {
         try {
-
-            Wave w = new Wave(toggle,waves);
+            toggle.setCurrentWave(wave); // ✅ Save the wave for replay
+            toggle.setGameResult(ProgramToggle.Result.RUNNING);
+            System.out.println("starting");
+            Wave w = new Wave(toggle, waves);
             switch (wave) {
                 case 1:
-
+                    System.out.println("currentWave is being set to 1");
+                    toggle.setCurrentWave(wave);
                     w.wave1();
 
                     break;
-                case 2 : ;w.wave2();
+                case 2:
+                    toggle.setCurrentWave(wave);
+                    w.wave2();
 
                     break;
-                case 3:w.wave3();
-                break;
-                case 4 : w.wave4();
+                case 3:
+                    toggle.setCurrentWave(wave);
+                    w.wave3();
+                    break;
+                case 4:
+                    toggle.setCurrentWave(wave);
+                    w.wave4();
 
                     break;
                 case 5:
@@ -98,9 +145,11 @@ private ArrayList<Boolean> waves;
         for (int i = 0; i < positions.length; i++) {
             JButton levelBtn = new JButton("Wave " + (i + 1));
             levelBtn.setFocusPainted(false);
-            levelBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+            levelBtn.setFont(new Font("Impact", Font.PLAIN, 16));
             levelBtn.setBackground(new Color(150, 150, 160));
-            levelBtn.setBounds(positions[i][0], positions[i][1], 80, 40);
+            levelBtn.setForeground(Color.BLACK);
+            levelBtn.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+            levelBtn.setBounds(positions[i][0], positions[i][1], 100, 40);
 
             final int waveNumber = i + 1;
             levelBtn.addActionListener(e -> {
@@ -119,29 +168,6 @@ private ArrayList<Boolean> waves;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves) {
-        this.toggle = toggle;
-        this.music = music;
-        this.enemySpeed = enemySpeed;
-        this.waves = waves;
-    }
-    public Menu(ProgramToggle toggle) {
-        this.toggle = toggle;
-
-    }
-
-    public Menu(){}
     // Get screen resolution
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int screenWidth = screenSize.width;
@@ -204,8 +230,9 @@ private ArrayList<Boolean> waves;
         playAgain.addActionListener(e -> {
             frame.dispose();
             try {
-                w.wave1();
-                toggle.monitorGameResult();// Restart wave or game logic
+                int waveToReplay = toggle.getCurrentWave(); // ✅ Use correct ProgramToggle
+                toggle.setGameResult(ProgramToggle.Result.RUNNING);
+                startWave(waveToReplay); // ✅ Replay the stored wave
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -218,12 +245,12 @@ private ArrayList<Boolean> waves;
 
         options.addActionListener(e -> {
             frame.dispose();
-           options(2); // Navigate to options/settings screen
+            options(2); // Navigate to options/settings screen
         });
     }
 
     public void winMenu() {
-        Wave w = new Wave(toggle, enemySpeed,waves); // or pass existing instance if needed
+        Wave w = new Wave(toggle, enemySpeed, waves); // or pass existing instance if needed
         Menu frame = new Menu(toggle);
         frame.setTitle("You Win!");
 
@@ -259,23 +286,33 @@ private ArrayList<Boolean> waves;
         frame.setDesign(300, 300); // size of the win menu
 
         nextLevel.addActionListener(e -> {
-            currentWave++;
+
+            int nextwave = currentWave + 1;
             frame.dispose();
             try {
 
 
-               switch (currentWave) {
-                   case 1:
-                       System.out.println("undefined");
-                       break;
-                       case 2:
-                           w.wave2();
-                           toggle.monitorGameResult();
-                           break;
-                           case 3:
-               }
+                switch (nextwave) {
+                    case 1:
+                        System.out.println("undefined");
+                        break;
+                    case 2:
+                        startWave(2);
 
+                        break;
+                    case 3:
+                        startWave(3);
+                        break;
+                    case 4:
 
+                        startWave(4);
+                        break;
+                    case 5:
+                        startWave(5);
+                        break;
+                    case 6:
+                        break;
+                }
 
 
             } catch (Exception ex) {
@@ -286,7 +323,7 @@ private ArrayList<Boolean> waves;
         mainMenu.addActionListener(e -> {
             frame.dispose();
             mainMenu(); // Navigate back to main menu
-            toggle.monitorGameResult();
+
         });
 
         options.addActionListener(e -> {
@@ -294,8 +331,6 @@ private ArrayList<Boolean> waves;
             options(1); // Implement your own options screen method
         });
     }
-
-
 
 
     public void staticInfo() {
@@ -394,7 +429,7 @@ private ArrayList<Boolean> waves;
         dropOptions.setSelectedIndex(0);
 
         dropOptions.addActionListener(e -> {
-            switch (dropOptions.getSelectedIndex()){
+            switch (dropOptions.getSelectedIndex()) {
                 case 0:
                     enemySpeed = 2000;
                     break;
@@ -410,10 +445,7 @@ private ArrayList<Boolean> waves;
             }
 
 
-
         });
-
-
 
 
         JPanel difficultyPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
@@ -430,7 +462,7 @@ private ArrayList<Boolean> waves;
             switch (whichMenu) {
                 case 0 -> mainMenu();
                 case 1 -> winMenu();
-                case 2 -> lostMenu();
+                case 2 -> this.lostMenu();
                 default -> mainMenu(); // fallback
             }
         });
@@ -450,11 +482,7 @@ private ArrayList<Boolean> waves;
     }
 
 
-
-
-
-
-public void countDown(){
+    public void countDown() {
 
         Menu frame = new Menu(toggle);
         JLabel countdownLabel = new JLabel();
@@ -466,36 +494,33 @@ public void countDown(){
         countdownPanel.add(getSpacer(20));
         countdownPanel.add(getSpacer(20));
 
-    countdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        countdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         countdownPanel.add(countdownLabel);
 
-        Timer t = new Timer(1000,e->{
+        Timer t = new Timer(1000, e -> {
             countdownLabel.setText(String.valueOf(numbers[0]));
             countdownLabel.setFont(new Font("Impact", Font.PLAIN, 60));
             numbers[0]--;
             countdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            if(numbers[0]==-1){
+            if (numbers[0] == -1) {
                 countdownLabel.setText("START!");
             }
 
-            if(numbers[0]<-1){
-                ((Timer)e.getSource()).stop();
+            if (numbers[0] < -1) {
+                ((Timer) e.getSource()).stop();
                 frame.dispose();
             }
         });
         t.start();
 
 
-
-
-
         frame.add(background(countdownPanel));
 
 
-        frame.setDesign(300,300);
+        frame.setDesign(300, 300);
 
 
-}
+    }
 
     public JPanel background(JPanel panel) {
         JPanel background = new JPanel();
@@ -664,7 +689,9 @@ public void countDown(){
     }
 
     public void mainMenu() {
-        Wave w = new Wave(toggle, enemySpeed, waves);
+        Wave w = new Wave(toggle, enemySpeed);
+        System.out.println(currentWave+" this is current wave");
+
 
         Menu frame = new Menu(toggle);
         frame.setTitle("Main Menu");
@@ -722,7 +749,8 @@ public void countDown(){
                     if (number[0] > 5) {
                         ((Timer) ev.getSource()).stop();
                         try {
-                            w.wave1();
+                            toggle.setCurrentWave(1);
+                            startWave(1);
                         } catch (Exception ex) {
                             throw new RuntimeException(ex);
                         }
