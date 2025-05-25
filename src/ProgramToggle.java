@@ -51,7 +51,7 @@ private int currentWave=3;
 
 
         Audio a = new Audio();
-a.playMusic();
+//a.playMusic();
         int enemySpeed = 1000;
         this.setGameResult(Result.RUNNING);
 

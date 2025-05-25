@@ -44,11 +44,12 @@ public class Map extends JFrame {
     JButton PauseButton = new JButton("Stop");
     JButton towerButton = new JButton("Place Tower");
     JButton HelpButton = new JButton("ask Help");
-    JButton removeTower = new JButton("remove Tower");
+    JButton removeTower = new JButton("Pick Tower up");
     boolean stop = false;
 
     Color darkGreen = new Color(106, 170, 100);
     Color lightBrown = new Color(194, 155, 99);
+    Color finish= new Color(194, 155, 110);
     private static int x = 5;
     private static int y = 6;
     private static int TILE_SIZE = 90; // pixels
@@ -170,19 +171,19 @@ public class Map extends JFrame {
         for (int i = 0; i < y; i++) {
             switch (i) {
                 case 0:
-                    createLine(5, " 0 1 2", labels);
+                    createLine(5, " 0 1 2", labels,1);
                     break;
                 case 1:
-                    createLine(5, "2", labels);
+                    createLine(5, "2", labels,1);
                     break;
                 case 2:
-                    createLine(5, " 2 ", labels);
+                    createLine(5, " 2 ", labels,1);
                     break;
                 case 3:
-                    createLine(5, "2", labels);
+                    createLine(5, "2", labels,1);
                     break;
                 case 4:
-                    createLine(5, "2 3 4", labels);
+                    createFinishLine(5, "2 3 4", labels,1);
                     break;
             }
         }
@@ -196,19 +197,19 @@ public class Map extends JFrame {
         for (int i = 0; i < y; i++) {
             switch (i) {
                 case 0:
-                    createLine(5, "0 1 2 3 4", labels);  // top row → →
+                    createLine(5, "0 1 2 3 4", labels,2);
                     break;
                 case 1:
-                    createLine(5, "0 4", labels);        // ↓ ↓
+                    createLine(5, "0 4", labels,2);
                     break;
                 case 2:
-                    createLine(5, "0 1 2 3 4", labels);  // middle → →
+                    createLine(5, "0 1 2 3 4", labels,2);
                     break;
                 case 3:
-                    createLine(5, "0 4", labels);        // ↓ ↓
+                    createLine(5, "0 4", labels,2);
                     break;
                 case 4:
-                    createLine(5, "0 1 2 3 4", labels);  // bottom → →
+                    createFinishLine(5, "0 1 2 3 4", labels,2);
                     break;
             }
         }
@@ -222,25 +223,25 @@ public class Map extends JFrame {
         for (int i = 0; i < 7; i++) {
             switch (i) {
                 case 0:
-                    createLine(7, "0 1 2 3 4 5", labels); // vstup
+                    createLine(7, "0 1 2 3 4 5", labels,3);
                     break;
                 case 1:
-                    createLine(7, "2 5", labels);
+                    createLine(7, "2 5", labels,3);
                     break;
                 case 2:
-                    createLine(7, "2 5", labels);
+                    createLine(7, "2 5", labels,3);
                     break;
                 case 3:
-                    createLine(7, "2 5 6", labels); // bod rozdělení
+                    createLine(7, "2 5 6", labels,3);
                     break;
                 case 4:
-                    createLine(7, "2 3 6", labels); // dvě cesty
+                    createLine(7, "2 3 6", labels,3);
                     break;
                 case 5:
-                    createLine(7, "3 4 6", labels);
+                    createLine(7, "3 4 6", labels,3);
                     break;
                 case 6:
-                    createLine(7, "4 5 6", labels); // výstupy
+                    createFinishLine(7, "4 5 6", labels,3);
                     break;
             }
         }
@@ -254,34 +255,34 @@ public class Map extends JFrame {
         for (int i = 0; i < 10; i++) {
             switch (i) {
                 case 0:
-                    createLine(10, "1", labels); // vstup
+                    createLine(10, "1", labels,4);
                     break;
                 case 1:
-                    createLine(10, "1", labels);
+                    createLine(10, "1", labels,4);
                     break;
                 case 2:
-                    createLine(10, "1", labels); // rozdělení
+                    createLine(10, "1", labels,4);
                     break;
                 case 3:
-                    createLine(10, "1 2 3 4 5 6 7 8 9", labels);
+                    createLine(10, "1 2 3 4 5 6 7 8 9", labels,4);
                     break;
                 case 4:
-                    createLine(10, "1 4 9", labels);
+                    createLine(10, "1 4 9", labels,4);
                     break;
                 case 5:
-                    createLine(10, "1 4 9", labels); // průsečík
+                    createLine(10, "1 4 9", labels,4);
                     break;
                 case 6:
-                    createLine(10, "1 2 3 4 5 6 7 8 9", labels); // spojení cest
+                    createLine(10, "1 2 3 4 5 6 7 8 9", labels,4);
                     break;
                 case 7:
-                    createLine(10, "4 7 9 ", labels);
+                    createLine(10, "4 7 9 ", labels,4);
                     break;
                 case 8:
-                    createLine(10, "4 7 9", labels);
+                    createLine(10, "4 7 9", labels,4);
                     break;
                 case 9:
-                    createLine(10, "4 5 6 7 8 9", labels); // výstup
+                    createFinishLine(10, "4 5 6 7 8 9", labels,4);
                     break;
             }
         }
@@ -295,72 +296,99 @@ public class Map extends JFrame {
         for (int i = 0; i < 10; i++) {
             switch (i) {
                 case 0:
-                    createLine(10, "1", labels); // vstup
+                    createLine(10, "4", labels,5);
                     break;
                 case 1:
-                    createLine(10, "1", labels);
+                    createLine(10, "0 1 2 3 4 5 6 7 8 9 ", labels,5);
                     break;
                 case 2:
-                    createLine(10, "1", labels); // rozdělení
+                    createLine(10, "0 9", labels,5);
                     break;
                 case 3:
-                    createLine(10, "1 2 3 4 5 6 7 8 9", labels);
+                    createLine(10, " 0 1 2 3 4 5 6 7 9", labels,5);
                     break;
                 case 4:
-                    createLine(10, "1 4 9", labels);
+                    createLine(10, " 0 7 9", labels,5);
                     break;
                 case 5:
-                    createLine(10, "1 4 9", labels); // průsečík
+                    createLine(10, "0 1 2 3 4 5 7 9", labels,5);
                     break;
                 case 6:
-                    createLine(10, "1 2 3 4 5 6 7 8 9", labels); // spojení cest
+                    createLine(10, "0 5 7 9", labels,5);
                     break;
                 case 7:
-                    createLine(10, "4 7 9 ", labels);
+                    createLine(10, "0 1 2 3 5 7 9", labels,5);
                     break;
                 case 8:
-                    createLine(10, "4 7 9", labels);
+                    createLine(10, "3 5 7 9", labels,5);
                     break;
                 case 9:
-                    createLine(10, "4 5 6 7 8 9", labels); // výstup
+                    createFinishLine(10, "3 4 5 6 7 8 9", labels,5);
                     break;
             }
         }
     }
 //endregion
-    /**
-     * Creates a tile with the given dimensions and color.
-     * @param lineLength the number of tiles in the line
-     * @param color the color of the tile
-     * @param labels the 2D array of labels for the map
-     */
-    public void createTile(int lineLength, Color color, JLabel[][] labels) {
-        JLabel tile = new JLabel(" ", SwingConstants.CENTER);
-        tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
-        tile.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        tile.setBackground(color);
-        tile.setOpaque(true);
-        add(tile);
+public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int mapType) {
+    JLabel tile = new JLabel(" ", SwingConstants.CENTER);
+    tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
+    tile.setOpaque(true);
 
-        boolean placed = false;
-        for (int y = 0; y < lineLength && !placed; y++) {
-            for (int x = 0; x < lineLength; x++) {
-                if (labels[x][y] == null) {
-                    labels[x][y] = tile;
-                    placed = true;
-                    break;
-                }
+    // Get path and finish colors for this map
+    Color pathColor = getPathColor(mapType);
+    Color finishColor = getFinishColor(mapType);
+
+    // Identify and tag tile type
+    boolean isPath = baseColor.equals(pathColor);
+    boolean isFinish = baseColor.equals(finishColor);
+
+    tile.putClientProperty("isPath", isPath);
+    tile.putClientProperty("isFinish", isFinish);
+
+    // Shade the base color for texture
+    Color texturedColor = blendShades(baseColor, 0.5, 0.3, 0.2);
+    tile.setBackground(texturedColor);
+
+    // Border
+    tile.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
+
+    // Gloss only on terrain (not on path or finish)
+    tile.setLayout(new BorderLayout());
+    if (!isPath && !isFinish) {
+        JLabel gloss = new JLabel();
+        gloss.setOpaque(true);
+        gloss.setBackground(new Color(255, 255, 255, 18));
+        gloss.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE / 2));
+        tile.add(gloss, BorderLayout.NORTH);
+    }
+
+    add(tile);
+
+    // Place in grid
+    boolean placed = false;
+    for (int y = 0; y < lineLength && !placed; y++) {
+        for (int x = 0; x < lineLength; x++) {
+            if (labels[x][y] == null) {
+                labels[x][y] = tile;
+                placed = true;
+                break;
             }
         }
     }
+}
 
-    /**
-     * Creates a line of tiles based on the input string and places them on the grid.
-     * @param lineLength the number of tiles in the line
-     * @param filledTiles a string representing the filled tiles
-     * @param labels5x5 the 2D array of labels for the map
-     */
-    public void createLine(int lineLength, String filledTiles, JLabel[][] labels5x5) {
+    // Helper to simulate textured shading
+    private Color blendShades(Color base, double baseWeight, double darkerWeight, double darker2Weight) {
+        Color darker = base.darker();
+        Color muchDarker = darker.darker();
+        return new Color(
+                (int)(base.getRed() * baseWeight + darker.getRed() * darkerWeight + muchDarker.getRed() * darker2Weight),
+                (int)(base.getGreen() * baseWeight + darker.getGreen() * darkerWeight + muchDarker.getGreen() * darker2Weight),
+                (int)(base.getBlue() * baseWeight + darker.getBlue() * darkerWeight + muchDarker.getBlue() * darker2Weight)
+        );
+    }
+
+    public void createLine(int lineLength, String filledTiles, JLabel[][] labels5x5, int mapType) {
         String[] tiles = filledTiles.trim().split("\\s+");
         int[] numbers = new int[tiles.length];
 
@@ -368,14 +396,89 @@ public class Map extends JFrame {
             numbers[i] = Integer.parseInt(tiles[i]);
         }
 
+        Color pathColor = getPathColor(mapType);
+        Color terrainColor = getTerrainColor(mapType);
+
         for (int i = 0; i < lineLength; i++) {
             if (contains(numbers, i)) {
-                createTile(lineLength, lightBrown, labels5x5);
+                createTile(lineLength, pathColor, labels5x5, mapType);
             } else {
-                createTile(lineLength, darkGreen, labels5x5);
+                createTile(lineLength, terrainColor, labels5x5, mapType);
             }
         }
     }
+
+    public void createFinishLine(int lineLength, String filledTiles, JLabel[][] labels5x5, int mapType) {
+        String[] tiles = filledTiles.trim().split("\\s+");
+        int[] numbers = new int[tiles.length];
+
+        for (int i = 0; i < tiles.length; i++) {
+            numbers[i] = Integer.parseInt(tiles[i]);
+        }
+
+        Color pathColor = getPathColor(mapType);
+        Color terrainColor = getTerrainColor(mapType);
+        Color finishColor = getFinishColor(mapType);
+
+        for (int i = 0; i < lineLength; i++) {
+            if (i == lineLength - 1) {
+                createTile(lineLength, finishColor, labels5x5, mapType);
+                break;
+            }
+
+            if (contains(numbers, i)) {
+                createTile(lineLength, pathColor, labels5x5, mapType);
+            } else {
+                createTile(lineLength, terrainColor, labels5x5, mapType);
+            }
+        }
+    }
+
+    // Get unique terrain color for each map type
+    private Color getTerrainColor(int mapType) {
+        return switch (mapType) {
+            case 0 -> new Color(110, 140, 80);      // Grassland
+            case 1 -> new Color(170, 220, 130);     // Bright Plains
+            case 2 -> new Color(230, 235, 240);     // Snowfield
+            case 3 -> new Color(200, 180, 140);     // 🌵 Canyon terrain (new)
+            case 4 -> new Color(90, 100, 150);      // Crystal Cavern
+            case 5 -> new Color(80, 110, 90);       // Swamp
+            default -> new Color(110, 140, 80);
+        };
+    }
+
+    private Color getPathColor(int mapType) {
+        return switch (mapType) {
+            case 0 -> new Color(100, 90, 60);       // Dirt path
+            case 1 -> new Color(130, 160, 90);      // Grass trail
+            case 2 -> new Color(190, 200, 210);     // Snow path
+            case 3 -> new Color(150, 120, 90);      // 🟤 Dry sand path (new)
+            case 4 -> new Color(120, 160, 200);     // Crystal path
+            case 5 -> new Color(50, 70, 60);        // Mud path
+            default -> new Color(100, 90, 60);
+        };
+    }
+
+    private Color getFinishColor(int mapType) {
+        return switch (mapType) {
+            case 0 -> new Color(150, 120, 80);      // Forest base
+            case 1 -> new Color(170, 200, 100);     // Hilltop
+            case 2 -> new Color(255, 255, 255);     // Ice crystal
+            case 3 -> new Color(180, 140, 110);     // 🟠 Stone gate (new desert style)
+            case 4 -> new Color(160, 190, 240);     // Crystal exit
+            case 5 -> new Color(100, 130, 110);     // Swamp den
+            default -> new Color(150, 120, 80);
+        };
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * Checks if a value exists in an array.
@@ -398,32 +501,26 @@ public class Map extends JFrame {
      * @return a list of points representing the knight's path
      * @throws InterruptedException if the thread is interrupted
      */
-    public ArrayList MapWindow5x5(int wave) throws InterruptedException {
+    public ArrayList<Point> MapWindow5x5(int wave) throws InterruptedException {
         ArrayList<Point> KnightPath = new ArrayList<>();
+        Point finishTile = null;
 
         switch (wave) {
-            case 1:
+            case 1, 2 -> {
                 x = 5;
                 y = 6;
-                break;
-            case 2:
-                x = 5;
-                y = 6;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 x = 7;
                 y = 8;
-                break;
-            case 4:
+            }
+            case 4, 5 -> {
                 x = 10;
                 y = 11;
-                break;
-            case 5:
-                x = 10;
-                y = 10;
-                break;
-            case 6:
-                break;
+            }
+            case 6 -> {
+                // custom wave
+            }
         }
 
         setTitle("Map");
@@ -433,42 +530,47 @@ public class Map extends JFrame {
 
         JLabel[][] usedlabels;
         switch (wave) {
-            case 1:
+            case 1 -> {
                 map5x5(labels5x5);
                 createOptionLine(1);
                 usedlabels = labels5x5;
-                break;
-            case 2:
+            }
+            case 2 -> {
                 map5x5_w2(labels5x5);
                 createOptionLine(1);
                 usedlabels = labels5x5;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 map7x7_w3(labels7x7);
                 createOptionLine(3);
                 usedlabels = labels7x7;
-                break;
-            case 4:
+            }
+            case 4 -> {
                 map10x10_w4(labels10x10);
                 createOptionLine(6);
                 usedlabels = labels10x10;
-                break;
-            case 5:
+            }
+            case 5 -> {
                 map10x10_w5(labels10x10);
                 createOptionLine(6);
                 usedlabels = labels10x10;
-                break;
-            default:
-                usedlabels = labels5x5;
-                break;
+            }
+            default -> usedlabels = labels5x5;
         }
 
+        // Detect all path tiles and finish tile
         if (usedlabels != null) {
             for (int row = 0; row < usedlabels.length; row++) {
                 for (int col = 0; col < usedlabels[row].length; col++) {
                     JLabel label = usedlabels[row][col];
-                    if (label != null && label.getBackground().equals(lightBrown)) {
-                        KnightPath.add(new Point(row, col));
+                    if (label != null) {
+                        if (Boolean.TRUE.equals(label.getClientProperty("isPath"))||Boolean.TRUE.equals(label.getClientProperty("isFinish"))
+
+
+                        ) {
+                            KnightPath.add(new Point(row, col));
+                        }
+
                     }
                 }
             }
@@ -489,7 +591,9 @@ public class Map extends JFrame {
 
         return KnightPath;
     }
-private boolean watcherRunning = false;
+
+
+    private boolean watcherRunning = false;
     /**
      * Handles the movement and actions of the tower strikes based on knight positions.
      * @param knights the list of knights

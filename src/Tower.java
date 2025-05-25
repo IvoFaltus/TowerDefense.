@@ -99,7 +99,7 @@ public class Tower {
         AtomicBoolean hasClicked = new AtomicBoolean(false);
 
         JWindow placePopup = new JWindow();
-        JLabel placeLabel = new JLabel("✔ Place Tower", SwingConstants.CENTER);
+        JLabel placeLabel = new JLabel(" Place Tower", SwingConstants.CENTER);
         placeLabel.setFont(new Font("Arial", Font.BOLD, 16));
         placeLabel.setForeground(Color.WHITE);
 

@@ -96,6 +96,8 @@ m = new Map(toggle, enemySpeed);
     Knight k2 = new Knight();
     Knight k3 = new Knight();
     Knight k4 = new Knight();
+    Knight k5 = new Knight();
+    Knight k6 = new Knight();
 
 
 
@@ -116,7 +118,7 @@ m = new Map(toggle, enemySpeed);
 
 
         if (knight.getLastX() != -1 && knight.getLastY() != -1) {
-            labels[knight.getLastX()][knight.getLastY()].setIcon(i);
+           labels[knight.getLastX()][knight.getLastY()].setIcon(null);
         }
         KNIGHT.placeEnemy(x, y,labels, knight);
         knight.setLastXY(x, y);
@@ -128,7 +130,7 @@ m = new Map(toggle, enemySpeed);
 
     public void playesInput(ArrayList<JButton> buttons, JLabel[][] labels, ArrayList<Point> knightPathh, int lineLength) throws Exception {
 
-        // ⏱️ Timer to monitor tower placement state
+        // timer to monitor tower placement state
         Timer monitorTowerPlacing = new Timer(100, e -> {
             boolean placing = towerIsBeingPlaced.get();
             for (JButton button : buttons) {
@@ -142,6 +144,7 @@ m = new Map(toggle, enemySpeed);
         monitorTowerPlacing.start();
 
         buttons.get(0).addActionListener(e -> {
+            towerIsBeingPlaced.set(true);
             try {
                 buttons.get(0).setEnabled(false);
                 heyWait(true);
@@ -154,6 +157,7 @@ m = new Map(toggle, enemySpeed);
 
                     if (timeLeft[0] <= 0) {
                         t[0].stop();
+                        towerIsBeingPlaced.set(false);
                         buttons.getFirst().setText("Stop");
                         buttons.get(0).setEnabled(true);
                         try {
@@ -381,7 +385,7 @@ m = new Map(toggle, enemySpeed);
         k3.knightPreset();
         knights.add(k3);
         k4.knightPreset();
-        knights.add(k4);
+       // knights.add(k4);
 
         for (Knight knight : knights) {
             knight.setKnightIcon();
@@ -742,7 +746,173 @@ m = new Map(toggle, enemySpeed);
     }
 
     public void enemypath5() throws Exception {
-        knightPath=m.MapWindow5x5(5);}
+        knightPath = m.MapWindow5x5(5);
+        finalx = 9;
+        finaly = 9;
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10, knightPath, 10);
+        k.knightPreset(); knights.add(k);
+        k2.knightPreset(); knights.add(k2);
+        k3.knightPreset(); knights.add(k3);
+        k4.knightPreset(); knights.add(k4);
+        k5.knightPreset(); knights.add(k5);
+        k6.knightPreset(); knights.add(k6);
+
+        k.setKnightIcon(); k.setHealth(100);
+        k2.setKnightIcon(); k2.setHealth(100);
+        k3.setKnightIcon(); k3.setHealth(100);
+        k4.setKnightIcon(); k4.setHealth(100);
+        k5.setKnightIcon(); k5.setHealth(100);
+        k6.setKnightIcon(); k6.setHealth(100);
+
+
+
+
+
+
+        /*
+
+
+         knightPath=m.MapWindow5x5(4);
+        finalx = 9;
+        finaly = 9;
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10,knightPath,10);
+
+        k.knightPreset(); knights.add(k);
+        k2.knightPreset(); knights.add(k2);
+        k3.knightPreset(); knights.add(k3);
+        k4.knightPreset(); knights.add(k4);
+
+        k.setKnightIcon(); k.setHealth(100);
+        k2.setKnightIcon(); k2.setHealth(100);
+        k3.setKnightIcon(); k3.setHealth(100);
+        k4.setKnightIcon(); k4.setHealth(100);
+
+        ArrayList<Runnable> steps = new ArrayList<>();
+
+         */
+
+
+
+
+
+
+
+
+
+
+
+
+        ArrayList<Runnable> steps = new ArrayList<>();
+
+        // Step 1
+        steps.add(() -> { try { moveSafe(4, 0, k, 5); } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 2
+        steps.add(() -> { try { moveSafe(4, 1, k, 5); } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 3
+        steps.add(() -> { try { moveSafe(5, 1, k, 5); } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 4
+        steps.add(() -> { try {
+            moveSafe(6, 1, k, 5);
+            moveSafe(4, 0, k2, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 5
+        steps.add(() -> { try {
+            moveSafe(7, 1, k, 5);
+            moveSafe(4, 1, k2, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 6
+        steps.add(() -> { try {
+            moveSafe(8, 1, k, 5);
+            moveSafe(3, 1, k2, 5);
+            moveSafe(4, 0, k3, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 7
+        steps.add(() -> { try {
+            moveSafe(9, 1, k, 5);
+            moveSafe(2, 1, k2, 5);
+            moveSafe(4, 1, k3, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 8
+        steps.add(() -> { try {
+            moveSafe(9, 2, k, 5);
+            moveSafe(1, 1, k2, 5);
+            moveSafe(3, 1, k3, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 9
+        steps.add(() -> { try {
+            moveSafe(9, 3, k, 5);
+            moveSafe(0, 1, k2, 5);
+            moveSafe(2, 1, k3, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 10
+        steps.add(() -> { try {
+            moveSafe(9, 4, k, 5);
+            moveSafe(0, 2, k2, 5);
+            moveSafe(1, 1, k3, 5);
+            moveSafe(4, 0, k4, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 11
+        steps.add(() -> { try {
+            moveSafe(9, 5, k, 5);
+            moveSafe(0, 3, k2, 5);
+            moveSafe(0, 1, k3, 5);
+            moveSafe(4, 1, k4, 5);
+            moveSafe(4, 0, k5, 5); // k5 starts
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 12
+        steps.add(() -> { try {
+            moveSafe(9, 6, k, 5);
+            moveSafe(1, 3, k2, 5);
+            moveSafe(0, 2, k3, 5);
+            moveSafe(3, 1, k4, 5);
+            moveSafe(4, 1, k5, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 13
+        steps.add(() -> { try {
+            moveSafe(9, 7, k, 5);
+            moveSafe(2, 3, k2, 5);
+            moveSafe(0, 3, k3, 5);
+            moveSafe(2, 1, k4, 5);
+            moveSafe(5, 1, k5, 5);
+            moveSafe(4, 0, k6, 5); // k6 starts
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 14
+        steps.add(() -> { try {
+            moveSafe(9, 8, k, 5);
+            moveSafe(4, 3, k2, 5);
+            moveSafe(0, 4, k3, 5);
+            moveSafe(1, 1, k4, 5);
+            moveSafe(6, 1, k5, 5);
+            moveSafe(4, 1, k6, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        // Step 15
+        steps.add(() -> { try {
+            moveSafe(9, 9, k, 5);
+            moveSafe(5, 3, k2, 5);
+            moveSafe(0, 5, k3, 5);
+            moveSafe(0, 1, k4, 5);
+            moveSafe(7, 1, k5, 5);
+            moveSafe(3, 1, k6, 5);
+        } catch (Exception e) { e.printStackTrace(); } });
+
+        runStepsWithRender(steps, 0);
+    }
+
+
     //endregion
 
 
@@ -797,7 +967,7 @@ m = new Map(toggle, enemySpeed);
         towers.clear();
         addTowers(3,2);
         enemypath5();
-        System.out.println("wave4 executed");
+        System.out.println("wave5 executed");
 
         toggle.monitorGameResult();
     }

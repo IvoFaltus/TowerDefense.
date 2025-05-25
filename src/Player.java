@@ -8,7 +8,8 @@ public class Player {
     int[] addedTowers={0};
     private int towersCount;
 
-    public boolean OpenInventory(JLabel[][] labels, boolean wannaRemove, ArrayList<Integer> TowerIndexes, ArrayList<Tower> towers, ArrayList<Point> knightPath, AtomicBoolean towerIsBeningPlaced, int lineLength, AtomicBoolean atleastOneTowerIsPLaced) throws Exception {
+    public boolean OpenInventory(JLabel[][] labels, boolean wannaRemove, ArrayList<Integer> TowerIndexes, ArrayList<Tower> towers, ArrayList<Point> knightPath,
+                                 AtomicBoolean towerIsBeningPlaced, int lineLength, AtomicBoolean atleastOneTowerIsPLaced) throws Exception {
         boolean successful = false;
         int[] inActiveTowers = {0};
 
@@ -80,20 +81,37 @@ public class Player {
             }
 
             if (availableTowers == 0) {
-                JFrame f = new JFrame("Warning");
+                JFrame f = new JFrame("⚠ Warning");
                 f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                f.setSize(300, 120);
-                f.setLayout(new BorderLayout());
+                f.setSize(300, 130);
+
+                JPanel warningPanel = new JPanel();
+                warningPanel.setLayout(new BoxLayout(warningPanel, BoxLayout.Y_AXIS));
+                warningPanel.setBackground(new Color(255, 220, 220));
+                warningPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 
                 JLabel message = new JLabel("You're out of towers!", SwingConstants.CENTER);
-                message.setFont(new Font("SansSerif", Font.BOLD, 14));
+                message.setFont(new Font("SansSerif", Font.BOLD, 16));
+                message.setForeground(new Color(180, 0, 0));
+                message.setAlignmentX(Component.CENTER_ALIGNMENT);
+
                 JButton okButton = new JButton("OK");
-                okButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                okButton.setFont(new Font("SansSerif", Font.BOLD, 14));
                 okButton.setFocusPainted(false);
+                okButton.setBackground(new Color(220, 0, 0));
+                okButton.setForeground(Color.WHITE);
+                okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                okButton.setPreferredSize(new Dimension(80, 30));
+                okButton.setMaximumSize(new Dimension(100, 30));
                 okButton.addActionListener(e1 -> f.dispose());
 
-                f.add(message, BorderLayout.CENTER);
-                f.add(okButton, BorderLayout.SOUTH);
+                warningPanel.add(Box.createVerticalStrut(15));
+                warningPanel.add(message);
+                warningPanel.add(Box.createVerticalStrut(10));
+                warningPanel.add(okButton);
+                warningPanel.add(Box.createVerticalStrut(15));
+
+                f.setContentPane(warningPanel);
                 f.setLocationRelativeTo(null);
                 f.setVisible(true);
             } else {
@@ -133,6 +151,7 @@ public class Player {
         successful = true;
         return successful;
     }
+
 
 
 

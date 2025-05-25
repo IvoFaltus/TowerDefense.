@@ -93,7 +93,9 @@ public class Menu extends JFrame {
 
                     break;
                 case 5:
-
+                    System.out.println("wave 5");
+toggle.setCurrentWave(wave);
+w.wave5();
                     break;
                 case 6:
                     System.out.println("not implemented yet");
@@ -287,7 +289,7 @@ public class Menu extends JFrame {
 
         nextLevel.addActionListener(e -> {
 
-            int nextwave = currentWave + 1;
+            int nextwave = toggle.getCurrentWave() + 1;
             frame.dispose();
             try {
 
@@ -532,65 +534,76 @@ public class Menu extends JFrame {
         return background;
     }
 
-    public void youLost() throws InterruptedException {
-        toggle.setGameResult(ProgramToggle.Result.RUNNING);
+    public void youLost() {
+        JDialog dialog = new JDialog((Frame) null, "Defeat", true);
+        dialog.setUndecorated(true);
+        dialog.setSize(350, 140);
+        dialog.setLocationRelativeTo(null);
+
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(100, 100));
+        panel.setBackground(new Color(50, 0, 0));
+        panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // So background shows through
 
-        JLabel jb = new JLabel("You Lost");
-        jb.setFont(new Font("Impact", Font.PLAIN, 60));
+        JLabel label = new JLabel("You lost the battle!", SwingConstants.CENTER);
+        label.setFont(new Font("SansSerif", Font.BOLD, 18));
+        label.setForeground(Color.WHITE);
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(getSpacer(60));
-        panel.add(jb);
+        JButton okButton = new JButton("Exit");
+        okButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        okButton.setBackground(new Color(160, 30, 30));
+        okButton.setForeground(Color.WHITE);
+        okButton.setFocusPainted(false);
+        okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        okButton.setPreferredSize(new Dimension(100, 35));
+        okButton.addActionListener(e -> dialog.dispose());
 
-        Menu frame = new Menu(toggle);
-        jb.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jb.setAlignmentY(Component.CENTER_ALIGNMENT);
-        frame.setVisible(true);
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(label);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(okButton);
+        panel.add(Box.createVerticalStrut(10));
 
-        JPanel panel2 = new JPanel();
-        panel2.setOpaque(true);
-        panel2.setPreferredSize(new Dimension(100, 30));
-        frame.setDesign(300, 300);
-
-        frame.add(background(panel), SwingConstants.CENTER);
-
-        Thread.sleep(2000);
-        frame.dispose();
-
+        dialog.add(panel);
+        dialog.setVisible(true);
     }
 
-    public void youWon() throws Exception {
-        toggle.setGameResult(ProgramToggle.Result.RUNNING);
+    public void youWon() {
+        JDialog dialog = new JDialog((Frame) null, "Victory", true);
+        dialog.setUndecorated(true);
+        dialog.setSize(350, 140);
+        dialog.setLocationRelativeTo(null);
+
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(100, 100));
+        panel.setBackground(new Color(0, 60, 0));
+        panel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // So background shows through
 
-        JLabel jb = new JLabel("You won");
-        jb.setFont(new Font("Impact", Font.PLAIN, 60));
+        JLabel label = new JLabel("Victory! You defended successfully!", SwingConstants.CENTER);
+        label.setFont(new Font("SansSerif", Font.BOLD, 18));
+        label.setForeground(Color.WHITE);
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panel.add(getSpacer(60));
-        panel.add(jb);
+        JButton okButton = new JButton("Continue");
+        okButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        okButton.setBackground(new Color(40, 130, 40));
+        okButton.setForeground(Color.WHITE);
+        okButton.setFocusPainted(false);
+        okButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        okButton.setPreferredSize(new Dimension(100, 35));
+        okButton.addActionListener(e -> dialog.dispose());
 
-        Menu frame = new Menu(toggle);
-        jb.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jb.setAlignmentY(Component.CENTER_ALIGNMENT);
-        frame.setVisible(true);
+        panel.add(Box.createVerticalStrut(15));
+        panel.add(label);
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(okButton);
+        panel.add(Box.createVerticalStrut(10));
 
-        JPanel panel2 = new JPanel();
-        panel2.setOpaque(true);
-        panel2.setPreferredSize(new Dimension(100, 30));
-        frame.setDesign(300, 300);
-
-        frame.add(background(panel), SwingConstants.CENTER);
-
-        Thread.sleep(1000);
-        frame.dispose();
-
+        dialog.add(panel);
+        dialog.setVisible(true);
     }
+
 
 
     // Spacer generator
