@@ -344,45 +344,52 @@ w.wave5();
 
     public void mainInfo() {
         Menu frame = new Menu(toggle);
+
+        // HTML-styled text content
         JLabel text = new JLabel("<html>" +
-                "<div style='text-align: center; font-size: 12px;'>" +
-                "<p>You can play in <b>Dynamic mode</b> — knights <b>move automatically</b>, so think fast!</p>" +
-
-                "<p>Your goal: <b>Place towers</b> to stop knights from reaching the finish line.</p>" +
-
-                "<p>When a <b>knight steps next to a tower</b> (not diagonally), it <b>attacks and damages the tower</b>.</p>" +
-
-                "<p>If the tower's health reaches zero, it is <b>destroyed</b>.</p>" +
-
+                "<div style='text-align: center; font-size: 14px; line-height: 1.5;'>" +
+                "<p><b>Welcome to the Tower Defense Game!</b></p>" +
                 "<br>" +
-
-                "<p>Place your towers <b>strategically</b> to protect the path and survive the waves!</p>" +
+                "<p>You can play in <b>Dynamic mode</b> — knights <b>move automatically</b>, so think fast!</p>" +
+                "<p>Your goal: <b>Place towers</b> to stop knights from reaching the finish line.</p>" +
+                "<p>If a <b>knight moves next to a tower</b> (not diagonally), it <b>attacks and damages it</b>.</p>" +
+                "<p>Once a tower’s health reaches zero, it is <b>destroyed</b>.</p>" +
+                "<br>" +
+                "<p>Survive as many waves as you can with <b>smart tower placement</b>!</p>" +
                 "</div></html>");
-        text.setAlignmentX(Component.CENTER_ALIGNMENT);
+        text.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setVerticalAlignment(SwingConstants.CENTER);
 
-        text.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+        // Main content panel
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setOpaque(false);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 15, 15, 15);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        content.add(text, gbc);
 
-        JPanel jp = new JPanel();
+        // Back button
+        JButton back = new JButton("Back");
+        backButtonPreset(back);
+        gbc.gridy++;
+        content.add(back, gbc);
 
-//jp.setOpaque(false);
-        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
-        jp.setOpaque(false);
-        jp.add(getSpacer(20));
-        jp.add(text);
-        jp.add(getSpacer(20));
-
-        JButton jb = new JButton("Back");
-        backButtonPreset(jb);
-
-        jp.add(jb);
-        frame.add(background(jp));
-        frame.setDesign(800, 300);
+        // Add background and finalize frame
+        frame.add(background(content));
+        frame.setDesign(800, 350);
         frame.setVisible(true);
-        jb.addActionListener(e -> {
+
+        back.addActionListener(e -> {
             mainMenu();
             frame.dispose();
         });
     }
+
+
+
 
     public void options(int whichMenu) {
         JPanel panel = new JPanel();
@@ -702,77 +709,49 @@ w.wave5();
 
     public void mainMenu() {
         Wave w = new Wave(toggle, enemySpeed);
-        System.out.println(currentWave+" this is current wave");
-
+        System.out.println(currentWave + " this is current wave");
 
         Menu frame = new Menu(toggle);
         frame.setTitle("Main Menu");
+
+        JLabel title = new JLabel("Main Menu");
+        title.setFont(new Font("SansSerif", Font.BOLD, 28)); // Aesthetic title
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setForeground(new Color(40, 40, 40));
+
         JButton mode1 = new JButton("Static Mode");
-        JButton mode2 = new JButton("Dynamic Mode");
         JButton options = new JButton("Options");
         JButton info = new JButton("Info");
-
-        // === [LEVEL SELECT BUTTON - TEMPORARY] ===
         JButton levelSelect = new JButton("Level Select");
-        // =========================================
+
+        for (JButton button : new JButton[]{mode1, options, info, levelSelect}) {
+            buttonPreset(button);
+            button.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button.setMaximumSize(new Dimension(180, 40));
+        }
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // So background shows through
+        panel.setOpaque(false);
 
-        for (JButton button : new JButton[]{mode1, options, info /* levelSelect not styled here yet */}) {
-            buttonPreset(button);
-        }
-
-        // === [LEVEL SELECT BUTTON - TEMPORARY] ===
-        buttonPreset(levelSelect);
-        // =========================================
-
-        panel.add(getSpacer(10));
+        panel.add(getSpacer(20));
+        panel.add(title);
+        panel.add(getSpacer(25));
         panel.add(mode1);
         panel.add(getSpacer(10));
-        //panel.add(mode2);
-        //panel.add(getSpacer(10));
         panel.add(options);
         panel.add(getSpacer(10));
         panel.add(info);
-
-        // === [LEVEL SELECT BUTTON - TEMPORARY] ===
         panel.add(getSpacer(10));
         panel.add(levelSelect);
-        // =========================================
+        panel.add(getSpacer(20));
 
-        frame.setVisible(true);
         frame.add(background(panel));
-        frame.setDesign(300, 300);
+        frame.setDesign(300, 360);
+        frame.setVisible(true);
 
         mode1.addActionListener(e -> {
             frame.dispose();
-        });
-
-        mode2.addActionListener(e -> {
-            int[] number = {0};
-            try {
-                frame.dispose();
-                countDown();
-
-                Timer t = new Timer(1000, (ev) -> {
-                    number[0]++;
-                    if (number[0] > 5) {
-                        ((Timer) ev.getSource()).stop();
-                        try {
-                            toggle.setCurrentWave(1);
-                            startWave(1);
-                        } catch (Exception ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    }
-                });
-                t.start();
-
-            } catch (Exception ex) {
-                System.out.println("Problem");
-            }
         });
 
         options.addActionListener(e -> {
@@ -785,12 +764,12 @@ w.wave5();
             mainInfo();
         });
 
-        // === [LEVEL SELECT BUTTON - TEMPORARY] ===
         levelSelect.addActionListener(e -> {
             frame.dispose();
             openLevelMap();
         });
-        // =========================================
     }
+
+
 
 }
