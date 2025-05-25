@@ -345,19 +345,18 @@ w.wave5();
     public void mainInfo() {
         Menu frame = new Menu(toggle);
         JLabel text = new JLabel("<html>" +
-                "<div style='text-align: center;'>" +
-                "<p>You can choose from 2 modes: <b>Dynamic</b> and <b>Static</b>.</p>" +
+                "<div style='text-align: center; font-size: 12px;'>" +
+                "<p>You can play in <b>Dynamic mode</b> — knights <b>move automatically</b>, so think fast!</p>" +
 
-                "<p><b>Dynamic mode</b>: Enemies <b>move independently</b> and give you <i>no time to overthink</i>.</p>" +
+                "<p>Your goal: <b>Place towers</b> to stop knights from reaching the finish line.</p>" +
 
-                "<p><b>To complete the game, you must play Dynamic mode.</b></p>" +
+                "<p>When a <b>knight steps next to a tower</b> (not diagonally), it <b>attacks and damages the tower</b>.</p>" +
 
-                "<p><b>Static mode</b>: Ideal for <i>practice and learning mechanics</i>.</p>" +
+                "<p>If the tower's health reaches zero, it is <b>destroyed</b>.</p>" +
 
                 "<br>" +
 
-                "<p>Your goal: <b>Place towers</b> to stop enemies from reaching the finish.</p>" +
-                "<p>Towers deal damage when <b>placed next to enemies</b> (non-diagonally).</p>" +
+                "<p>Place your towers <b>strategically</b> to protect the path and survive the waves!</p>" +
                 "</div></html>");
         text.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -721,7 +720,7 @@ w.wave5();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false); // So background shows through
 
-        for (JButton button : new JButton[]{mode1, mode2, options, info /* levelSelect not styled here yet */}) {
+        for (JButton button : new JButton[]{mode1, options, info /* levelSelect not styled here yet */}) {
             buttonPreset(button);
         }
 
@@ -732,8 +731,8 @@ w.wave5();
         panel.add(getSpacer(10));
         panel.add(mode1);
         panel.add(getSpacer(10));
-        panel.add(mode2);
-        panel.add(getSpacer(10));
+        //panel.add(mode2);
+        //panel.add(getSpacer(10));
         panel.add(options);
         panel.add(getSpacer(10));
         panel.add(info);
