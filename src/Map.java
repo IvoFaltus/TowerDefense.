@@ -667,7 +667,8 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
      * @param finishY the y-coordinate of the finish line
      * @param labelss the 2D array of labels for the map
      */
-    public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY, JLabel[][] labelss) {
+    public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY, JLabel[][] labelss)
+    {
         if (watcherRunning) return;
         watcherRunning = true;
         stop = false;
