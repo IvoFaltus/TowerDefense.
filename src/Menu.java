@@ -7,10 +7,7 @@ import java.util.ArrayList;
 public class Menu extends JFrame {
     private ProgramToggle toggle;
     private Clip music;
-     private int currentWave;
-
-
-
+    private int currentWave;
 
 
     public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves, int currentWave) {
@@ -30,6 +27,7 @@ public class Menu extends JFrame {
         this.toggle = toggle;
         this.currentWave = currentWave;
     }
+
     public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves) {
         this.toggle = toggle;
         this.music = music;
@@ -37,15 +35,6 @@ public class Menu extends JFrame {
         this.waves = waves;
         this.currentWave = currentWave;
     }
-
-
-
-
-
-
-
-
-
 
 
     public Menu() {
@@ -94,8 +83,8 @@ public class Menu extends JFrame {
                     break;
                 case 5:
                     System.out.println("wave 5");
-toggle.setCurrentWave(wave);
-w.wave5();
+                    toggle.setCurrentWave(wave);
+                    w.wave5();
                     break;
                 case 6:
                     System.out.println("not implemented yet");
@@ -107,9 +96,6 @@ w.wave5();
             e.printStackTrace();
         }
     }
-
-
-
 
 
     // Get screen resolution
@@ -143,21 +129,12 @@ w.wave5();
     }
 
 
-
-
     public void staticInfo() {
 
     }
 
     public void dynamicInfo() {
     }
-
-
-
-
-
-
-
 
 
     public void countDown() {
@@ -281,7 +258,6 @@ w.wave5();
     }
 
 
-
     // Spacer generator
     public JPanel getSpacer(int height) {
         JPanel spacer = new JPanel();
@@ -300,47 +276,54 @@ w.wave5();
     }
 
 
-
     public void lostMenu() {
-        Wave w = new Wave(toggle); // or pass this in if needed
+        Wave w = new Wave(toggle);
         Menu frame = new Menu(toggle);
         frame.setTitle("Game Over");
         frame.setUndecorated(true);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        JLabel lostLabel = new JLabel("GAME OVER");
+        lostLabel.setFont(new Font("Impact", Font.BOLD, 30));
+        lostLabel.setForeground(Color.RED);
+        lostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JButton playAgain = new JButton("Play Again");
         JButton mainMenu = new JButton("Main Menu");
         JButton options = new JButton("Options");
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // Show background if needed
 
         for (JButton button : new JButton[]{playAgain, mainMenu, options}) {
             buttonPreset(button);
         }
 
-        panel.add(getSpacer(10));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
+
+        panel.add(getSpacer(15));
+        panel.add(lostLabel);
+        panel.add(getSpacer(25));
         panel.add(playAgain);
-        panel.add(getSpacer(10));
-        panel.add(mainMenu);
+        //panel.add(getSpacer(10));
+        // panel.add(mainMenu);
         panel.add(getSpacer(10));
         panel.add(options);
 
-
-        frame.setVisible(true);
         JPanel borderWrapper = new JPanel(new BorderLayout());
-        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 4)); // gray 4px border
-        borderWrapper.setBackground(new Color(30, 30, 30)); // dark background
+        borderWrapper.setBorder(BorderFactory.createLineBorder(Color.RED, 4));
+        borderWrapper.setBackground(new Color(20, 20, 20));
         borderWrapper.add(background(panel), BorderLayout.CENTER);
 
         frame.setContentPane(borderWrapper);
-        frame.setDesign(300, 300); // Adjust size as needed
+        frame.setDesign(320, 320);
+        frame.setVisible(true);
 
         playAgain.addActionListener(e -> {
             frame.dispose();
             try {
-                int waveToReplay = toggle.getCurrentWave(); // ✅ Use correct ProgramToggle
+                int waveToReplay = toggle.getCurrentWave();
                 toggle.setGameResult(ProgramToggle.Result.RUNNING);
-                startWave(waveToReplay); // ✅ Replay the stored wave
+                startWave(waveToReplay);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -348,86 +331,72 @@ w.wave5();
 
         mainMenu.addActionListener(e -> {
             frame.dispose();
-            mainMenu(); // Return to main menu
+            mainMenu();
         });
 
         options.addActionListener(e -> {
             frame.dispose();
-            options(2); // Navigate to options/settings screen
+            options(2);
         });
     }
 
     public void winMenu() {
-        Wave w = new Wave(toggle, enemySpeed, waves); // or pass existing instance if needed
+        Wave w = new Wave(toggle, enemySpeed, waves);
         Menu frame = new Menu(toggle);
         frame.setTitle("You Win!");
         frame.setUndecorated(true);
+
+        JLabel winLabel = new JLabel("YOU WIN!");
+        winLabel.setFont(new Font("Impact", Font.BOLD, 30));
+        winLabel.setForeground(new Color(34, 139, 34));
+        winLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JButton nextLevel = new JButton("Next Level");
         JButton mainMenu = new JButton("Main Menu");
         JButton options = new JButton("Options");
+        JButton levelSelect = new JButton("Level Select");
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // keep background visible
-
-        for (JButton button : new JButton[]{nextLevel, mainMenu, options}) {
+        for (JButton button : new JButton[]{nextLevel, mainMenu, options, levelSelect}) {
             buttonPreset(button);
         }
 
-        panel.add(getSpacer(10));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
+
+        panel.add(getSpacer(15));
+        panel.add(winLabel);
+        panel.add(getSpacer(25));
         panel.add(nextLevel);
         panel.add(getSpacer(10));
-        panel.add(mainMenu);
-        panel.add(getSpacer(10));
+        // panel.add(mainMenu);
+        // panel.add(getSpacer(10));
         panel.add(options);
-        JButton levelSelect = new JButton("Level Select");
-        buttonPreset(levelSelect);
         panel.add(getSpacer(10));
         panel.add(levelSelect);
-        levelSelect.addActionListener(e -> {
-            frame.dispose();
-            openLevelMap();
-        });
 
-        frame.setVisible(true);
         JPanel borderWrapper = new JPanel(new BorderLayout());
-        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 4)); // gray 4px border
-        borderWrapper.setBackground(new Color(30, 30, 30)); // dark background
+        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(34, 139, 34), 4));
+        borderWrapper.setBackground(new Color(20, 20, 20));
         borderWrapper.add(background(panel), BorderLayout.CENTER);
 
         frame.setContentPane(borderWrapper);
-        frame.setDesign(300, 300); // size of the win menu
+        frame.setDesign(320, 320);
+        frame.setVisible(true);
 
         nextLevel.addActionListener(e -> {
-
             int nextwave = toggle.getCurrentWave() + 1;
             frame.dispose();
             try {
-
-
                 switch (nextwave) {
-                    case 1:
-                        System.out.println("undefined");
-                        break;
-                    case 2:
-                        startWave(2);
-
-                        break;
-                    case 3:
-                        startWave(3);
-                        break;
-                    case 4:
-
-                        startWave(4);
-                        break;
-                    case 5:
-                        startWave(5);
-                        break;
-                    case 6:
-                        break;
+                    case 2 -> startWave(2);
+                    case 3 -> startWave(3);
+                    case 4 -> startWave(4);
+                    case 5 -> startWave(5);
+                    case 6 -> {
+                    }
+                    default -> System.out.println("undefined");
                 }
-
-
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -435,13 +404,17 @@ w.wave5();
 
         mainMenu.addActionListener(e -> {
             frame.dispose();
-            mainMenu(); // Navigate back to main menu
-
+            mainMenu();
         });
 
         options.addActionListener(e -> {
             frame.dispose();
-            options(1); // Implement your own options screen method
+            options(1);
+        });
+
+        levelSelect.addActionListener(e -> {
+            frame.dispose();
+            openLevelMap();
         });
     }
 
@@ -661,67 +634,63 @@ w.wave5();
         Menu frame = new Menu(toggle);
         frame.setTitle("Main Menu");
         frame.setUndecorated(true);
-        JLabel title = new JLabel("Main Menu");
-        title.setFont(new Font("SansSerif", Font.BOLD, 28)); // Aesthetic title
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setForeground(new Color(40, 40, 40));
 
-        JButton mode1 = new JButton("Play");
-        JButton options = new JButton("Options");
-        JButton info = new JButton("Info");
-        JButton levelSelect = new JButton("Level Select");
+        // Updated title: black text, clean font
+        JLabel title = new JLabel("MAIN MENU");
+        title.setFont(new Font("Verdana", Font.BOLD, 32));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setForeground(Color.DARK_GRAY); // black text
+
+        JButton mode1 = new JButton("Play");       // ▶
+        JButton options = new JButton("Options");  // ⚙
+        JButton info = new JButton("Info");        // ℹ
+        JButton levelSelect = new JButton("Level Select"); // fallback text
 
         for (JButton button : new JButton[]{mode1, options, info, levelSelect}) {
             buttonPreset(button);
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
-            button.setMaximumSize(new Dimension(180, 40));
+            button.setMaximumSize(new Dimension(200, 45));
         }
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
-        panel.add(getSpacer(20));
-        panel.add(title);
         panel.add(getSpacer(25));
+        panel.add(title);
+        panel.add(getSpacer(30));
         panel.add(mode1);
-        panel.add(getSpacer(10));
+        panel.add(getSpacer(12));
         panel.add(options);
-        panel.add(getSpacer(10));
+        panel.add(getSpacer(12));
         panel.add(info);
-        panel.add(getSpacer(10));
+        panel.add(getSpacer(12));
         panel.add(levelSelect);
-        panel.add(getSpacer(20));
+        panel.add(getSpacer(25));
 
         JPanel borderWrapper = new JPanel(new BorderLayout());
-        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 4)); // gray 4px border
-        borderWrapper.setBackground(new Color(30, 30, 30)); // dark background
+        borderWrapper.setBorder(BorderFactory.createLineBorder(Color.GRAY, 4)); // gray border
+        borderWrapper.setBackground(new Color(20, 30, 20)); // background unchanged
         borderWrapper.add(background(panel), BorderLayout.CENTER);
 
         frame.setContentPane(borderWrapper);
-        frame.setDesign(300, 360);
+        frame.setDesign(320, 400);
         frame.setVisible(true);
 
-        mode1.addActionListener(e -> {
-            startWave(1);
-        });
-
+        mode1.addActionListener(e -> startWave(1));
         options.addActionListener(e -> {
             frame.dispose();
             options(0);
         });
-
         info.addActionListener(e -> {
             frame.dispose();
             mainInfo();
         });
-
         levelSelect.addActionListener(e -> {
             frame.dispose();
             openLevelMap();
         });
     }
-
 
 
 }
