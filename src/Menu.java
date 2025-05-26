@@ -108,65 +108,6 @@ w.wave5();
         }
     }
 
-    // Level select screen
-    public void openLevelMap() {
-        JFrame frame = new JFrame("Level Selection");
-        frame.setUndecorated(true);
-        frame.setSize(600, 400);
-        frame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-
-        Color brown = new Color(194, 155, 99);
-
-        JPanel panel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(Color.GRAY);
-                for (int i = 0; i < levelButtons.size() - 1; i++) {
-                    JButton b1 = levelButtons.get(i);
-                    JButton b2 = levelButtons.get(i + 1);
-                    int x1 = b1.getX() + b1.getWidth() / 2;
-                    int y1 = b1.getY() + b1.getHeight() / 2;
-                    int x2 = b2.getX() + b2.getWidth() / 2;
-                    int y2 = b2.getY() + b2.getHeight() / 2;
-                    g.drawLine(x1, y1, x2, y2);
-                }
-            }
-        };
-        panel.setLayout(null);
-        panel.setBackground(brown);
-        frame.getContentPane().setBackground(brown);
-        frame.add(panel);
-
-        levelButtons.clear();
-
-        int[][] positions = {
-                {50, 50}, {200, 100}, {350, 50}, {450, 150}, {300, 200}, {150, 250}
-        };
-
-        for (int i = 0; i < positions.length; i++) {
-            JButton levelBtn = new JButton("Wave " + (i + 1));
-            levelBtn.setFocusPainted(false);
-            levelBtn.setFont(new Font("Impact", Font.PLAIN, 16));
-            levelBtn.setBackground(new Color(150, 150, 160));
-            levelBtn.setForeground(Color.BLACK);
-            levelBtn.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
-            levelBtn.setBounds(positions[i][0], positions[i][1], 100, 40);
-
-            final int waveNumber = i + 1;
-            levelBtn.addActionListener(e -> {
-                frame.dispose();
-                startWave(waveNumber);
-            });
-
-            panel.add(levelBtn);
-            levelButtons.add(levelBtn);
-        }
-
-        frame.setVisible(true);
-    }
-
 
 
 
@@ -201,139 +142,7 @@ w.wave5();
 
     }
 
-    public void lostMenu() {
-        Wave w = new Wave(toggle); // or pass this in if needed
-        Menu frame = new Menu(toggle);
-        frame.setTitle("Game Over");
-        frame.setUndecorated(true);
-        JButton playAgain = new JButton("Play Again");
-        JButton mainMenu = new JButton("Main Menu");
-        JButton options = new JButton("Options");
-setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // Show background if needed
 
-        for (JButton button : new JButton[]{playAgain, mainMenu, options}) {
-            buttonPreset(button);
-        }
-
-        panel.add(getSpacer(10));
-        panel.add(playAgain);
-        panel.add(getSpacer(10));
-        panel.add(mainMenu);
-        panel.add(getSpacer(10));
-        panel.add(options);
-
-
-        frame.setVisible(true);
-        frame.add(background(panel));
-        frame.setDesign(300, 300); // Adjust size as needed
-
-        playAgain.addActionListener(e -> {
-            frame.dispose();
-            try {
-                int waveToReplay = toggle.getCurrentWave(); // ✅ Use correct ProgramToggle
-                toggle.setGameResult(ProgramToggle.Result.RUNNING);
-                startWave(waveToReplay); // ✅ Replay the stored wave
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
-        mainMenu.addActionListener(e -> {
-            frame.dispose();
-            mainMenu(); // Return to main menu
-        });
-
-        options.addActionListener(e -> {
-            frame.dispose();
-            options(2); // Navigate to options/settings screen
-        });
-    }
-
-    public void winMenu() {
-        Wave w = new Wave(toggle, enemySpeed, waves); // or pass existing instance if needed
-        Menu frame = new Menu(toggle);
-        frame.setTitle("You Win!");
-        frame.setUndecorated(true);
-        JButton nextLevel = new JButton("Next Level");
-        JButton mainMenu = new JButton("Main Menu");
-        JButton options = new JButton("Options");
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // keep background visible
-
-        for (JButton button : new JButton[]{nextLevel, mainMenu, options}) {
-            buttonPreset(button);
-        }
-
-        panel.add(getSpacer(10));
-        panel.add(nextLevel);
-        panel.add(getSpacer(10));
-        panel.add(mainMenu);
-        panel.add(getSpacer(10));
-        panel.add(options);
-        JButton levelSelect = new JButton("Level Select");
-        buttonPreset(levelSelect);
-        panel.add(getSpacer(10));
-        panel.add(levelSelect);
-        levelSelect.addActionListener(e -> {
-            frame.dispose();
-            openLevelMap();
-        });
-
-        frame.setVisible(true);
-        frame.add(background(panel));
-        frame.setDesign(300, 300); // size of the win menu
-
-        nextLevel.addActionListener(e -> {
-
-            int nextwave = toggle.getCurrentWave() + 1;
-            frame.dispose();
-            try {
-
-
-                switch (nextwave) {
-                    case 1:
-                        System.out.println("undefined");
-                        break;
-                    case 2:
-                        startWave(2);
-
-                        break;
-                    case 3:
-                        startWave(3);
-                        break;
-                    case 4:
-
-                        startWave(4);
-                        break;
-                    case 5:
-                        startWave(5);
-                        break;
-                    case 6:
-                        break;
-                }
-
-
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
-        mainMenu.addActionListener(e -> {
-            frame.dispose();
-            mainMenu(); // Navigate back to main menu
-
-        });
-
-        options.addActionListener(e -> {
-            frame.dispose();
-            options(1); // Implement your own options screen method
-        });
-    }
 
 
     public void staticInfo() {
@@ -343,152 +152,12 @@ setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     public void dynamicInfo() {
     }
 
-    public void mainInfo() {
-        Menu frame = new Menu(toggle);
-        frame.setUndecorated(true);
-        // HTML-styled text content
-        JLabel text = new JLabel("<html>" +
-                "<div style='text-align: center; font-size: 14px; line-height: 1.5;'>" +
-                "<p><b>Welcome to the Tower Defense Game!</b></p>" +
-                "<br>" +
-                "<p>You can play in <b>Dynamic mode</b> — knights <b>move automatically</b>, so think fast!</p>" +
-                "<p>Your goal: <b>Place towers</b> to stop knights from reaching the finish line.</p>" +
-                "<p>If a <b>knight moves next to a tower</b> (not diagonally), it <b>attacks and damages it</b>.</p>" +
-                "<p>Once a tower’s health reaches zero, it is <b>destroyed</b>.</p>" +
-                "<br>" +
-                "<p>Survive as many waves as you can with <b>smart tower placement</b>!</p>" +
-                "</div></html>");
-        text.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        text.setHorizontalAlignment(SwingConstants.CENTER);
-        text.setVerticalAlignment(SwingConstants.CENTER);
-
-        // Main content panel
-        JPanel content = new JPanel(new GridBagLayout());
-        content.setOpaque(false);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        content.add(text, gbc);
-
-        // Back button
-        JButton back = new JButton("Back");
-        backButtonPreset(back);
-        gbc.gridy++;
-        content.add(back, gbc);
-
-        // Add background and finalize frame
-        frame.add(background(content));
-        frame.setDesign(800, 350);
-        frame.setVisible(true);
-
-        back.addActionListener(e -> {
-            mainMenu();
-            frame.dispose();
-        });
-    }
 
 
 
 
-    public void options(int whichMenu) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false);
-
-        Menu frame = new Menu(toggle);
-        frame.setUndecorated(true);
-        // === Volume label ===
-        JLabel volumeLabel = new JLabel("Volume");
-        volumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        volumeLabel.setFont(new Font("Impact", Font.PLAIN, 18));
-
-        // === Slider and value label side-by-side ===
-        JSlider volume = new JSlider(0, 100, 50); // Default at 50%
-        volume.setBackground(new Color(194, 155, 99));
-
-        JLabel volumeValues = new JLabel(volume.getValue() + "%");
-
-        volume.addChangeListener(e -> {
-            int sliderValue = volume.getValue();
-            volumeValues.setText(sliderValue + "%");
-
-            Clip clip = music;
-            if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                float min = gainControl.getMinimum(); // e.g. -80.0f
-                float max = gainControl.getMaximum(); // e.g. 0.0f
-                float dB = min + (sliderValue / 100.0f) * (max - min);
-                gainControl.setValue(dB);
-            }
-        });
-
-        JPanel volumePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        volumePanel.setOpaque(false);
-        volumePanel.add(volume);
-        volumePanel.add(volumeValues);
-
-        // === Difficulty dropdown ===
-        JLabel diffLabel = new JLabel("Difficulty:");
-        diffLabel.setFont(new Font("Impact", Font.PLAIN, 18));
-
-        String[] options = {"Easy", "Medium", "Hard", "Extreme"};
-        JComboBox<String> dropOptions = new JComboBox<>(options);
-        dropOptions.setSelectedIndex(0);
-
-        dropOptions.addActionListener(e -> {
-            switch (dropOptions.getSelectedIndex()) {
-                case 0:
-                    enemySpeed = 2000;
-                    break;
-                case 1:
-                    enemySpeed = 1000;
-                    break;
-                case 2:
-                    enemySpeed = 500;
-                    break;
-                case 3:
-                    enemySpeed = 300;
-                    break;
-            }
 
 
-        });
-
-
-        JPanel difficultyPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        difficultyPanel.setOpaque(false);
-        difficultyPanel.add(diffLabel);
-        difficultyPanel.add(dropOptions);
-
-        // === Back button ===
-        JButton backButton = new JButton("Back");
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButtonPreset(backButton);
-        backButton.addActionListener(ev -> {
-            frame.dispose();
-            switch (whichMenu) {
-                case 0 -> mainMenu();
-                case 1 -> winMenu();
-                case 2 -> this.lostMenu();
-                default -> mainMenu(); // fallback
-            }
-        });
-
-        panel.add(getSpacer(10));
-        panel.add(volumeLabel);
-        panel.add(getSpacer(5));
-        panel.add(volumePanel);
-        panel.add(getSpacer(10));
-        panel.add(difficultyPanel);
-        panel.add(getSpacer(10));
-        panel.add(backButton);
-
-        frame.add(background(panel));
-        frame.setDesign(300, 300);
-        frame.setVisible(true);
-    }
 
 
     public void countDown() {
@@ -630,7 +299,359 @@ setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setVisible(true);
     }
 
-    // Menu after completing level
+
+
+    public void lostMenu() {
+        Wave w = new Wave(toggle); // or pass this in if needed
+        Menu frame = new Menu(toggle);
+        frame.setTitle("Game Over");
+        frame.setUndecorated(true);
+        JButton playAgain = new JButton("Play Again");
+        JButton mainMenu = new JButton("Main Menu");
+        JButton options = new JButton("Options");
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false); // Show background if needed
+
+        for (JButton button : new JButton[]{playAgain, mainMenu, options}) {
+            buttonPreset(button);
+        }
+
+        panel.add(getSpacer(10));
+        panel.add(playAgain);
+        panel.add(getSpacer(10));
+        panel.add(mainMenu);
+        panel.add(getSpacer(10));
+        panel.add(options);
+
+
+        frame.setVisible(true);
+        JPanel borderWrapper = new JPanel(new BorderLayout());
+        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 4)); // gray 4px border
+        borderWrapper.setBackground(new Color(30, 30, 30)); // dark background
+        borderWrapper.add(background(panel), BorderLayout.CENTER);
+
+        frame.setContentPane(borderWrapper);
+        frame.setDesign(300, 300); // Adjust size as needed
+
+        playAgain.addActionListener(e -> {
+            frame.dispose();
+            try {
+                int waveToReplay = toggle.getCurrentWave(); // ✅ Use correct ProgramToggle
+                toggle.setGameResult(ProgramToggle.Result.RUNNING);
+                startWave(waveToReplay); // ✅ Replay the stored wave
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        mainMenu.addActionListener(e -> {
+            frame.dispose();
+            mainMenu(); // Return to main menu
+        });
+
+        options.addActionListener(e -> {
+            frame.dispose();
+            options(2); // Navigate to options/settings screen
+        });
+    }
+
+    public void winMenu() {
+        Wave w = new Wave(toggle, enemySpeed, waves); // or pass existing instance if needed
+        Menu frame = new Menu(toggle);
+        frame.setTitle("You Win!");
+        frame.setUndecorated(true);
+        JButton nextLevel = new JButton("Next Level");
+        JButton mainMenu = new JButton("Main Menu");
+        JButton options = new JButton("Options");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false); // keep background visible
+
+        for (JButton button : new JButton[]{nextLevel, mainMenu, options}) {
+            buttonPreset(button);
+        }
+
+        panel.add(getSpacer(10));
+        panel.add(nextLevel);
+        panel.add(getSpacer(10));
+        panel.add(mainMenu);
+        panel.add(getSpacer(10));
+        panel.add(options);
+        JButton levelSelect = new JButton("Level Select");
+        buttonPreset(levelSelect);
+        panel.add(getSpacer(10));
+        panel.add(levelSelect);
+        levelSelect.addActionListener(e -> {
+            frame.dispose();
+            openLevelMap();
+        });
+
+        frame.setVisible(true);
+        JPanel borderWrapper = new JPanel(new BorderLayout());
+        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 4)); // gray 4px border
+        borderWrapper.setBackground(new Color(30, 30, 30)); // dark background
+        borderWrapper.add(background(panel), BorderLayout.CENTER);
+
+        frame.setContentPane(borderWrapper);
+        frame.setDesign(300, 300); // size of the win menu
+
+        nextLevel.addActionListener(e -> {
+
+            int nextwave = toggle.getCurrentWave() + 1;
+            frame.dispose();
+            try {
+
+
+                switch (nextwave) {
+                    case 1:
+                        System.out.println("undefined");
+                        break;
+                    case 2:
+                        startWave(2);
+
+                        break;
+                    case 3:
+                        startWave(3);
+                        break;
+                    case 4:
+
+                        startWave(4);
+                        break;
+                    case 5:
+                        startWave(5);
+                        break;
+                    case 6:
+                        break;
+                }
+
+
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        mainMenu.addActionListener(e -> {
+            frame.dispose();
+            mainMenu(); // Navigate back to main menu
+
+        });
+
+        options.addActionListener(e -> {
+            frame.dispose();
+            options(1); // Implement your own options screen method
+        });
+    }
+
+
+    public void mainInfo() {
+        Menu frame = new Menu(toggle);
+        frame.setUndecorated(true);
+        // HTML-styled text content
+        JLabel text = new JLabel("<html>" +
+                "<div style='text-align: center; font-size: 14px; line-height: 1.5;'>" +
+                "<p><b>Welcome to the Tower Defense Game!</b></p>" +
+                "<br>" +
+                "<p>You can play in <b>Dynamic mode</b> — knights <b>move automatically</b>, so think fast!</p>" +
+                "<p>Your goal: <b>Place towers</b> to stop knights from reaching the finish line.</p>" +
+                "<p>If a <b>knight moves next to a tower</b> (not diagonally), it <b>attacks and damages it</b>.</p>" +
+                "<p>Once a tower’s health reaches zero, it is <b>destroyed</b>.</p>" +
+                "<br>" +
+                "<p>Survive as many waves as you can with <b>smart tower placement</b>!</p>" +
+                "</div></html>");
+        text.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        text.setHorizontalAlignment(SwingConstants.CENTER);
+        text.setVerticalAlignment(SwingConstants.CENTER);
+
+        // Main content panel
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setOpaque(false);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 15, 15, 15);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        content.add(text, gbc);
+
+        // Back button
+        JButton back = new JButton("Back");
+        backButtonPreset(back);
+        gbc.gridy++;
+        content.add(back, gbc);
+
+        // Add background and finalize frame
+        frame.add(background(content));
+        frame.setDesign(800, 350);
+        frame.setVisible(true);
+
+        back.addActionListener(e -> {
+            mainMenu();
+            frame.dispose();
+        });
+    }
+
+    public void options(int whichMenu) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
+
+        Menu frame = new Menu(toggle);
+        frame.setUndecorated(true);
+        // === Volume label ===
+        JLabel volumeLabel = new JLabel("Volume");
+        volumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        volumeLabel.setFont(new Font("Impact", Font.PLAIN, 18));
+
+        // === Slider and value label side-by-side ===
+        JSlider volume = new JSlider(0, 100, 50); // Default at 50%
+        volume.setBackground(new Color(194, 155, 99));
+
+        JLabel volumeValues = new JLabel(volume.getValue() + "%");
+
+        volume.addChangeListener(e -> {
+            int sliderValue = volume.getValue();
+            volumeValues.setText(sliderValue + "%");
+
+            Clip clip = music;
+            if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                float min = gainControl.getMinimum(); // e.g. -80.0f
+                float max = gainControl.getMaximum(); // e.g. 0.0f
+                float dB = min + (sliderValue / 100.0f) * (max - min);
+                gainControl.setValue(dB);
+            }
+        });
+
+        JPanel volumePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        volumePanel.setOpaque(false);
+        volumePanel.add(volume);
+        volumePanel.add(volumeValues);
+
+        // === Difficulty dropdown ===
+        JLabel diffLabel = new JLabel("Difficulty:");
+        diffLabel.setFont(new Font("Impact", Font.PLAIN, 18));
+
+        String[] options = {"Easy", "Medium", "Hard", "Extreme"};
+        JComboBox<String> dropOptions = new JComboBox<>(options);
+        dropOptions.setSelectedIndex(0);
+
+        dropOptions.addActionListener(e -> {
+            switch (dropOptions.getSelectedIndex()) {
+                case 0:
+                    enemySpeed = 2000;
+                    break;
+                case 1:
+                    enemySpeed = 1000;
+                    break;
+                case 2:
+                    enemySpeed = 500;
+                    break;
+                case 3:
+                    enemySpeed = 300;
+                    break;
+            }
+
+
+        });
+
+
+        JPanel difficultyPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        difficultyPanel.setOpaque(false);
+        difficultyPanel.add(diffLabel);
+        difficultyPanel.add(dropOptions);
+
+        // === Back button ===
+        JButton backButton = new JButton("Back");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButtonPreset(backButton);
+        backButton.addActionListener(ev -> {
+            frame.dispose();
+            switch (whichMenu) {
+                case 0 -> mainMenu();
+                case 1 -> winMenu();
+                case 2 -> this.lostMenu();
+                default -> mainMenu(); // fallback
+            }
+        });
+
+        panel.add(getSpacer(10));
+        panel.add(volumeLabel);
+        panel.add(getSpacer(5));
+        panel.add(volumePanel);
+        panel.add(getSpacer(10));
+        panel.add(difficultyPanel);
+        panel.add(getSpacer(10));
+        panel.add(backButton);
+
+        JPanel borderWrapper = new JPanel(new BorderLayout());
+        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 4)); // gray 4px border
+        borderWrapper.setBackground(new Color(30, 30, 30)); // dark background
+        borderWrapper.add(background(panel), BorderLayout.CENTER);
+
+        frame.setContentPane(borderWrapper);
+        frame.setDesign(300, 300);
+        frame.setVisible(true);
+    }
+
+    public void openLevelMap() {
+        JFrame frame = new JFrame("Level Selection");
+        frame.setUndecorated(true);
+        frame.setSize(600, 400);
+        frame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        Color brown = new Color(194, 155, 99);
+
+        JPanel panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.GRAY);
+                for (int i = 0; i < levelButtons.size() - 1; i++) {
+                    JButton b1 = levelButtons.get(i);
+                    JButton b2 = levelButtons.get(i + 1);
+                    int x1 = b1.getX() + b1.getWidth() / 2;
+                    int y1 = b1.getY() + b1.getHeight() / 2;
+                    int x2 = b2.getX() + b2.getWidth() / 2;
+                    int y2 = b2.getY() + b2.getHeight() / 2;
+                    g.drawLine(x1, y1, x2, y2);
+                }
+            }
+        };
+        panel.setLayout(null);
+        panel.setBackground(brown);
+        frame.getContentPane().setBackground(brown);
+        frame.add(panel);
+
+        levelButtons.clear();
+
+        int[][] positions = {
+                {50, 50}, {200, 100}, {350, 50}, {450, 150}, {300, 200}, {150, 250}
+        };
+
+        for (int i = 0; i < positions.length; i++) {
+            JButton levelBtn = new JButton("Wave " + (i + 1));
+            levelBtn.setFocusPainted(false);
+            levelBtn.setFont(new Font("Impact", Font.PLAIN, 16));
+            levelBtn.setBackground(new Color(150, 150, 160));
+            levelBtn.setForeground(Color.BLACK);
+            levelBtn.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+            levelBtn.setBounds(positions[i][0], positions[i][1], 100, 40);
+
+            final int waveNumber = i + 1;
+            levelBtn.addActionListener(e -> {
+                frame.dispose();
+                startWave(waveNumber);
+            });
+
+            panel.add(levelBtn);
+            levelButtons.add(levelBtn);
+        }
+
+        frame.setVisible(true);
+    }
 
 
     public void mainMenu() {
@@ -672,7 +693,12 @@ setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         panel.add(levelSelect);
         panel.add(getSpacer(20));
 
-        frame.add(background(panel));
+        JPanel borderWrapper = new JPanel(new BorderLayout());
+        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 4)); // gray 4px border
+        borderWrapper.setBackground(new Color(30, 30, 30)); // dark background
+        borderWrapper.add(background(panel), BorderLayout.CENTER);
+
+        frame.setContentPane(borderWrapper);
         frame.setDesign(300, 360);
         frame.setVisible(true);
 
