@@ -132,7 +132,7 @@ public class Player {
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                 int width = screenSize.width;
                 int height = screenSize.height;
-
+                frame.setUndecorated(true);
                 frame.setSize(new Dimension(350, 400));
                 frame.setTitle("Inventory");
                 frame.add(jp);

@@ -3,9 +3,7 @@ import org.w3c.dom.ls.LSOutput;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -328,11 +326,32 @@ public class Map extends JFrame {
             }
         }
     }
+
+
+    public void map10x10_w6(JLabel[][] labels){}
+
+
+
+
+
+
+
+
+
 //endregion
 public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int mapType) {
     JLabel tile = new JLabel(" ", SwingConstants.CENTER);
     tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
     tile.setOpaque(true);
+
+    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+
+
+
+
+
+
 
     // Get path and finish colors for this map
     Color pathColor = getPathColor(mapType);
@@ -501,7 +520,50 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
      * @return a list of points representing the knight's path
      * @throws InterruptedException if the thread is interrupted
      */
+    private boolean isDialogShown = false;
     public ArrayList<Point> MapWindow5x5(int wave) throws InterruptedException {
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+
+
+
+
+
+
+
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (isDialogShown) return; // prevent multiple dialogs
+                isDialogShown = true;
+
+                int choice = JOptionPane.showConfirmDialog(
+                        Map.this,
+                        "Do you exit the game",
+                        "Confirm Exit",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    System.exit(32);
+                    dispose();
+                }
+
+                isDialogShown = false; // allow future close attempts
+
+            }
+        });
+
+
+
+
+
+
+
         ArrayList<Point> KnightPath = new ArrayList<>();
         Point finishTile = null;
 
@@ -514,17 +576,15 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
                 x = 7;
                 y = 8;
             }
-            case 4, 5 -> {
+            case 4, 5,6 -> {
                 x = 10;
                 y = 11;
             }
-            case 6 -> {
-                // custom wave
-            }
+
         }
 
         setTitle("Map");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setSize(x * TILE_SIZE, y * TILE_SIZE);
         setLayout(new GridLayout(y, x));
 
@@ -551,6 +611,10 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
                 usedlabels = labels10x10;
             }
             case 5 -> {
+                map10x10_w5(labels10x10);
+                createOptionLine(6);
+                usedlabels = labels10x10;
+            }  case 6 -> {
                 map10x10_w5(labels10x10);
                 createOptionLine(6);
                 usedlabels = labels10x10;

@@ -111,8 +111,9 @@ w.wave5();
     // Level select screen
     public void openLevelMap() {
         JFrame frame = new JFrame("Level Selection");
+        frame.setUndecorated(true);
         frame.setSize(600, 400);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
         Color brown = new Color(194, 155, 99);
@@ -204,11 +205,11 @@ w.wave5();
         Wave w = new Wave(toggle); // or pass this in if needed
         Menu frame = new Menu(toggle);
         frame.setTitle("Game Over");
-
+        frame.setUndecorated(true);
         JButton playAgain = new JButton("Play Again");
         JButton mainMenu = new JButton("Main Menu");
         JButton options = new JButton("Options");
-
+setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false); // Show background if needed
@@ -255,7 +256,7 @@ w.wave5();
         Wave w = new Wave(toggle, enemySpeed, waves); // or pass existing instance if needed
         Menu frame = new Menu(toggle);
         frame.setTitle("You Win!");
-
+        frame.setUndecorated(true);
         JButton nextLevel = new JButton("Next Level");
         JButton mainMenu = new JButton("Main Menu");
         JButton options = new JButton("Options");
@@ -344,7 +345,7 @@ w.wave5();
 
     public void mainInfo() {
         Menu frame = new Menu(toggle);
-
+        frame.setUndecorated(true);
         // HTML-styled text content
         JLabel text = new JLabel("<html>" +
                 "<div style='text-align: center; font-size: 14px; line-height: 1.5;'>" +
@@ -397,7 +398,7 @@ w.wave5();
         panel.setOpaque(false);
 
         Menu frame = new Menu(toggle);
-
+        frame.setUndecorated(true);
         // === Volume label ===
         JLabel volumeLabel = new JLabel("Volume");
         volumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -630,82 +631,7 @@ w.wave5();
     }
 
     // Menu after completing level
-    public void completingLevelMenu() {
-        Menu frame = new Menu(toggle);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-        // Button panel
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // So background shows through
-
-
-        JButton mainMenu = new JButton("Main Menu");
-        JButton nextLevel = new JButton("Next Level");
-        JButton replay = new JButton("Replay Level");
-        JButton options = new JButton("Options");
-
-
-        for (JButton button : new JButton[]{mainMenu, nextLevel, replay, options}) {
-            buttonPreset(button);
-        }
-
-        // Add components with spacing
-        panel.add(getSpacer(10));
-        panel.add(mainMenu);
-        panel.add(getSpacer(10));
-        panel.add(nextLevel);
-        panel.add(getSpacer(10));
-        panel.add(replay);
-        panel.add(getSpacer(10));
-        panel.add(options);
-
-
-        // Nest panel and show
-
-        frame.add(background(panel));
-        frame.setDesign(300, 300);
-    }
-
-    public void failingLevelMenu() {
-        Menu frame = new Menu(toggle);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-        // Button panel
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false); // So background shows through
-
-
-        JButton mainMenu = new JButton("Main Menu");
-        JButton nextLevel = new JButton("Next Level");
-        JButton replay = new JButton("Replay Level");
-        JButton options = new JButton("Options");
-
-
-        for (JButton button : new JButton[]{mainMenu, replay, options}) {
-            buttonPreset(button);
-        }
-
-        // Add components with spacing
-        panel.add(getSpacer(10));
-        panel.add(mainMenu);
-        panel.add(getSpacer(10));
-        panel.add(nextLevel);
-        panel.add(getSpacer(10));
-        panel.add(replay);
-        panel.add(getSpacer(10));
-        panel.add(options);
-
-
-        // Nest panel and show
-
-        frame.add(background(panel));
-        frame.setDesign(300, 300);
-
-    }
 
     public void mainMenu() {
         Wave w = new Wave(toggle, enemySpeed);
@@ -713,13 +639,13 @@ w.wave5();
 
         Menu frame = new Menu(toggle);
         frame.setTitle("Main Menu");
-
+        frame.setUndecorated(true);
         JLabel title = new JLabel("Main Menu");
         title.setFont(new Font("SansSerif", Font.BOLD, 28)); // Aesthetic title
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setForeground(new Color(40, 40, 40));
 
-        JButton mode1 = new JButton("Static Mode");
+        JButton mode1 = new JButton("Play");
         JButton options = new JButton("Options");
         JButton info = new JButton("Info");
         JButton levelSelect = new JButton("Level Select");
@@ -751,7 +677,7 @@ w.wave5();
         frame.setVisible(true);
 
         mode1.addActionListener(e -> {
-            frame.dispose();
+            startWave(1);
         });
 
         options.addActionListener(e -> {

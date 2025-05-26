@@ -911,7 +911,7 @@ m = new Map(toggle, enemySpeed);
 
         runStepsWithRender(steps, 0);
     }
-
+public void enemypath6(){}
 
     //endregion
 
@@ -971,7 +971,17 @@ m = new Map(toggle, enemySpeed);
 
         toggle.monitorGameResult();
     }
+public void wave6()throws Exception{
+    toggle.setGameResult(ProgramToggle.Result.RUNNING);
 
+    knights.clear();
+    towers.clear();
+    addTowers(3,2);
+    enemypath6();
+    System.out.println("wave 6 executed");
+
+    toggle.monitorGameResult();
+}
     //endregion
 
 
