@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cc6f03ff-8f68-4040-8d1b-eb9573294c86" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/src/UnitTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TowerDefensesdf.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TowerDefensesdf.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Knight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Wave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wave.java" afterDir="false" />
-    </list>
+    <list default="true" id="cc6f03ff-8f68-4040-8d1b-eb9573294c86" name="Changes" comment="." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,6 +33,11 @@
   "keyToString": {
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.UnitTests.testKnightInitialPosition.executor": "Run",
+    "JUnit.UnitTests.testKnightIsAlive.executor": "Run",
+    "JUnit.UnitTests.testKnightTakeDamage.executor": "Run",
+    "JUnit.UnitTests.testTowerActivation.executor": "Run",
+    "JUnit.UnitTests.testTowerInitialPosition.executor": "Run",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
@@ -170,7 +167,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748252851048</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary=".">
+      <option name="closed" value="true" />
+      <created>1748529908294</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748529908294</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
