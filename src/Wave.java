@@ -291,8 +291,8 @@ m = new Map(toggle, enemySpeed);
         playesInput(m.StopResumePlaceHelpRemove(), m.labels5x5, knightPath, 5);
 
         k.knightPreset(); knights.add(k);
-        k2.knightPreset(); //knights.add(k2);
-        k3.knightPreset(); //knights.add(k3);
+        k2.knightPreset(); knights.add(k2);
+        k3.knightPreset(); knights.add(k3);
         k4.knightPreset(); //knights.add(k4);
 
         for (Knight knight : knights) {
@@ -310,8 +310,26 @@ m = new Map(toggle, enemySpeed);
                 "20", "10", "00"
         };
 
+        String[] pathK2={"00","01","02","12","22","32","42","43","44"};
+        String[] pathK3={"00","01","02","03","04","14","24","34","44"};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Add path steps for k (wave 2)
         addKnightPathSteps(steps, pathK, k, 2, 0);
+        addKnightPathSteps(steps, pathK2, k2, 2, 2);
+        addKnightPathSteps(steps, pathK3, k3, 2, 4);
 
         runStepsWithRender(steps, 0);
     }
@@ -502,7 +520,7 @@ m = new Map(toggle, enemySpeed);
 
         knights.clear();
         towers.clear();
-        addTowers(3,2);
+        addTowers(2,2);
         enemyPath2();
         System.out.println("wave2 executed");
 

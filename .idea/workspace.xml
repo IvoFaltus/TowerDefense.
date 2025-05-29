@@ -5,18 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc6f03ff-8f68-4040-8d1b-eb9573294c86" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/src/resources/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UnitTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TowerDefensesdf.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TowerDefensesdf.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Knight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProgramToggle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ProgramToggle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Wave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wave.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -26,7 +33,6 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2xcpKWxm8IZWNc9mSr3MskwgM4c" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -34,7 +40,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
@@ -44,13 +53,78 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="JUnit.UnitTests.testKnightInitialPosition">
+    <configuration name="UnitTests.testKnightInitialPosition" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TowerDefensesdf" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests" />
+      <option name="METHOD_NAME" value="testKnightInitialPosition" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTests.testKnightIsAlive" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TowerDefensesdf" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests" />
+      <option name="METHOD_NAME" value="testKnightIsAlive" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTests.testKnightTakeDamage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TowerDefensesdf" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests" />
+      <option name="METHOD_NAME" value="testKnightTakeDamage" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTests.testTowerActivation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TowerDefensesdf" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests" />
+      <option name="METHOD_NAME" value="testTowerActivation" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTests.testTowerInitialPosition" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TowerDefensesdf" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests" />
+      <option name="METHOD_NAME" value="testTowerInitialPosition" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UnitTests.testKnightInitialPosition" />
+        <item itemvalue="JUnit.UnitTests.testKnightIsAlive" />
+        <item itemvalue="JUnit.UnitTests.testKnightTakeDamage" />
+        <item itemvalue="JUnit.UnitTests.testTowerActivation" />
+        <item itemvalue="JUnit.UnitTests.testTowerInitialPosition" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
       </set>
     </attachedChunks>
   </component>
@@ -63,7 +137,6 @@
       <option name="presentableId" value="Default" />
       <updated>1748247153834</updated>
       <workItem from="1748247155077" duration="4621000" />
-      <workItem from="1748365609621" duration="11706000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -105,18 +178,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
-    <MESSAGE value="audio and stuff added" />
-    <option name="LAST_COMMIT_MESSAGE" value="audio and stuff added" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Menu.java</url>
-          <line>357</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>

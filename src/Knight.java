@@ -16,8 +16,15 @@ public void setPosition(int x, int y) {
     this.y = y;
 }
 
+    public int getX() {
+        return x;
+    }
 
-public String getPosition(){
+    public int getY() {
+        return y;
+    }
+
+    public String getPosition(){
 
     return this.x+","+this.y;
 }
