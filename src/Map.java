@@ -328,7 +328,42 @@ public class Map extends JFrame {
     }
 
 
-    public void map10x10_w6(JLabel[][] labels){}
+    public void map10x10_w6(JLabel[][] labels) {
+        for (int i = 0; i < 10; i++) {
+            switch (i) {
+                case 0:
+                    createLine(10, "1", labels,1);
+                    break;
+                case 1:
+                    createLine(10, "1 2 3 4 5 6 7 8 9", labels,1);
+                    break;
+                case 2:
+                    createLine(10, " 0 1 3 6 9", labels,1);
+                    break;
+                case 3:
+                    createLine(10, " 0 3 6 9  ", labels,1);
+                    break;
+                case 4:
+                    createLine(10, " 0 1 3 4 6 9  ", labels,1);
+                    break;
+                case 5:
+                    createLine(10, " 1 4 6 9", labels,1);
+                    break;
+                case 6:
+                    createLine(10, " 0 1 4 6 9", labels,1);
+                    break;
+                case 7:
+                    createLine(10, " 0 4 5 6 7 8 9", labels,1);
+                    break;
+                case 8:
+                    createLine(10, "0 1 8 9 ", labels,1);
+                    break;
+                case 9:
+                    createFinishLine(10, " 1 2 3 4 5 6 7 8 9", labels,1);
+                    break;
+            }
+        }
+    }
 
 
 
@@ -615,7 +650,7 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
                 createOptionLine(6);
                 usedlabels = labels10x10;
             }  case 6 -> {
-                map10x10_w5(labels10x10);
+                map10x10_w6(labels10x10);
                 createOptionLine(6);
                 usedlabels = labels10x10;
             }
@@ -667,8 +702,10 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
      * @param finishY the y-coordinate of the finish line
      * @param labelss the 2D array of labels for the map
      */
+    private ArrayList<Tower> damagedTowers = new ArrayList<>();
     public void towerStrikeWatcher(ArrayList<Knight> knights, ArrayList<Integer> towerIndexes, ArrayList<Tower> towers, int finishX, int finishY, JLabel[][] labelss)
     {
+
         if (watcherRunning) return;
         watcherRunning = true;
         stop = false;
@@ -688,8 +725,12 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
         new Thread(() -> {
             try {
                 ArrayList<Tower> towersToRemove = new ArrayList<>();
-
+int count=0;
                 while (true) {
+                    if(count>towers.size()){
+                        return;
+                    }
+                    count++;
                     for (Tower tower : new ArrayList<>(towers)) {
                         tower.setTowerIcon();
 
@@ -711,6 +752,17 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
                                     (x == kx && y + 1 == ky);
 
                             if (adjacent) {
+
+tower.setDurability(tower.getDurability()-1);
+
+
+
+
+
+
+
+
+
                                 if (!towerHitThisRound) {
                                     tower.setTowerIcon();
                                     if (tower.getDurability() > 0) {
@@ -720,6 +772,12 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
                                     }
 
                                     towerHitThisRound = true;
+                                }
+
+                                if(tower.getDurability()==0){
+
+                                    tower.setTowerIcon2();
+                                    System.out.println("tower with id "+tower.getId()+" has been desotryed");
                                 }
 
                                 knight.setHealth(0);

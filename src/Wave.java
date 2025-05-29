@@ -98,6 +98,7 @@ m = new Map(toggle, enemySpeed);
     Knight k4 = new Knight();
     Knight k5 = new Knight();
     Knight k6 = new Knight();
+    Knight k7 = new Knight();
 
 
 
@@ -123,7 +124,8 @@ m = new Map(toggle, enemySpeed);
         KNIGHT.placeEnemy(x, y,labels, knight);
         knight.setLastXY(x, y);
 
-        m.towerStrikeWatcher(knights,TowerIndexes,towers,finalx,finaly,labels);
+    m.towerStrikeWatcher(knights, TowerIndexes, towers, finalx, finaly, labels);
+
 
     }
     ArrayList<Integer> TowerIndexes = new ArrayList<>();
@@ -238,8 +240,11 @@ m = new Map(toggle, enemySpeed);
 
     private void runStepsWithRender(ArrayList<Runnable> steps, int index) {
         if (index < steps.size()) {
+
             steps.get(index).run();
             m.mapRender(pause, () -> runStepsWithRender(steps, index + 1));
+        }else{
+            System.out.println("probleem");
         }
     }
 
@@ -248,144 +253,47 @@ m = new Map(toggle, enemySpeed);
 
     //region enemy paths
     public void enemyPath() throws Exception {
-
         finalx = 4;
         finaly = 4;
-        k.knightPreset();
-        knights.add(k);
-        k2.knightPreset();
-        knights.add(k2);
-        k3.knightPreset();
-        knights.add(k3);
+
+        k.knightPreset(); knights.add(k);
+        k2.knightPreset(); knights.add(k2);
+        k3.knightPreset(); knights.add(k3);
 
         t.setTowerIcon();
 
-        knightPath=m.MapWindow5x5(1);
-        playesInput(m.StopResumePlaceHelpRemove(), m.labels5x5,knightPath,5);
+        knightPath = m.MapWindow5x5(1);
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels5x5, knightPath, 5);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // k moves first
-        steps.add(() -> { try { moveSafe(0, 0, k, 1); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(1, 0, k, 1); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 0, k, 1); } catch (Exception e) { e.printStackTrace(); } });
+        // k path
+        String[] pathK = {"00", "10", "20", "21", "22", "23", "24", "34", "44"};
+        addKnightPathSteps(steps, pathK, k, 1, 0);
 
-        // k2 starts after k moves 3 steps
-        steps.add(() -> {
-            try {
-                moveSafe(2, 1, k, 1);
-                moveSafe(0, 0, k2, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(2, 2, k, 1);
-                moveSafe(1, 0, k2, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(2, 3, k, 1);
-                moveSafe(2, 0, k2, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(2, 4, k, 1);
-                moveSafe(2, 1, k2, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
+        // k2 path, starting after 3 steps of k (step index 3)
+        String[] pathK2 = {"00", "10", "20", "21", "22", "23", "34", "44"};
+        addKnightPathSteps(steps, pathK2, k2, 1, 3);
 
-        // k3 starts after k2 moves 4 steps
-        steps.add(() -> {
-            try {
-                moveSafe(3, 4, k, 1);
-                moveSafe(2, 2, k2, 1);
-                moveSafe(0, 0, k3, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(4, 4, k, 1);
-                moveSafe(2, 3, k2, 1);
-                moveSafe(1, 0, k3, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(3, 4, k2, 1);
-                moveSafe(2, 0, k3, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(4, 4, k2, 1);
-                moveSafe(2, 1, k3, 1);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> { try { moveSafe(2, 2, k3, 1); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 3, k3, 1); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 4, k3, 1); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(3, 4, k3, 1); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(4, 4, k3, 1); } catch (Exception e) { e.printStackTrace(); } });
+        // k3 path, starting after 4 steps of k2 (step index 3 + 4 = 7)
+        String[] pathK3 = {"00", "10", "20", "21", "22", "23", "24", "34", "44"};
+        addKnightPathSteps(steps, pathK3, k3, 1, 7);
 
         runStepsWithRender(steps, 0);
     }
+
 
     public void enemyPath2() throws Exception {
         finalx = 4;
         finaly = 4;
-        knightPath=m.MapWindow5x5(2);
-        playesInput(m.StopResumePlaceHelpRemove(),m.labels5x5,knightPath,5);
 
-        k.knightPreset();
-        knights.add(k);
-        k2.knightPreset();
-        k3.knightPreset();
-        k4.knightPreset();
+        knightPath = m.MapWindow5x5(2);
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels5x5, knightPath, 5);
 
-        for(Knight knight : knights){
-            knight.setKnightIcon();
-            knight.setHealth(100);
-        }
-
-        ArrayList<Runnable> steps = new ArrayList<>();
-
-        steps.add(() -> { try { moveSafe(0, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(1, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(3, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(4, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(4, 1, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(4, 2, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(4, 3, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(4, 4, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(3, 4, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 4, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 3, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 2, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 1, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(1, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(0, 0, k, 2); } catch (Exception e) { e.printStackTrace(); } });
-
-        runStepsWithRender(steps, 0);
-    }
-
-    public void enemyPath3() throws Exception {
-        knightPath=m.MapWindow5x5(3);
-        finalx = 6;
-        finaly = 6;
-        playesInput(m.StopResumePlaceHelpRemove(), m.labels7x7,knightPath,7);
-
-        k.knightPreset();
-        knights.add(k);
-        k2.knightPreset();
-        knights.add(k2);
-        k3.knightPreset();
-        knights.add(k3);
-        k4.knightPreset();
-       // knights.add(k4);
+        k.knightPreset(); knights.add(k);
+        k2.knightPreset(); //knights.add(k2);
+        k3.knightPreset(); //knights.add(k3);
+        k4.knightPreset(); //knights.add(k4);
 
         for (Knight knight : knights) {
             knight.setKnightIcon();
@@ -394,362 +302,96 @@ m = new Map(toggle, enemySpeed);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // Knight 1
-        steps.add(() -> { try { moveSafe(0, 0, k, 3); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(1, 0, k, 3); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 0, k, 3); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 1, k, 3); } catch (Exception e) { e.printStackTrace(); } });
-        steps.add(() -> { try { moveSafe(2, 2, k, 3); } catch (Exception e) { e.printStackTrace(); } });
+        // Define the path for k (knight 1)
+        String[] pathK = {
+                "00", "10", "20", "30", "40",
+                "41", "42", "43", "44",
+                "34", "24", "23", "22", "21",
+                "20", "10", "00"
+        };
 
-        // Knight 2 starts after knight 1 moves 4 steps
-        steps.add(() -> {
-            try {
-                moveSafe(2, 3, k, 3);
-                moveSafe(0, 0, k2, 3);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(2, 4, k, 3);
-                moveSafe(1, 0, k2, 3);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(3, 4, k, 3);
-                moveSafe(2, 0 , k2, 3);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
+        // Add path steps for k (wave 2)
+        addKnightPathSteps(steps, pathK, k, 2, 0);
 
-        // Knight 3 starts
-        steps.add(() -> {
-            try {
-                moveSafe(3, 5, k, 3);
-                moveSafe(3, 0, k2, 3);
-                moveSafe(0, 0, k3, 3);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-
-        steps.add(() -> {
-            try {
-                moveSafe(4, 5, k, 3);
-                moveSafe(4, 0, k2, 3);
-                moveSafe(1, 0, k3, 3);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(4, 6, k, 3);
-                moveSafe(5, 0, k2, 3);
-                moveSafe(2, 0, k3, 3);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-        steps.add(() -> {
-            try {
-                moveSafe(5, 6, k, 3);
-                moveSafe(5, 1, k2, 3);
-                moveSafe(3, 0, k3, 3);
-            } catch (Exception e) { e.printStackTrace(); }
-        });
-
-
-                steps.add(() -> {
-                    try {
-                        moveSafe(6, 6, k, 3);
-                        moveSafe(5, 2, k2, 3);
-                        moveSafe(4, 0, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-
-
-        steps.add(() -> {
-                    try {
-
-                        moveSafe(5, 3, k2, 3);
-                        moveSafe(5, 0, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-
-
-
-
-        steps.add(() -> {
-                    try {
-
-                        moveSafe(6, 3, k2, 3);
-                        moveSafe(5, 1, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-
-        steps.add(() -> {
-                    try {
-
-                        moveSafe(6, 4, k2, 3);
-                        moveSafe(5, 2, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-
-        steps.add(() -> {
-                    try {
-
-                        moveSafe(6, 5, k2, 3);
-                        moveSafe(5, 3, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-
-
-        steps.add(() -> {
-                    try {
-
-                        moveSafe(6, 6, k2, 3);
-                        moveSafe(6, 4, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-
-        steps.add(() -> {
-                    try {
-
-                        moveSafe(6, 6, k2, 3);
-                        moveSafe(6, 5, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-        steps.add(() -> {
-                    try {
-
-                        moveSafe(6, 6, k2, 3);
-                        moveSafe(6, 6, k3, 3);
-                    } catch (Exception e) { e.printStackTrace(); }
-                }
-
-
-        );
-
-
-
-        // Optionally continue for k4 or loop end
         runStepsWithRender(steps, 0);
     }
 
 
+    public void enemyPath3() throws Exception {
+        knightPath = m.MapWindow5x5(3);
+        finalx = 6;
+        finaly = 6;
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels7x7, knightPath, 7);
+
+        k.knightPreset();  knights.add(k);
+        k2.knightPreset(); knights.add(k2);
+        k3.knightPreset(); knights.add(k3);
+        k4.knightPreset(); // not added to list (optional)
+
+        for (Knight knight : knights) {
+            knight.setKnightIcon();
+            knight.setHealth(100);
+        }
+
+        ArrayList<Runnable> steps = new ArrayList<>();
+
+        // Define paths as arrays of string coordinates "xy"
+        String[] pathK  = {"00", "10", "20", "21", "22", "23", "24", "34", "35", "45", "46", "56", "66"};
+        String[] pathK2 = {"00", "10", "20", "30", "40", "50", "51", "52", "53", "63", "64", "65", "66"};
+        String[] pathK3 = {"00", "10", "20", "30", "40", "50", "51", "52", "53", "64", "65", "66"};
+
+        // Stagger knights: k2 starts after 4 steps of k, k3 after 8 steps of k2
+        addKnightPathSteps(steps, pathK,  k,  3, 0);
+        addKnightPathSteps(steps, pathK2, k2, 3, 4);
+        addKnightPathSteps(steps, pathK3, k3, 3, 8);
+
+        runStepsWithRender(steps, 0);
+    }
+
+
+
     public void enemyPath4() throws Exception {
-        knightPath=m.MapWindow5x5(4);
+        knightPath = m.MapWindow5x5(4);
         finalx = 9;
         finaly = 9;
-        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10,knightPath,10);
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10, knightPath, 10);
 
-        k.knightPreset(); knights.add(k);
+        k.knightPreset();  knights.add(k);
         k2.knightPreset(); knights.add(k2);
         k3.knightPreset(); knights.add(k3);
         k4.knightPreset(); knights.add(k4);
 
-        k.setKnightIcon(); k.setHealth(100);
+        k.setKnightIcon();  k.setHealth(100);
         k2.setKnightIcon(); k2.setHealth(100);
         k3.setKnightIcon(); k3.setHealth(100);
         k4.setKnightIcon(); k4.setHealth(100);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // 1
-        steps.add(() -> { try {
-            moveSafe(1, 0, k, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
+        // Define each knight's path as strings in format "xy"
+        String[] pathK  =  {"10", "11", "12", "13", "23", "33", "43", "53", "63", "73", "83", "93", "94", "95", "96", "97", "98", "99"};
+       String[] pathK2 =  {"10", "11", "12", "13", "14", "15", "16", "26", "36", "46", "47", "48", "49", "59", "69", "79", "89", "99"};
+        String[] pathK3 =  {"10", "11", "12", "13", "23", "33", "43", "44", "45", "46", "56", "66", "76", "77", "78", "79", "89", "99"};
+        String[] pathK4 =  {"10", "11", "12", "13", "14", "15", "16", "26", "36", "46", "56", "66", "76", "86", "96", "97", "98", "99"};
 
-        // 2
-        steps.add(() -> { try {
-            moveSafe(1, 1, k, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 3
-        steps.add(() -> { try {
-            moveSafe(1, 2, k, 4);
-            moveSafe(1, 0, k2, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 4
-        steps.add(() -> { try {
-            moveSafe(1, 3, k, 4);
-            moveSafe(1, 1, k2, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 5
-        steps.add(() -> { try {
-            moveSafe(2, 3, k, 4);
-            moveSafe(1, 2, k2, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 6
-        steps.add(() -> { try {
-            moveSafe(3, 3, k, 4);
-            moveSafe(1, 3, k2, 4);
-            moveSafe(1, 0, k3, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 7
-        steps.add(() -> { try {
-            moveSafe(4, 3, k, 4);
-            moveSafe(1, 4, k2, 4);
-            moveSafe(1, 1, k3, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 8
-        steps.add(() -> { try {
-            moveSafe(5, 3, k, 4);
-            moveSafe(1, 5, k2, 4);
-            moveSafe(1, 2, k3, 4);
-            moveSafe(1, 0, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 9
-        steps.add(() -> { try {
-            moveSafe(6, 3, k, 4);
-            moveSafe(1, 6, k2, 4);
-            moveSafe(1, 3, k3, 4);
-            moveSafe(1, 1, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 10
-        steps.add(() -> { try {
-            moveSafe(7, 3, k, 4);
-            moveSafe(2, 6, k2, 4);
-            moveSafe(2, 3, k3, 4);
-            moveSafe(1, 2, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 11
-        steps.add(() -> { try {
-            moveSafe(8, 3, k, 4);
-            moveSafe(3, 6, k2, 4);
-            moveSafe(3, 3, k3, 4);
-            moveSafe(1, 3, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 12
-        steps.add(() -> { try {
-            moveSafe(9, 3, k, 4);
-            moveSafe(4, 6, k2, 4);
-            moveSafe(4, 3, k3, 4);
-            moveSafe(1, 4, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 13
-        steps.add(() -> { try {
-            moveSafe(9, 4, k, 4);
-            moveSafe(4, 7, k2, 4);
-            moveSafe(4, 4, k3, 4);
-            moveSafe(1, 5, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 14
-        steps.add(() -> { try {
-            moveSafe(9, 5, k, 4);
-            moveSafe(4, 8, k2, 4);
-            moveSafe(4, 5, k3, 4);
-            moveSafe(1, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 15
-        steps.add(() -> { try {
-            moveSafe(9, 6, k, 4);
-            moveSafe(4, 9, k2, 4);
-            moveSafe(4, 6, k3, 4);
-            moveSafe(2, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 16
-        steps.add(() -> { try {
-            moveSafe(9, 7, k, 4);
-            moveSafe(5, 9, k2, 4);
-            moveSafe(5, 6, k3, 4);
-            moveSafe(3, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 17
-        steps.add(() -> { try {
-            moveSafe(9, 8, k, 4);
-            moveSafe(6, 9, k2, 4);
-            moveSafe(6, 6, k3, 4);
-            moveSafe(4, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 18
-        steps.add(() -> { try {
-            moveSafe(9, 9, k, 4);
-            moveSafe(7, 9, k2, 4);
-            moveSafe(7, 6, k3, 4);
-            moveSafe(5, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 19
-        steps.add(() -> { try {
-            moveSafe(8, 9, k2, 4);
-            moveSafe(7, 7, k3, 4);
-            moveSafe(6, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 20
-        steps.add(() -> { try {
-            moveSafe(9, 9, k2, 4);
-            moveSafe(7, 8, k3, 4);
-            moveSafe(7, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 21
-        steps.add(() -> { try {
-            moveSafe(7, 9, k3, 4);
-            moveSafe(8, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 22
-        steps.add(() -> { try {
-            moveSafe(8, 9, k3, 4);
-            moveSafe(9, 6, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 23
-        steps.add(() -> { try {
-            moveSafe(9, 9, k3, 4);
-            moveSafe(9, 7, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 24
-        steps.add(() -> { try {
-            moveSafe(9, 8, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // 25
-        steps.add(() -> { try {
-            moveSafe(9, 9, k4, 4);
-        } catch (Exception e) { e.printStackTrace(); } });
+        // Add knight paths with staggered delays
+        addKnightPathSteps(steps, pathK,  k,  4, 0);
+        addKnightPathSteps(steps, pathK2, k2, 4, 3);
+        addKnightPathSteps(steps, pathK3, k3, 4, 6);
+        addKnightPathSteps(steps, pathK4, k4, 4, 9);
 
         runStepsWithRender(steps, 0);
     }
+
+
 
     public void enemypath5() throws Exception {
         knightPath = m.MapWindow5x5(5);
         finalx = 9;
         finaly = 9;
         playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10, knightPath, 10);
+
+        // Prepare knights
         k.knightPreset(); knights.add(k);
         k2.knightPreset(); knights.add(k2);
         k3.knightPreset(); knights.add(k3);
@@ -757,163 +399,92 @@ m = new Map(toggle, enemySpeed);
         k5.knightPreset(); knights.add(k5);
         k6.knightPreset(); knights.add(k6);
 
-        k.setKnightIcon(); k.setHealth(100);
-        k2.setKnightIcon(); k2.setHealth(100);
-        k3.setKnightIcon(); k3.setHealth(100);
-        k4.setKnightIcon(); k4.setHealth(100);
-        k5.setKnightIcon(); k5.setHealth(100);
-        k6.setKnightIcon(); k6.setHealth(100);
-
-
-
-
-
-
-        /*
-
-
-         knightPath=m.MapWindow5x5(4);
-        finalx = 9;
-        finaly = 9;
-        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10,knightPath,10);
-
-        k.knightPreset(); knights.add(k);
-        k2.knightPreset(); knights.add(k2);
-        k3.knightPreset(); knights.add(k3);
-        k4.knightPreset(); knights.add(k4);
-
-        k.setKnightIcon(); k.setHealth(100);
-        k2.setKnightIcon(); k2.setHealth(100);
-        k3.setKnightIcon(); k3.setHealth(100);
-        k4.setKnightIcon(); k4.setHealth(100);
+        for (Knight knight : knights) {
+            knight.setKnightIcon();
+            knight.setHealth(100);
+        }
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-         */
+        // Define paths (as strings: "xy" → x=row, y=column)
+        String[] pathK  =  {"40","41","51","61","71","81","91","92","93","94","95","96","97","98","99"};
+        String[] pathK2 =  {"40","41","31","21","11","01","02","03","13","23","33","43","53","63","73","74","75","76","77","78","79","89","99"};
+        String[] pathK3 =  {"40","41","31","21","11","01","02","03","04","05","15","25","35","45","55","56","57","58","59","69","79","89","99"};
+        String[] pathK4 =  {"40","41","31","21","11","01","02","03","04","05","06","07","17","27","37","38","39","49","59","69","79","89","99"};
+        String[] pathK5 =  {"40","41","31","21","11","01","02","03","13","23","33","43","53","63","73","74","75","76","77","78","79","89","99"};
+        String[] pathK6 =  {"40","41","31","21","11","01","02","03","13","23","33","43","53","63","73","74","75","76","77","78","79","89","99"};
 
-
-
-
-
-
-
-
-
-
-
-
-        ArrayList<Runnable> steps = new ArrayList<>();
-
-        // Step 1
-        steps.add(() -> { try { moveSafe(4, 0, k, 5); } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 2
-        steps.add(() -> { try { moveSafe(4, 1, k, 5); } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 3
-        steps.add(() -> { try { moveSafe(5, 1, k, 5); } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 4
-        steps.add(() -> { try {
-            moveSafe(6, 1, k, 5);
-            moveSafe(4, 0, k2, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 5
-        steps.add(() -> { try {
-            moveSafe(7, 1, k, 5);
-            moveSafe(4, 1, k2, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 6
-        steps.add(() -> { try {
-            moveSafe(8, 1, k, 5);
-            moveSafe(3, 1, k2, 5);
-            moveSafe(4, 0, k3, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 7
-        steps.add(() -> { try {
-            moveSafe(9, 1, k, 5);
-            moveSafe(2, 1, k2, 5);
-            moveSafe(4, 1, k3, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 8
-        steps.add(() -> { try {
-            moveSafe(9, 2, k, 5);
-            moveSafe(1, 1, k2, 5);
-            moveSafe(3, 1, k3, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 9
-        steps.add(() -> { try {
-            moveSafe(9, 3, k, 5);
-            moveSafe(0, 1, k2, 5);
-            moveSafe(2, 1, k3, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 10
-        steps.add(() -> { try {
-            moveSafe(9, 4, k, 5);
-            moveSafe(0, 2, k2, 5);
-            moveSafe(1, 1, k3, 5);
-            moveSafe(4, 0, k4, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 11
-        steps.add(() -> { try {
-            moveSafe(9, 5, k, 5);
-            moveSafe(0, 3, k2, 5);
-            moveSafe(0, 1, k3, 5);
-            moveSafe(4, 1, k4, 5);
-            moveSafe(4, 0, k5, 5); // k5 starts
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 12
-        steps.add(() -> { try {
-            moveSafe(9, 6, k, 5);
-            moveSafe(1, 3, k2, 5);
-            moveSafe(0, 2, k3, 5);
-            moveSafe(3, 1, k4, 5);
-            moveSafe(4, 1, k5, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 13
-        steps.add(() -> { try {
-            moveSafe(9, 7, k, 5);
-            moveSafe(2, 3, k2, 5);
-            moveSafe(0, 3, k3, 5);
-            moveSafe(2, 1, k4, 5);
-            moveSafe(5, 1, k5, 5);
-            moveSafe(4, 0, k6, 5); // k6 starts
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 14
-        steps.add(() -> { try {
-            moveSafe(9, 8, k, 5);
-            moveSafe(4, 3, k2, 5);
-            moveSafe(0, 4, k3, 5);
-            moveSafe(1, 1, k4, 5);
-            moveSafe(6, 1, k5, 5);
-            moveSafe(4, 1, k6, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
-
-        // Step 15
-        steps.add(() -> { try {
-            moveSafe(9, 9, k, 5);
-            moveSafe(5, 3, k2, 5);
-            moveSafe(0, 5, k3, 5);
-            moveSafe(0, 1, k4, 5);
-            moveSafe(7, 1, k5, 5);
-            moveSafe(3, 1, k6, 5);
-        } catch (Exception e) { e.printStackTrace(); } });
+        // Add knights with staggered start steps
+       addKnightPathSteps(steps, pathK,  k,  5,  0);  // starts at step 0
+        addKnightPathSteps(steps, pathK2, k2, 5,  3);  // starts at step 3
+        addKnightPathSteps(steps, pathK3, k3, 5,  5);  // starts at step 5
+        addKnightPathSteps(steps, pathK4, k4, 5, 10);  // starts at step 10
+        addKnightPathSteps(steps, pathK5, k5, 5, 11);  // starts at step 11
+        addKnightPathSteps(steps, pathK6, k6, 5, 13);  // starts at step 13
 
         runStepsWithRender(steps, 0);
     }
-public void enemypath6(){}
+    public void enemyPath6() throws Exception {
+        finalx = 9;
+        finaly = 9;
+
+        k.knightPreset();     knights.add(k);
+        k2.knightPreset();    knights.add(k2);
+        k3.knightPreset();    knights.add(k3);
+        k4.knightPreset();    knights.add(k4);
+        k5.knightPreset();    knights.add(k5);
+        k6.knightPreset();    knights.add(k6);
+        k7.knightPreset();    knights.add(k7);
+
+        knightPath = m.MapWindow5x5(6);
+        playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10, knightPath, 10);
+
+        ArrayList<Runnable> steps = new ArrayList<>();
+
+        String[] pathK  = {"10","11","21","31","41","51","61","71","81","91","92","93","94","95","96","97","98","99"};
+        String[] pathK2 = {"10","11","12","02","03","04","14","15","16","06","07","08","18","19","29","39","49","59","69","79","89","99"};
+        String[] pathK3 = {"10","11","21","31","32","33","34","44","45","46","47","57","67","77","87","97","98","99"};
+        String[] pathK4 = {"10","11","21","31","41","51","61","62","63","64","65","66","67","77","87","97","98","99"};
+        String[] pathK5 = {"10","11","21","31","41","51","61","71","81","91","92","93","94","95","96","97","98","99"};
+        String[] pathK6 = {"10","11","12","02","03","04","14","15","16","06","07","08","18","19","29","39","49","59","69","79","89","99"};
+        String[] pathK7 = {"10","11","21","31","32","33","34","44","45","46","47","57","67","77","87","97","98","99"};
+
+        addKnightPathSteps(steps, pathK,  k,  6,  0);
+        addKnightPathSteps(steps, pathK2, k2, 6,  2);
+        addKnightPathSteps(steps, pathK3, k3, 6,  4);
+        addKnightPathSteps(steps, pathK4, k4, 6,  6);
+        addKnightPathSteps(steps, pathK5, k5, 6,  8);
+        addKnightPathSteps(steps, pathK6, k6, 6, 12);
+        addKnightPathSteps(steps, pathK7, k7, 6, 14);
+
+        runStepsWithRender(steps, 0);
+    }
 
     //endregion
+    private void addKnightPathSteps(ArrayList<Runnable> steps, String[] path, Knight knight, int wave, int startStep) {
+        for (int i = 0; i < path.length; i++) {
+            final int stepIndex = startStep + i;
+            final int x = Character.getNumericValue(path[i].charAt(0));
+            final int y = Character.getNumericValue(path[i].charAt(1));
+
+            // Ensure steps list is long enough
+            while (steps.size() <= stepIndex) {
+                steps.add(() -> {}); // placeholder to avoid IndexOutOfBounds
+            }
+
+            // Safely combine with previous runnable
+            final Runnable previous = steps.get(stepIndex);
+            steps.set(stepIndex, () -> {
+                try {
+                    previous.run(); // run existing actions
+                    moveSafe(x, y, knight, wave); // add this knight's move
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+    }
 
 
 
@@ -924,7 +495,7 @@ public void enemypath6(){}
 
         addTowers(2,2);
         enemyPath();
-        toggle.monitorGameResult();
+        toggle.monitorGameResult(1);
     }
     public void wave2() throws Exception {
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
@@ -935,7 +506,7 @@ public void enemypath6(){}
         enemyPath2();
         System.out.println("wave2 executed");
 
-        toggle.monitorGameResult();
+        toggle.monitorGameResult(2);
 
     }
     public void wave3()throws Exception{
@@ -947,7 +518,7 @@ public void enemypath6(){}
         enemyPath3();
         System.out.println("wave3 executed");
 
-        toggle.monitorGameResult();
+        toggle.monitorGameResult(3);
     }
     public void wave4()throws Exception{
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
@@ -958,7 +529,7 @@ public void enemypath6(){}
         enemyPath4();
         System.out.println("wave4 executed");
 
-        toggle.monitorGameResult();
+        toggle.monitorGameResult(4);
     }
     public void wave5()throws Exception{
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
@@ -969,18 +540,18 @@ public void enemypath6(){}
         enemypath5();
         System.out.println("wave5 executed");
 
-        toggle.monitorGameResult();
+        toggle.monitorGameResult(5);
     }
 public void wave6()throws Exception{
     toggle.setGameResult(ProgramToggle.Result.RUNNING);
 
     knights.clear();
     towers.clear();
-    addTowers(3,2);
-    enemypath6();
+    addTowers(4,2);
+    enemyPath6();
     System.out.println("wave 6 executed");
 
-    toggle.monitorGameResult();
+    toggle.monitorGameResult(6);
 }
     //endregion
 

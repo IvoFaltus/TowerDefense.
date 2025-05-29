@@ -5,10 +5,20 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Menu extends JFrame {
+    private int roundplayed;
     private ProgramToggle toggle;
     private Clip music;
     private int currentWave;
-
+private ArrayList<Integer> completedWaves;
+    public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves, int currentWave, ArrayList completedWaves, int roundplayed) {
+        this.toggle = toggle;
+        this.music = music;
+        this.enemySpeed = enemySpeed;
+        this.waves = waves;
+        this.currentWave = currentWave;
+        this.completedWaves=completedWaves;
+        this.roundplayed = roundplayed;
+    }
 
     public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves, int currentWave) {
         this.toggle = toggle;
@@ -16,6 +26,7 @@ public class Menu extends JFrame {
         this.enemySpeed = enemySpeed;
         this.waves = waves;
         this.currentWave = currentWave;
+        this.completedWaves=new ArrayList<>();
     }
 
     public Menu(ProgramToggle toggle, int currentWave) {
@@ -26,6 +37,7 @@ public class Menu extends JFrame {
     public Menu(ProgramToggle toggle) {
         this.toggle = toggle;
         this.currentWave = currentWave;
+        this.completedWaves=new ArrayList<>();
     }
 
     public Menu(ProgramToggle toggle, Clip music, int enemySpeed, ArrayList<Boolean> waves) {
@@ -43,7 +55,7 @@ public class Menu extends JFrame {
     public Menu(ProgramToggle toggle, Clip music) {
         this.toggle = toggle;
         this.music = music;
-
+        this.completedWaves=new ArrayList<>();
     }
 
     private int enemySpeed;
@@ -62,10 +74,31 @@ public class Menu extends JFrame {
             Wave w = new Wave(toggle, waves);
             switch (wave) {
                 case 1:
-                    System.out.println("currentWave is being set to 1");
-                    toggle.setCurrentWave(wave);
-                    w.wave1();
 
+
+                    toggle.setCurrentWave(wave);
+                    System.out.println("round played "+toggle.getRoundplayed());
+                    if(toggle.getRoundplayed()==0){
+
+                        int[] countodown ={0};
+                        countDown();
+                        Timer t = new Timer(1000,(e)->{
+                            countodown[0]++;
+                            System.out.println(countodown[0]);
+                            if(countodown[0]==6){((Timer)e.getSource()).stop();
+                                try {
+                                    w.wave1();
+                                }catch (Exception ex){}
+                            }
+
+
+                        });
+t.start();
+
+
+                    }else{
+                        w.wave1();
+                    }
                     break;
                 case 2:
                     toggle.setCurrentWave(wave);
@@ -87,7 +120,8 @@ public class Menu extends JFrame {
                     w.wave5();
                     break;
                 case 6:
-                    System.out.println("not implemented yet");
+                    toggle.setCurrentWave(wave);
+                    w.wave6();
                     break;
             }
 
@@ -128,53 +162,105 @@ public class Menu extends JFrame {
 
     }
 
+//countodwn and passing currentwave
 
-    public void staticInfo() {
-
-    }
-
-    public void dynamicInfo() {
-    }
-
-
-    public void countDown() {
-
+    public boolean countDown() {
         Menu frame = new Menu(toggle);
-        JLabel countdownLabel = new JLabel();
-        int[] numbers = {5};
+        JLabel countdownLabel = new JLabel("5");
+        countdownLabel.setFont(new Font("Impact", Font.BOLD, 100));
+        countdownLabel.setForeground(new Color(255, 255, 255));
+        countdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JPanel countdownPanel = new JPanel();
         countdownPanel.setLayout(new BoxLayout(countdownPanel, BoxLayout.Y_AXIS));
         countdownPanel.setOpaque(false);
-        countdownPanel.add(getSpacer(20));
-        countdownPanel.add(getSpacer(20));
-        countdownPanel.add(getSpacer(20));
 
-        countdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Spacer for vertical centering
+        countdownPanel.add(Box.createVerticalGlue());
         countdownPanel.add(countdownLabel);
+        countdownPanel.add(Box.createVerticalGlue());
 
-        Timer t = new Timer(1000, e -> {
-            countdownLabel.setText(String.valueOf(numbers[0]));
-            countdownLabel.setFont(new Font("Impact", Font.PLAIN, 60));
-            numbers[0]--;
-            countdownLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            if (numbers[0] == -1) {
-                countdownLabel.setText("START!");
+        // Optional: background panel with gradient
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gp = new GradientPaint(0, 0, new Color(50, 50, 70), 0, getHeight(), new Color(20, 20, 30));
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
             }
+        };
+        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.add(countdownPanel, BorderLayout.CENTER);
 
-            if (numbers[0] < -1) {
+        int[] numbers = {5};
+        Timer t = new Timer(1000, e -> {
+            if (numbers[0] > 0) {
+                countdownLabel.setText(String.valueOf(numbers[0]));
+            } else if (numbers[0] == 0) {
+                countdownLabel.setText("START!");
+                countdownLabel.setForeground(new Color(0, 255, 128));
+                try {
+                    Wave w= new Wave();
+                    //w.wave1();
+                }catch (Exception ex){}
+            } else {
                 ((Timer) e.getSource()).stop();
                 frame.dispose();
             }
+            numbers[0]--;
         });
         t.start();
 
-
-        frame.add(background(countdownPanel));
-
-
-        frame.setDesign(300, 300);
+        frame.add(backgroundPanel);
+        frame.setDesign(400, 300); // slightly wider for better spacing
 
 
+        return true;
+    }
+
+    public void wonGame() {
+        Menu frame = new Menu(toggle);
+        frame.setTitle("You Won the Game!");
+        frame.setUndecorated(true);
+
+        JLabel winLabel = new JLabel("CONGRATULATIONS!", SwingConstants.CENTER);
+        winLabel.setFont(new Font("Impact", Font.BOLD, 30));
+        winLabel.setForeground(new Color(34, 139, 34));
+        winLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel messageLabel = new JLabel("You completed all waves!", SwingConstants.CENTER);
+        messageLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        messageLabel.setForeground(Color.WHITE);
+        messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JButton mainMenu = new JButton("Main Menu");
+        buttonPreset(mainMenu);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
+
+        panel.add(getSpacer(20));
+        panel.add(winLabel);
+        panel.add(getSpacer(10));
+        panel.add(messageLabel);
+        panel.add(getSpacer(25));
+        panel.add(mainMenu);
+
+        JPanel borderWrapper = new JPanel(new BorderLayout());
+        borderWrapper.setBorder(BorderFactory.createLineBorder(new Color(34, 139, 34), 4));
+        borderWrapper.setBackground(new Color(20, 20, 20));
+        borderWrapper.add(background(panel), BorderLayout.CENTER);
+
+        frame.setContentPane(borderWrapper);
+        frame.setDesign(360, 240);
+        frame.setVisible(true);
+
+        mainMenu.addActionListener(e -> {
+            frame.dispose();
+            mainMenu();
+        });
     }
 
     public JPanel background(JPanel panel) {
@@ -288,7 +374,7 @@ public class Menu extends JFrame {
         lostLabel.setForeground(Color.RED);
         lostLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton playAgain = new JButton("Play Again");
+        JButton playAgain = new JButton("Replay Level");
         JButton mainMenu = new JButton("Main Menu");
         JButton options = new JButton("Options");
 
@@ -341,6 +427,8 @@ public class Menu extends JFrame {
     }
 
     public void winMenu() {
+
+
         Wave w = new Wave(toggle, enemySpeed, waves);
         Menu frame = new Menu(toggle);
         frame.setTitle("You Win!");
@@ -569,6 +657,7 @@ public class Menu extends JFrame {
     }
 
     public void openLevelMap() {
+        Menu m = new Menu(toggle);
         JFrame frame = new JFrame("Level Selection");
         frame.setUndecorated(true);
         frame.setSize(600, 400);
@@ -604,6 +693,9 @@ public class Menu extends JFrame {
                 {50, 50}, {200, 100}, {350, 50}, {450, 150}, {300, 200}, {150, 250}
         };
 
+        // Determine the highest wave completed
+        int maxCompletedWave = toggle.getCompletedWaves().stream().mapToInt(Integer::intValue).max().orElse(0);
+
         for (int i = 0; i < positions.length; i++) {
             JButton levelBtn = new JButton("Wave " + (i + 1));
             levelBtn.setFocusPainted(false);
@@ -614,10 +706,19 @@ public class Menu extends JFrame {
             levelBtn.setBounds(positions[i][0], positions[i][1], 100, 40);
 
             final int waveNumber = i + 1;
-            levelBtn.addActionListener(e -> {
-                frame.dispose();
-                startWave(waveNumber);
-            });
+
+            boolean isUnlocked = waveNumber <= maxCompletedWave + 1;
+
+            levelBtn.setEnabled(isUnlocked);
+            if (isUnlocked) {
+                levelBtn.addActionListener(e -> {
+                    frame.dispose();
+                    startWave(waveNumber);
+                });
+            } else {
+                levelBtn.setBackground(Color.DARK_GRAY);
+                levelBtn.setForeground(Color.LIGHT_GRAY);
+            }
 
             panel.add(levelBtn);
             levelButtons.add(levelBtn);
@@ -625,6 +726,7 @@ public class Menu extends JFrame {
 
         frame.setVisible(true);
     }
+
 
 
     public void mainMenu() {
@@ -677,7 +779,10 @@ public class Menu extends JFrame {
         frame.setDesign(320, 400);
         frame.setVisible(true);
 
-        mode1.addActionListener(e -> startWave(1));
+        mode1.addActionListener(e -> {frame.dispose();
+            startWave(1);
+
+        });
         options.addActionListener(e -> {
             frame.dispose();
             options(0);

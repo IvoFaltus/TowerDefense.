@@ -4,7 +4,7 @@ public class ProgramToggle {
     public ArrayList<Boolean> getWaves() {
         return waves;
     }
-
+private int roundplayed=0;
     public ProgramToggle(int currentWave) {
         this.currentWave = currentWave;
     }
@@ -15,6 +15,22 @@ public class ProgramToggle {
 
     public int getCurrentWave() {
         return currentWave;
+    }
+
+    public int getRoundplayed() {
+        return roundplayed;
+    }
+
+    public void setRoundplayed(int roundplayed) {
+        this.roundplayed = roundplayed;
+    }
+
+    public ArrayList<Integer> getCompletedWaves() {
+        return completedWaves;
+    }
+
+    public void setCompletedWaves(ArrayList<Integer> completedWaves) {
+        this.completedWaves = completedWaves;
     }
 
     public void setCurrentWave(int currentWave) {
@@ -45,17 +61,18 @@ private boolean wave3Passed;
     }
 
 private int currentWave=3;
-
+private ArrayList<Integer> completedWaves = new ArrayList<>();
 
     public void start() {
 
 
         Audio a = new Audio();
-a.playMusic();
+//a.playMusic();
         int enemySpeed = 1000;
         this.setGameResult(Result.RUNNING);
 
-        Menu m2 = new Menu(this, a.getBackgroundmusic(), enemySpeed,waves,currentWave);
+        Menu m2 = new Menu(this, a.getBackgroundmusic(), enemySpeed,waves,currentWave,completedWaves,roundplayed);
+
         m2.mainMenu();
 
 
@@ -63,7 +80,7 @@ a.playMusic();
 
     private boolean isMonitoring = false;
 
-    public synchronized void monitorGameResult() {
+    public synchronized void monitorGameResult(int wave) {
         System.out.println("monitoring executed");
         if (isMonitoring) return;
         isMonitoring = true;
@@ -77,8 +94,16 @@ a.playMusic();
                         Result result = gameResult;
                         gameResult = Result.RUNNING;
                         isMonitoring = false;
+if(result== Result.WON&&wave==6){
 
-                        if (result == Result.WON) {
+    new Menu(this).wonGame();
+}
+                        else if (result == Result.WON) {
+                            completedWaves.add(wave);
+
+                            for(int a: completedWaves){
+                                System.out.println(a);
+                            }
                             new Menu(this).youWon();
                             new Menu(this).winMenu();
 

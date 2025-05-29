@@ -11,6 +11,7 @@ public class Main {
 
         try {
 Map m = new Map();
+
 //progress,durability fix,****************************************
 
 ProgramToggle programToggle = new ProgramToggle();
