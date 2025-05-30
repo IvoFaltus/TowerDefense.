@@ -1,0 +1,6 @@
+Welcome to the Tower Defense Game!
+You can play in Dynamic mode — knights move automatically, so think fast!
+Your goal: Place towers to stop knights from reaching the finish line.
+If a knight moves next to a tower (not diagonally), it attacks and damages it.
+Once a tower’s health reaches zero, it is destroyed.
+Survive as many waves as you can with smart tower placement!

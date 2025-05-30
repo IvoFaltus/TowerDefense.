@@ -9,6 +9,9 @@ public class  Wave {
     ArrayList<Tower> towers = new ArrayList<>();
     ArrayList<Point> knightPath = new ArrayList<>();
 
+    public Wave() {
+    }
+
     AtomicBoolean towerIsBeingPlaced = new AtomicBoolean(false);
     AtomicBoolean atleastOneTowerIsPlaced = new AtomicBoolean(false);
 
@@ -16,13 +19,14 @@ public class  Wave {
         this.toggle = toggle;
         this.enemySpeed = enemySpeed;
     }
-
+/*
     public Wave() {
         m = new Map(toggle, enemySpeed);
     }
-
+*/
     int finalx;
 int finaly;
+    private ProgramToggle toggle;
 
 
     Player p = new Player();
@@ -61,7 +65,7 @@ private ArrayList<Boolean> waves;
 
     Map m;
 
-    private ProgramToggle toggle;
+
 private int enemySpeed;
     public Wave(ProgramToggle toggle) {
         this.toggle = toggle;
@@ -102,15 +106,21 @@ m = new Map(toggle, enemySpeed);
 
 
 
-    public ArrayList<Boolean> getWaves() {
-        return waves;
-    }
 
-    public void setWaves(ArrayList<Boolean> waves) {
-        this.waves = waves;
-    }
-
-    public void moveEnemy(int x, int y, Knight knight, JLabel[][] labels) throws Exception {
+    /**
+     * Moves the specified knight to the given coordinates on the game grid and updates the GUI accordingly.
+     *
+     * This method also resets the previous icon, places the knight icon on the new position,
+     * updates the knight's last known coordinates, and triggers the tower attack check
+     * using towerStrikeWatcher.
+     *
+     * @param x       the X coordinate to move the knight to
+     * @param y       the Y coordinate to move the knight to
+     * @param knight  the knight instance to be moved
+     * @param labels  the 2D array of JLabel components representing the game grid
+     * @throws Exception if there is an error during movement or resource loading
+     */
+    public void moveEnemy(int x, int y, Knight knight, JLabel[][] labels)   {
 
         knight.setCurrentX(x);
         knight.setCurrentY(y);
@@ -129,8 +139,25 @@ m = new Map(toggle, enemySpeed);
 
     }
     ArrayList<Integer> TowerIndexes = new ArrayList<>();
-
-    public void playesInput(ArrayList<JButton> buttons, JLabel[][] labels, ArrayList<Point> knightPathh, int lineLength) throws Exception {
+    /**
+     * Initializes button actions for user interaction during the tower defense game.
+     *
+     * This method sets up a timer to monitor the tower placement state and dynamically enables or disables
+     * GUI buttons. It also binds actions to the following buttons:
+     *
+     *   /Stop tower placement (button 0)
+     *   Open inventory to place a tower (button 1)
+     *   Help button (button 2, currently not implemented)
+     *   Remove a tower from the map (button 3)
+     *
+     *
+     * @param buttons             the list of control buttons used in the game
+     * @param labels              the 2D array of labels representing the game grid
+     * @param knightPathh         the predefined path that knights will follow
+     * @param lineLength          the size of one dimension of the grid
+     * @throws Exception if any GUI or logic initialization fails
+     */
+    public void playesInput(ArrayList<JButton> buttons, JLabel[][] labels, ArrayList<Point> knightPathh, int lineLength)   {
 
         // timer to monitor tower placement state
         Timer monitorTowerPlacing = new Timer(100, e -> {
@@ -195,8 +222,19 @@ m = new Map(toggle, enemySpeed);
             }
         }); // remove tower button
     }
-
-    private void moveSafe(int x, int y, Knight knight,int wave) throws Exception {
+    /**
+     * Safely moves the given knight to the specified coordinates based on the current wave number.
+     *
+     * This method chooses the correct map grid (5x5, 7x7, or 10x10) depending on the wave,
+     * and calls moveEnemy(...) to update the knight's position. It also sets the knight's logical position.
+     *
+     * @param x the target x-coordinate
+     * @param y the target y-coordinate
+     * @param knight the knight to move
+     * @param wave the wave number, which determines which map to use
+     * @throws Exception if there is an error during movement
+     */
+    private void moveSafe(int x, int y, Knight knight,int wave)   {
         try {
 
             switch (wave) {
@@ -237,7 +275,15 @@ m = new Map(toggle, enemySpeed);
         }
     }
     ArrayList<Knight> knights = new ArrayList<>();
-
+    /**
+     * Executes a list of actions step-by-step with rendering in between each step.
+     *
+     * Runs each Runnable in the list starting from the given index. After executing one step,
+     * it triggers the map's rendering function and schedules the next step after rendering is complete.
+     *
+     * @param steps a list of Runnable actions to be executed in order
+     * @param index the index of the current step to execute
+     */
     private void runStepsWithRender(ArrayList<Runnable> steps, int index) {
         if (index < steps.size()) {
 
@@ -252,6 +298,18 @@ m = new Map(toggle, enemySpeed);
 
 
     //region enemy paths
+    /**
+     * Defines and executes a sequence of enemy knight movements for the current wave.
+     *
+     * This method sets the final destination coordinates, prepares the knights,
+     * defines their movement paths as coordinate strings, and converts them into step-by-step actions.
+     * It also handles UI setup and starts the step execution with rendering.
+     *
+     * The same movement logic is used across enemyPath1 to enemyPath6, with different maps and paths.
+     *
+     * @throws Exception if any part of the enemy movement or setup fails
+     */
+
     public void enemyPath() throws Exception {
         finalx = 4;
         finaly = 4;
@@ -453,7 +511,7 @@ m = new Map(toggle, enemySpeed);
         k5.knightPreset();    knights.add(k5);
         k6.knightPreset();    knights.add(k6);
         k7.knightPreset();    knights.add(k7);
-
+        System.out.println(".");
         knightPath = m.MapWindow5x5(6);
         playesInput(m.StopResumePlaceHelpRemove(), m.labels10x10, knightPath, 10);
 
@@ -479,6 +537,19 @@ m = new Map(toggle, enemySpeed);
     }
 
     //endregion
+    /**
+     * Adds movement steps for a knight along a given path into a list of actions.
+     *
+     * Each step moves the knight to a specific coordinate at a specific point in time,
+     * calculated by the step's index and the provided delay (startStep).
+     * If multiple knights share the same timeline, their steps are merged in sequence.
+     *
+     * @param steps the list to which movement actions will be added
+     * @param path an array of coordinates in the format "xy" representing the knight's path
+     * @param knight the knight to be moved
+     * @param wave the wave number, used to select the correct game map
+     * @param startStep the index in the sequence where this knight’s movement begins
+     */
     private void addKnightPathSteps(ArrayList<Runnable> steps, String[] path, Knight knight, int wave, int startStep) {
         for (int i = 0; i < path.length; i++) {
             final int stepIndex = startStep + i;
@@ -507,6 +578,14 @@ m = new Map(toggle, enemySpeed);
 
 
     //region waves
+    /**
+     * Initializes and runs wave 1 of the game.
+     *
+     * This method sets the game state to RUNNING, adds towers, triggers enemy movement for wave 1,
+     * and starts monitoring the result of the wave (win or loss).
+     * Same logic used across wave1-6
+     * @throws Exception if an error occurs during wave execution
+     */
     public void wave1() throws Exception {
         toggle.setGameResult(ProgramToggle.Result.RUNNING);
 

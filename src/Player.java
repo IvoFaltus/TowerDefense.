@@ -3,13 +3,48 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * The Player class handles player-specific interactions during gameplay,
+ * specifically managing tower placement and removal through an inventory GUI.
+ */
 public class Player {
-    int addedTowersUsed =0;
-    int[] addedTowers={0};
-    private int towersCount;
 
-    public boolean OpenInventory(JLabel[][] labels, boolean wannaRemove, ArrayList<Integer> TowerIndexes, ArrayList<Tower> towers, ArrayList<Point> knightPath,
-                                 AtomicBoolean towerIsBeningPlaced, int lineLength, AtomicBoolean atleastOneTowerIsPLaced) throws Exception {
+    /** Array wrapper to track removed towers (used in removal logic). */
+    int[] addedTowers = {0};
+
+
+
+    /**
+     * Opens the inventory GUI to either place or remove towers depending on the flag.
+     *
+     * If placing:
+     * - Displays a list of inactive towers with their durability.
+     * - Allows the player to select a tower and place it on a valid map tile.
+     * - If no towers are available, shows a warning dialog.
+     *
+     * If removing:
+     * - Activates removal mode, allowing the player to click a tower and remove it from the grid.
+     *
+     * @param labels the grid of map tiles represented as JLabels
+     * @param wannaRemove true if the player wants to remove a tower, false to place one
+     * @param TowerIndexes list of x and y positions of placed towers
+     * @param towers list of all Tower objects in the current wave
+     * @param knightPath path that enemies follow, used to prevent placing towers on it
+     * @param towerIsBeningPlaced atomic flag to indicate if a tower is being placed
+     * @param lineLength size of one side of the map grid (e.g., 5, 7, 10)
+     * @param atleastOneTowerIsPLaced flag to indicate if at least one tower exists on the map
+     * @return true if the inventory action was completed successfully
+     * @throws Exception if an error occurs during tower placement or GUI setup
+     */
+    public boolean OpenInventory(JLabel[][] labels,
+                                 boolean wannaRemove,
+                                 ArrayList<Integer> TowerIndexes,
+                                 ArrayList<Tower> towers,
+                                 ArrayList<Point> knightPath,
+                                 AtomicBoolean towerIsBeningPlaced,
+                                 int lineLength,
+                                 AtomicBoolean atleastOneTowerIsPLaced) throws Exception {
+
         boolean successful = false;
         int[] inActiveTowers = {0};
 
@@ -24,7 +59,7 @@ public class Player {
             JFrame frame = new JFrame();
             JPanel jp = new JPanel();
             jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
-            jp.setBackground(new Color(194, 155, 99)); // matching background
+            jp.setBackground(new Color(194, 155, 99));
             jp.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
             Label label = new Label("Choose a tower to play:");
@@ -60,9 +95,9 @@ public class Player {
                         jb.addActionListener(e -> {
                             try {
                                 frame.dispose();
-                                Tower.placeTower(labels, inActiveTowers, lineLength, lineLength, TowerIndexes, towers, knightPath, towerIsBeningPlaced,atleastOneTowerIsPLaced);
+                                Tower.placeTower(labels, inActiveTowers, lineLength, lineLength,
+                                        TowerIndexes, towers, knightPath, towerIsBeningPlaced, atleastOneTowerIsPLaced);
                                 currentTower.setActive(true);
-
                                 if (currentTower.getDurability() <= 0) {
                                     currentTower.setActive(true);
                                 }
@@ -138,29 +173,18 @@ public class Player {
                 frame.add(jp);
                 frame.setLayout(new FlowLayout());
                 frame.pack();
-                frame.setLocation((width / 3)-300, height / 2 - 30);
+                frame.setLocation((width / 3) - 300, height / 2 - 30);
                 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frame.setVisible(true);
             }
         } else {
             for (Tower t : towers) {
-                t.removeTower(towers, labels, lineLength, lineLength, addedTowers, TowerIndexes,towerIsBeningPlaced, atleastOneTowerIsPLaced);
+                t.removeTower(towers, labels, lineLength, lineLength, addedTowers,
+                        TowerIndexes, towerIsBeningPlaced, atleastOneTowerIsPLaced);
             }
         }
 
         successful = true;
         return successful;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

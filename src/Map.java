@@ -328,7 +328,42 @@ public class Map extends JFrame {
     }
 
 
-    public void map10x10_w6(JLabel[][] labels){}
+    public void map10x10_w6(JLabel[][] labels) {
+        for (int i = 0; i < 10; i++) {
+            switch (i) {
+                case 0:
+                    createLine(10, "1 ", labels,1);
+                    break;
+                case 1:
+                    createLine(10, " 0 1 2 3 4 5 6 7 8 9", labels,1);
+                    break;
+                case 2:
+                    createLine(10, "0 3 6 9", labels,1);
+                    break;
+                case 3:
+                    createLine(10, "0 3 6 9", labels,1);
+                    break;
+                case 4:
+                    createLine(10, "0 1 3 4 6 9  ", labels,1);
+                    break;
+                case 5:
+                    createLine(10, "1 4 6 9 ", labels,1);
+                    break;
+                case 6:
+                    createLine(10, " 0 1 4 6 9", labels,1);
+                    break;
+                case 7:
+                    createLine(10, "0 4 5 6 7 8 9 ", labels,1);
+                    break;
+                case 8:
+                    createLine(10, " 0 1 8 9", labels,1);
+                    break;
+                case 9:
+                    createFinishLine(10, " 1 2 3 4 5 6 7 8 9", labels,1);
+                    break;
+            }
+        }
+    }
 
 
 
@@ -615,7 +650,7 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
                 createOptionLine(6);
                 usedlabels = labels10x10;
             }  case 6 -> {
-                map10x10_w5(labels10x10);
+                map10x10_w6(labels10x10);
                 createOptionLine(6);
                 usedlabels = labels10x10;
             }

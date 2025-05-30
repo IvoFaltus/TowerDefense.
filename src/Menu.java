@@ -2,6 +2,10 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Menu extends JFrame {
@@ -65,7 +69,10 @@ private ArrayList<Integer> completedWaves;
     private ArrayList<JButton> levelButtons = new ArrayList<>();
 
 
-    // Launch wave from level select
+    /**
+     * Launches a specific wave based on the provided wave number.
+     * Initializes game state, sets current wave, and begins the corresponding wave logic.
+     */
     public void startWave(int wave) {
         try {
             toggle.setCurrentWave(wave); // ✅ Save the wave for replay
@@ -132,11 +139,11 @@ t.start();
     }
 
 
-    // Get screen resolution
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int screenWidth = screenSize.width;
-    int screenHeight = screenSize.height;
 
+    /**
+     * Applies a consistent visual style and size to menu buttons.
+     * Used for main menu and action buttons.
+     */
     public void buttonPreset(JButton button) {
         Dimension buttonSize = new Dimension(200, 50);
         button.setMaximumSize(buttonSize);
@@ -149,7 +156,10 @@ t.start();
 
     }
 
-
+    /**
+     * Applies visual style specifically for back buttons.
+     * Smaller and styled differently than main buttons.
+     */
     public void backButtonPreset(JButton button) {
         Dimension buttonSize = new Dimension(130, 40);
         button.setMaximumSize(buttonSize);
@@ -164,8 +174,17 @@ t.start();
 
 //countodwn and passing currentwave
 
+    /**
+     * Displays a full-screen countdown panel before the wave begins.
+     * The background uses a warm brown gradient to match the game's UI style.
+     * The countdown goes from 5 to 0, then displays "START!" and closes.
+     *
+     * @return true if the countdown runs successfully
+     */
     public boolean countDown() {
         Menu frame = new Menu(toggle);
+        frame.setUndecorated(true);
+
         JLabel countdownLabel = new JLabel("5");
         countdownLabel.setFont(new Font("Impact", Font.BOLD, 100));
         countdownLabel.setForeground(new Color(255, 255, 255));
@@ -174,23 +193,25 @@ t.start();
         JPanel countdownPanel = new JPanel();
         countdownPanel.setLayout(new BoxLayout(countdownPanel, BoxLayout.Y_AXIS));
         countdownPanel.setOpaque(false);
-
-        // Spacer for vertical centering
         countdownPanel.add(Box.createVerticalGlue());
         countdownPanel.add(countdownLabel);
         countdownPanel.add(Box.createVerticalGlue());
 
-        // Optional: background panel with gradient
+        // Background panel with matching brown gradient
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2d = (Graphics2D) g;
-                GradientPaint gp = new GradientPaint(0, 0, new Color(50, 50, 70), 0, getHeight(), new Color(20, 20, 30));
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(194, 155, 99), // top: light brown
+                        0, getHeight(), new Color(130, 90, 60) // bottom: darker brown
+                );
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
         };
         backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.setBorder(BorderFactory.createLineBorder(new Color(100, 60, 30), 4));
         backgroundPanel.add(countdownPanel, BorderLayout.CENTER);
 
         int[] numbers = {5};
@@ -200,10 +221,6 @@ t.start();
             } else if (numbers[0] == 0) {
                 countdownLabel.setText("START!");
                 countdownLabel.setForeground(new Color(0, 255, 128));
-                try {
-                    Wave w= new Wave();
-                    //w.wave1();
-                }catch (Exception ex){}
             } else {
                 ((Timer) e.getSource()).stop();
                 frame.dispose();
@@ -212,13 +229,18 @@ t.start();
         });
         t.start();
 
-        frame.add(backgroundPanel);
-        frame.setDesign(400, 300); // slightly wider for better spacing
-
+        frame.setContentPane(backgroundPanel);
+        frame.setDesign(400, 300);
+        frame.setVisible(true);
 
         return true;
     }
 
+
+    /**
+     * Displays a fullscreen dialog when the player beats the final wave.
+     * Includes a congratulations message and a Main Menu button.
+     */
     public void wonGame() {
         Menu frame = new Menu(toggle);
         frame.setTitle("You Won the Game!");
@@ -262,7 +284,10 @@ t.start();
             mainMenu();
         });
     }
-
+    /**
+     * Wraps any given panel in a styled brown background with padding.
+     * Used across menus for visual consistency.
+     */
     public JPanel background(JPanel panel) {
         JPanel background = new JPanel();
         background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
@@ -272,7 +297,10 @@ t.start();
         background.add(panel);
         return background;
     }
-
+    /**
+     * Shows a small modal dialog when the player loses.
+     * Styled in red tones with an “Exit” button.
+     */
     public void youLost() {
         JDialog dialog = new JDialog((Frame) null, "Defeat", true);
         dialog.setUndecorated(true);
@@ -307,7 +335,10 @@ t.start();
         dialog.add(panel);
         dialog.setVisible(true);
     }
-
+    /**
+     * Shows a small modal dialog when the player successfully finishes a wave.
+     * Styled in green tones with a “Continue” button.
+     */
     public void youWon() {
         JDialog dialog = new JDialog((Frame) null, "Victory", true);
         dialog.setUndecorated(true);
@@ -344,7 +375,10 @@ t.start();
     }
 
 
-    // Spacer generator
+
+    /**
+     * Generates a vertical spacer with specified height for layout spacing.
+     */
     public JPanel getSpacer(int height) {
         JPanel spacer = new JPanel();
         spacer.setMaximumSize(new Dimension(Integer.MAX_VALUE, height)); // Full width
@@ -353,7 +387,9 @@ t.start();
         return spacer;
     }
 
-    // Basic frame setup
+    /**
+     * Applies default window settings such as size, location, and visibility.
+     */
     public void setDesign(int width, int height) {
         setSize(width, height);
         setResizable(false);
@@ -425,7 +461,10 @@ t.start();
             options(2);
         });
     }
-
+    /**
+     * Displays a win screen menu after completing a wave.
+     * Offers options to continue, go to main menu, or access other features.
+     */
     public void winMenu() {
 
 
@@ -506,44 +545,48 @@ t.start();
         });
     }
 
-
+    /**
+     * Opens the info screen that explains gameplay mechanics and rules.
+     */
     public void mainInfo() {
         Menu frame = new Menu(toggle);
         frame.setUndecorated(true);
-        // HTML-styled text content
-        JLabel text = new JLabel("<html>" +
-                "<div style='text-align: center; font-size: 14px; line-height: 1.5;'>" +
-                "<p><b>Welcome to the Tower Defense Game!</b></p>" +
-                "<br>" +
-                "<p>You can play in <b>Dynamic mode</b> — knights <b>move automatically</b>, so think fast!</p>" +
-                "<p>Your goal: <b>Place towers</b> to stop knights from reaching the finish line.</p>" +
-                "<p>If a <b>knight moves next to a tower</b> (not diagonally), it <b>attacks and damages it</b>.</p>" +
-                "<p>Once a tower’s health reaches zero, it is <b>destroyed</b>.</p>" +
-                "<br>" +
-                "<p>Survive as many waves as you can with <b>smart tower placement</b>!</p>" +
-                "</div></html>");
+
+        // Read the info text from a file
+        // Read the info text from a resource file
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                getClass().getResourceAsStream("/resources/info.txt")))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append("<p>").append(line).append("</p>");
+            }
+        } catch (Exception e) {
+            content.append("<p>Error loading info file.</p>");
+            e.printStackTrace();
+        }
+
+        JLabel text = new JLabel("<html><div style='text-align: center; font-size: 14px; line-height: 1.5;'>"
+                + content.toString() + "</div></html>");
         text.setFont(new Font("SansSerif", Font.PLAIN, 16));
         text.setHorizontalAlignment(SwingConstants.CENTER);
         text.setVerticalAlignment(SwingConstants.CENTER);
 
-        // Main content panel
-        JPanel content = new JPanel(new GridBagLayout());
-        content.setOpaque(false);
+        JPanel contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 15, 15, 15);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        content.add(text, gbc);
+        contentPanel.add(text, gbc);
 
-        // Back button
         JButton back = new JButton("Back");
         backButtonPreset(back);
         gbc.gridy++;
-        content.add(back, gbc);
+        contentPanel.add(back, gbc);
 
-        // Add background and finalize frame
-        frame.add(background(content));
+        frame.add(background(contentPanel));
         frame.setDesign(800, 350);
         frame.setVisible(true);
 
@@ -553,6 +596,10 @@ t.start();
         });
     }
 
+    /**
+     * Displays the options menu allowing the player to change volume and difficulty.
+     * Returns to appropriate menu based on input.
+     */
     public void options(int whichMenu) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -655,6 +702,10 @@ t.start();
         frame.setDesign(300, 300);
         frame.setVisible(true);
     }
+    /**
+     * Opens a graphical level selection screen with visually connected buttons.
+     * Only waves completed or unlocked are accessible.
+     */
 
     public void openLevelMap() {
         Menu m = new Menu(toggle);
@@ -729,6 +780,9 @@ t.start();
 
 
 
+    /**
+     * Shows the main menu screen with navigation buttons: Play, Options, Info, and Level Select.
+     */
     public void mainMenu() {
         Wave w = new Wave(toggle, enemySpeed);
         System.out.println(currentWave + " this is current wave");

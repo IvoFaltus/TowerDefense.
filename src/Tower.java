@@ -90,7 +90,24 @@ public class Tower {
     private int lvl;
 
     private static int towersPlaced = 0;
-
+    /**
+     * Allows the player to place a new tower on the game grid through a popup interface.
+     *
+     * Highlights valid grid tiles that are not part of the knight path and do not already contain a tower.
+     * Upon clicking a valid tile, a tower is visually placed, activated, and added to the game state.
+     * If no action is taken within 10 seconds, the popup closes automatically.
+     *
+     * @param labels the 2D array of grid tiles (JLabels)
+     * @param inActiveTowers a wrapper for counting inactive towers (unused towers available for placement)
+     * @param rows number of rows in the map grid
+     * @param cols number of columns in the map grid
+     * @param towerIndexes list where the placed tower positions are stored (x and y interleaved)
+     * @param towers list of all tower instances in the current game
+     * @param knightPath the list of path coordinates that enemies follow
+     * @param towerIsBeingPlaced flag indicating if tower placement is active
+     * @param atleastOneTowerIsPlaced flag that becomes true once any tower is placed
+     * @throws Exception if GUI setup or placement logic fails
+     */
     public static void placeTower(JLabel[][] labels, int[] inActiveTowers, int rows, int cols,
                                   ArrayList<Integer> towerIndexes, ArrayList<Tower> towers,
                                   ArrayList<Point> knightPath, AtomicBoolean towerIsBeingPlaced, AtomicBoolean atleastOneTowerIsPlaced) throws Exception {
@@ -206,6 +223,22 @@ public class Tower {
             }
         }
     }
+    /**
+     * Allows the player to remove an existing tower from the map grid through a popup interface.
+     *
+     * Highlights tiles with placed towers. When the player clicks on a tower, it is removed from the map,
+     * marked inactive, and the tower’s coordinates are removed from the list of active tower indexes.
+     * The popup closes automatically after removal or after 10 seconds of inactivity.
+     *
+     * @param towers list of all tower instances in the current game
+     * @param labels the 2D array of grid tiles (JLabels)
+     * @param rows number of rows in the map grid
+     * @param cols number of columns in the map grid
+     * @param addedTowers an integer array used to track how many towers were removed
+     * @param towerIndexes list containing x and y positions of placed towers
+     * @param towerIsBeingPlaced flag indicating that a tower placement or removal is in progress
+     * @param atleastOneTowerIsPlaced flag that indicates if any tower remains placed after removal
+     */
 
     public void removeTower(ArrayList<Tower> towers, JLabel[][] labels, int rows, int cols,
                             int[] addedTowers, ArrayList<Integer> towerIndexes,
