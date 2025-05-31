@@ -12,20 +12,11 @@ import java.util.Set;
 
 public class Map extends JFrame {
 
-    private int enemySpeed;
 
-    public Map(int enemySpeed) {
 
-        this.enemySpeed = enemySpeed;
-    }
 
-    public Map(ProgramToggle toggle, int enemySpeed) {
-        this.toggle = toggle;
-        this.enemySpeed = enemySpeed;
-        if (enemySpeed == 0) {
-            this.enemySpeed = 1000;
-        }
-    }
+
+
 
     boolean won = false;
     private ProgramToggle toggle;
@@ -65,14 +56,14 @@ public class Map extends JFrame {
      * @param pause a boolean indicating whether the game is paused or not. If true, the game will pause the render.
      * @param nextStep a Runnable that represents the next action to perform (e.g., moving the next enemy).
      */
-    public void mapRender(Boolean pause, Runnable nextStep) {
-        int delay = pause ? 9000 : enemySpeed; // delay in milliseconds
+    public void mapRender(Boolean pause, Runnable nextStep, int enemySpeed) {
+        int delay = pause ? 9000 : enemySpeed;
         // System.out.println("enemy speed is "+ enemySpeed);
         new Timer(delay, e -> {
-            ((Timer) e.getSource()).stop(); // stop the timer after one run
+            ((Timer) e.getSource()).stop();
             revalidate();
             repaint();
-            nextStep.run(); // call the next step (e.g. move next enemy)
+            nextStep.run();
         }).start();
     }
     /**
@@ -374,6 +365,18 @@ public class Map extends JFrame {
 
 
 //endregion
+
+    /**
+     * Creates a single tile in the map grid, determines its type (path, terrain, finish),
+     * and applies appropriate visual styling based on the map type.
+     * Also applies a shaded texture and optional gloss effect.
+     *
+     * @param lineLength the length of the side of the grid (e.g., 5 for 5x5)
+     * @param baseColor the base color of the tile (path, terrain, or finish)
+     * @param labels a 2D array representing the tile layout grid
+     * @param mapType the type of map, used to determine colors and styles
+     */
+
 public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int mapType) {
     JLabel tile = new JLabel(" ", SwingConstants.CENTER);
     tile.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
@@ -431,7 +434,16 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
     }
 }
 
-    // Helper to simulate textured shading
+    /**
+     * Blends the base color with darker shades to simulate subtle texture on terrain tiles.
+     * Used for giving depth to map visuals.
+     *
+     * @param base the base color to shade
+     * @param baseWeight weight (0-1) of the original color
+     * @param darkerWeight weight (0-1) of the darker color
+     * @param darker2Weight weight (0-1) of the even darker color
+     * @return the blended Color result
+     */
     private Color blendShades(Color base, double baseWeight, double darkerWeight, double darker2Weight) {
         Color darker = base.darker();
         Color muchDarker = darker.darker();
@@ -441,7 +453,16 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
                 (int)(base.getBlue() * baseWeight + darker.getBlue() * darkerWeight + muchDarker.getBlue() * darker2Weight)
         );
     }
-
+    /**
+     * Creates one full horizontal line of tiles in the map grid.
+     * Path tiles are placed at specific x-indices based on input,
+     * while all other positions receive terrain tiles.
+     *
+     * @param lineLength the number of tiles to create in the row
+     * @param filledTiles a string of space-separated x-positions where path tiles should be placed
+     * @param labels5x5 the 2D label grid for tile placement
+     * @param mapType the type of map (determines color scheme)
+     */
     public void createLine(int lineLength, String filledTiles, JLabel[][] labels5x5, int mapType) {
         String[] tiles = filledTiles.trim().split("\\s+");
         int[] numbers = new int[tiles.length];
@@ -462,6 +483,15 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
         }
     }
 
+    /**
+     * Creates the last row of the map (the finish line), placing a finish tile at the final position.
+     * Other tiles in the row are either path or terrain, based on the input.
+     *
+     * @param lineLength the number of tiles in the finish line
+     * @param filledTiles a string of space-separated x-positions where path tiles should be placed
+     * @param labels5x5 the 2D label grid for tile placement
+     * @param mapType the type of map (determines color scheme)
+     */
     public void createFinishLine(int lineLength, String filledTiles, JLabel[][] labels5x5, int mapType) {
         String[] tiles = filledTiles.trim().split("\\s+");
         int[] numbers = new int[tiles.length];
@@ -488,7 +518,13 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
         }
     }
 
-    // Get unique terrain color for each map type
+
+    /**
+     * Returns the terrain color used for the given map type.
+     * Design chosen by ChatGPT
+     * @param mapType the integer representing the selected map type
+     * @return a Color representing the terrain
+     */
     private Color getTerrainColor(int mapType) {
         return switch (mapType) {
             case 0 -> new Color(110, 140, 80);      // Grassland
@@ -501,6 +537,12 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
         };
     }
 
+    /**
+     * Returns the path color used for the given map type.
+     * Design chosen by ChatGPT
+     * @param mapType the integer representing the selected map type
+     * @return a Color representing the walkable path
+     */
     private Color getPathColor(int mapType) {
         return switch (mapType) {
             case 0 -> new Color(100, 90, 60);       // Dirt path
@@ -512,7 +554,12 @@ public void createTile(int lineLength, Color baseColor, JLabel[][] labels, int m
             default -> new Color(100, 90, 60);
         };
     }
-
+    /**
+     * Returns the finish tile color used for the given map type.
+     * Design chosen by ChatGPT
+     * @param mapType the integer representing the selected map type
+     * @return a Color representing the finish point
+     */
     private Color getFinishColor(int mapType) {
         return switch (mapType) {
             case 0 -> new Color(150, 120, 80);      // Forest base
@@ -834,12 +881,6 @@ if(tower.getDurability()==0){
 
     }
 
-    public ProgramToggle getToggle() {
-        return toggle;
-    }
 
-    public void setToggle(ProgramToggle toggle) {
-        this.toggle = toggle;
-    }
 
 }

@@ -46,7 +46,7 @@ public class ProgramToggle {
     public int getCurrentWave() {
         return currentWave;
     }
-
+    public int selectedDifficultyIndex = 0; // default to Easy
     /**
      * Sets the current wave to be played.
      *

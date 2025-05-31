@@ -266,7 +266,6 @@ public class Tower {
         removePopup.setAlwaysOnTop(true);
         removePopup.setVisible(true);
 
-        // monitor if tower is placed and close popup if so
         Timer monitor = new Timer(100, e -> {
             if (!towerIsBeingPlaced.get()) {
                 removePopup.setVisible(false);
@@ -276,7 +275,6 @@ public class Tower {
         });
         monitor.start();
 
-        // auto-close after 10 sec if user does nothing
         Timer autoClosePopup = new Timer(10000, e -> {
             if (!hasClicked.get()) {
                 removePopup.setVisible(false);
@@ -326,7 +324,7 @@ public class Tower {
                                     }
                                 }
 
-                                towersPlaced--; // Decrement the towers placed count
+                                towersPlaced--;
                                 if (towersPlaced == 0) {
                                     atleastOneTowerIsPlaced.set(false);
                                 } else {

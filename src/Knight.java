@@ -10,7 +10,12 @@ public class Knight {
 private int x;
 private int y;
 
-public void setPosition(int x, int y) {
+    /**
+     * Sets position of knight on the grid map
+     * @param x Coordinate
+     * @param y Coordinate
+     */
+    public void setPosition(int x, int y) {
 
     this.x = x;
     this.y = y;
@@ -47,37 +52,7 @@ public void setPosition(int x, int y) {
 
     private int currentX;
     private int currentY;
-public boolean AllKnightsDead(ArrayList<Knight> knights) throws Exception {
-    boolean temp = false;
-    int numberOfKnights = 0;
 
-
-
-
-
-
-
-
-    for(int i=0;i<knights.size();i++){
-        if(knights.get(i).getHealth()==0){
-            numberOfKnights++;
-        }
-    }
-    if(numberOfKnights==knights.size()){
-        temp = true;
-    }
-
-
-    Menu m =new Menu(null,null);
-    m.youWon();
-    return temp;
-}
-
-
-    public void enemyHealth() {
-
-
-    }
 
     public void setHealth(int health) {
         this.health = health;
@@ -118,16 +93,6 @@ public boolean AllKnightsDead(ArrayList<Knight> knights) throws Exception {
         return lastY;
     }
 
-    public ArrayList addKnights() {
-        ArrayList<Knight> wave1 = new ArrayList<>();
-        Knight k = new Knight(100);
-        Knight k2 = new Knight(100);
-        k.setKnightIcon();
-        k2.setKnightIcon();
-        wave1.add(k);
-        wave1.add(k2);
-        return wave1;
-    }
 
     public void knightPreset(){
 

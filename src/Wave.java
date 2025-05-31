@@ -9,6 +9,10 @@ public class  Wave {
     ArrayList<Tower> towers = new ArrayList<>();
     ArrayList<Point> knightPath = new ArrayList<>();
 
+    public void setEnemySpeed(int enemySpeed) {
+        this.enemySpeed = enemySpeed;
+    }
+
     public Wave() {
     }
 
@@ -62,6 +66,12 @@ private ArrayList<Boolean> waves;
         return towers;
     }
 
+    public Wave(ProgramToggle toggle, ArrayList<Boolean> waves, int enemySpeed) {
+        this.toggle = toggle;
+        this.waves = waves;
+        this.enemySpeed = enemySpeed;
+        m = new Map(toggle);
+    }
 
     Map m;
 
@@ -69,7 +79,7 @@ private ArrayList<Boolean> waves;
 private int enemySpeed;
     public Wave(ProgramToggle toggle) {
         this.toggle = toggle;
-m = new Map(toggle, enemySpeed);
+m = new Map(toggle);
     }
 
 
@@ -77,17 +87,17 @@ m = new Map(toggle, enemySpeed);
         this.toggle = toggle;
         this.enemySpeed = enemySpeed;
         this.waves = waves;
-        m = new Map(toggle, enemySpeed);
+        m = new Map(toggle);
 
     }
 
     public Wave(ProgramToggle toggle, ArrayList<Boolean> waves) {
         this.toggle = toggle;
         this.waves = waves;
-        m = new Map(toggle, enemySpeed);
+        m = new Map(toggle);
     }
 
-    Tower TOWER = new Tower();
+
     Tower t = new Tower();
 
     public Wave(Map map) {
@@ -96,6 +106,7 @@ m = new Map(toggle, enemySpeed);
 
     Knight KNIGHT = new Knight();
 
+    //region knights
     Knight k = new Knight();
     Knight k2 = new Knight();
     Knight k3 = new Knight();
@@ -104,7 +115,7 @@ m = new Map(toggle, enemySpeed);
     Knight k6 = new Knight();
     Knight k7 = new Knight();
 
-
+//endregion
 
 
     /**
@@ -288,7 +299,8 @@ m = new Map(toggle, enemySpeed);
         if (index < steps.size()) {
 
             steps.get(index).run();
-            m.mapRender(pause, () -> runStepsWithRender(steps, index + 1));
+            m.mapRender(pause, () -> runStepsWithRender(steps, index + 1),enemySpeed);
+            System.out.println("enemy speed = " + enemySpeed);
         }else{
             System.out.println("probleem");
         }
@@ -325,15 +337,15 @@ m = new Map(toggle, enemySpeed);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // k path
+
         String[] pathK = {"00", "10", "20", "21", "22", "23", "24", "34", "44"};
         addKnightPathSteps(steps, pathK, k, 1, 0);
 
-        // k2 path, starting after 3 steps of k (step index 3)
+
         String[] pathK2 = {"00", "10", "20", "21", "22", "23", "34", "44"};
         addKnightPathSteps(steps, pathK2, k2, 1, 3);
 
-        // k3 path, starting after 4 steps of k2 (step index 3 + 4 = 7)
+
         String[] pathK3 = {"00", "10", "20", "21", "22", "23", "24", "34", "44"};
         addKnightPathSteps(steps, pathK3, k3, 1, 7);
 
@@ -360,7 +372,7 @@ m = new Map(toggle, enemySpeed);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // Define the path for k (knight 1)
+
         String[] pathK = {
                 "00", "10", "20", "30", "40",
                 "41", "42", "43", "44",
@@ -384,7 +396,6 @@ m = new Map(toggle, enemySpeed);
 
 
 
-        // Add path steps for k (wave 2)
         addKnightPathSteps(steps, pathK, k, 2, 0);
         addKnightPathSteps(steps, pathK2, k2, 2, 2);
         addKnightPathSteps(steps, pathK3, k3, 2, 4);
@@ -402,7 +413,7 @@ m = new Map(toggle, enemySpeed);
         k.knightPreset();  knights.add(k);
         k2.knightPreset(); knights.add(k2);
         k3.knightPreset(); knights.add(k3);
-        k4.knightPreset(); // not added to list (optional)
+        k4.knightPreset();
 
         for (Knight knight : knights) {
             knight.setKnightIcon();
@@ -411,12 +422,12 @@ m = new Map(toggle, enemySpeed);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // Define paths as arrays of string coordinates "xy"
+
         String[] pathK  = {"00", "10", "20", "21", "22", "23", "24", "34", "35", "45", "46", "56", "66"};
         String[] pathK2 = {"00", "10", "20", "30", "40", "50", "51", "52", "53", "63", "64", "65", "66"};
         String[] pathK3 = {"00", "10", "20", "30", "40", "50", "51", "52", "53", "64", "65", "66"};
 
-        // Stagger knights: k2 starts after 4 steps of k, k3 after 8 steps of k2
+
         addKnightPathSteps(steps, pathK,  k,  3, 0);
         addKnightPathSteps(steps, pathK2, k2, 3, 4);
         addKnightPathSteps(steps, pathK3, k3, 3, 8);
@@ -444,13 +455,13 @@ m = new Map(toggle, enemySpeed);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // Define each knight's path as strings in format "xy"
+
         String[] pathK  =  {"10", "11", "12", "13", "23", "33", "43", "53", "63", "73", "83", "93", "94", "95", "96", "97", "98", "99"};
        String[] pathK2 =  {"10", "11", "12", "13", "14", "15", "16", "26", "36", "46", "47", "48", "49", "59", "69", "79", "89", "99"};
         String[] pathK3 =  {"10", "11", "12", "13", "23", "33", "43", "44", "45", "46", "56", "66", "76", "77", "78", "79", "89", "99"};
         String[] pathK4 =  {"10", "11", "12", "13", "14", "15", "16", "26", "36", "46", "56", "66", "76", "86", "96", "97", "98", "99"};
 
-        // Add knight paths with staggered delays
+
         addKnightPathSteps(steps, pathK,  k,  4, 0);
         addKnightPathSteps(steps, pathK2, k2, 4, 3);
         addKnightPathSteps(steps, pathK3, k3, 4, 6);
@@ -482,7 +493,6 @@ m = new Map(toggle, enemySpeed);
 
         ArrayList<Runnable> steps = new ArrayList<>();
 
-        // Define paths (as strings: "xy" → x=row, y=column)
         String[] pathK  =  {"40","41","51","61","71","81","91","92","93","94","95","96","97","98","99"};
         String[] pathK2 =  {"40","41","31","21","11","01","02","03","13","23","33","43","53","63","73","74","75","76","77","78","79","89","99"};
         String[] pathK3 =  {"40","41","31","21","11","01","02","03","04","05","15","25","35","45","55","56","57","58","59","69","79","89","99"};
@@ -490,7 +500,6 @@ m = new Map(toggle, enemySpeed);
         String[] pathK5 =  {"40","41","31","21","11","01","02","03","13","23","33","43","53","63","73","74","75","76","77","78","79","89","99"};
         String[] pathK6 =  {"40","41","31","21","11","01","02","03","13","23","33","43","53","63","73","74","75","76","77","78","79","89","99"};
 
-        // Add knights with staggered start steps
        addKnightPathSteps(steps, pathK,  k,  5,  0);  // starts at step 0
         addKnightPathSteps(steps, pathK2, k2, 5,  3);  // starts at step 3
         addKnightPathSteps(steps, pathK3, k3, 5,  5);  // starts at step 5
@@ -556,17 +565,17 @@ m = new Map(toggle, enemySpeed);
             final int x = Character.getNumericValue(path[i].charAt(0));
             final int y = Character.getNumericValue(path[i].charAt(1));
 
-            // Ensure steps list is long enough
+
             while (steps.size() <= stepIndex) {
-                steps.add(() -> {}); // placeholder to avoid IndexOutOfBounds
+                steps.add(() -> {});
             }
 
-            // Safely combine with previous runnable
+
             final Runnable previous = steps.get(stepIndex);
             steps.set(stepIndex, () -> {
                 try {
-                    previous.run(); // run existing actions
-                    moveSafe(x, y, knight, wave); // add this knight's move
+                    previous.run();
+                    moveSafe(x, y, knight, wave);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -641,7 +650,7 @@ m = new Map(toggle, enemySpeed);
     }
 public void wave6()throws Exception{
     toggle.setGameResult(ProgramToggle.Result.RUNNING);
-
+    System.out.println("wave 6 executed");
     knights.clear();
     towers.clear();
     addTowers(4,2);

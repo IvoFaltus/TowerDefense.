@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="TowerDefensesdf:jar2" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc6f03ff-8f68-4040-8d1b-eb9573294c86" name="Changes" comment="minor errors fixed">
-      <change afterPath="$PROJECT_DIR$/src/resources/info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2025_15_08__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2025_15_08__Changes_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/TowerDefensesdf_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/TowerDefensesdf_jar2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TowerDefensesdf.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TowerDefensesdf.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Audio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Knight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ProgramToggle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ProgramToggle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Tower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnifiedWindow.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnitTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Wave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wave.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/knight100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/tower1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/tower2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resources/tower3.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,20 +72,20 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ivose\IdeaProjects\TowerDefense" />
       <recent name="C:\Users\ivose\IdeaProjects\TowerDefense\src\resources" />
       <recent name="C:\Users\ivose\IdeaProjects\TowerDefense\src" />
-      <recent name="C:\Users\ivose\IdeaProjects\TowerDefense" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.UnitTests.testKnightInitialPosition">
     <configuration name="UnitTests.testKnightInitialPosition" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TowerDefensesdf" />
       <option name="PACKAGE_NAME" value="" />
@@ -196,7 +204,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748529908294</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="minor errors fixed">
+      <option name="closed" value="true" />
+      <created>1748589193902</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748589193902</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

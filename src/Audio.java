@@ -15,6 +15,9 @@ private Clip backgroundmusic;
         this.backgroundmusic = backgroundmusic;
     }
 
+    /**
+     * Plays background music
+     */
     public void playMusic(){
     try{
 File musicpath = new File("src/resources/music2.wav");

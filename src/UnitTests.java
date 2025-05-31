@@ -76,4 +76,7 @@ public class UnitTests {
         knight.setHealth(knight.getHealth() - 100);
         assertFalse(knight.isAlive(), "Knight should not be alive after massive damage.");
     }
+
+
+
 }

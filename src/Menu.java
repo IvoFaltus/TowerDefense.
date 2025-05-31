@@ -62,7 +62,7 @@ private ArrayList<Integer> completedWaves;
         this.completedWaves=new ArrayList<>();
     }
 
-    private int enemySpeed;
+    private int enemySpeed =1000;
     private ArrayList<Boolean> waves;
 
 
@@ -78,7 +78,8 @@ private ArrayList<Integer> completedWaves;
             toggle.setCurrentWave(wave); // ✅ Save the wave for replay
             toggle.setGameResult(ProgramToggle.Result.RUNNING);
             System.out.println("starting");
-            Wave w = new Wave(toggle, waves);
+            Wave w = new Wave(toggle, waves, enemySpeed);
+
             switch (wave) {
                 case 1:
 
@@ -104,29 +105,35 @@ t.start();
 
 
                     }else{
+                        System.out.println("enemy speed = "+enemySpeed);
                         w.wave1();
                     }
                     break;
                 case 2:
+                    w.setEnemySpeed(enemySpeed);
                     toggle.setCurrentWave(wave);
                     w.wave2();
 
                     break;
                 case 3:
+                    w.setEnemySpeed(enemySpeed);
                     toggle.setCurrentWave(wave);
                     w.wave3();
                     break;
                 case 4:
+                    w.setEnemySpeed(enemySpeed);
                     toggle.setCurrentWave(wave);
                     w.wave4();
 
                     break;
                 case 5:
+                    w.setEnemySpeed(enemySpeed);
                     System.out.println("wave 5");
                     toggle.setCurrentWave(wave);
                     w.wave5();
                     break;
                 case 6:
+                    w.setEnemySpeed(enemySpeed);
                     toggle.setCurrentWave(wave);
                     w.wave6();
                     break;
@@ -182,7 +189,7 @@ t.start();
      * @return true if the countdown runs successfully
      */
     public boolean countDown() {
-        Menu frame = new Menu(toggle);
+        Menu frame = new Menu(toggle,enemySpeed);
         frame.setUndecorated(true);
 
         JLabel countdownLabel = new JLabel("5");
@@ -197,7 +204,7 @@ t.start();
         countdownPanel.add(countdownLabel);
         countdownPanel.add(Box.createVerticalGlue());
 
-        // Background panel with matching brown gradient
+
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -220,7 +227,7 @@ t.start();
                 countdownLabel.setText(String.valueOf(numbers[0]));
             } else if (numbers[0] == 0) {
                 countdownLabel.setText("START!");
-                countdownLabel.setForeground(new Color(0, 255, 128));
+                countdownLabel.setForeground(new Color(0, 210, 0));
             } else {
                 ((Timer) e.getSource()).stop();
                 frame.dispose();
@@ -242,7 +249,7 @@ t.start();
      * Includes a congratulations message and a Main Menu button.
      */
     public void wonGame() {
-        Menu frame = new Menu(toggle);
+        Menu frame = new Menu(toggle, enemySpeed);
         frame.setTitle("You Won the Game!");
         frame.setUndecorated(true);
 
@@ -400,7 +407,7 @@ t.start();
 
     public void lostMenu() {
         Wave w = new Wave(toggle);
-        Menu frame = new Menu(toggle);
+        Menu frame = new Menu(toggle,enemySpeed);
         frame.setTitle("Game Over");
         frame.setUndecorated(true);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -412,7 +419,7 @@ t.start();
 
         JButton playAgain = new JButton("Replay Level");
         JButton mainMenu = new JButton("Main Menu");
-        JButton options = new JButton("Options");
+        JButton options = new JButton("Settings");
 
         for (JButton button : new JButton[]{playAgain, mainMenu, options}) {
             buttonPreset(button);
@@ -469,7 +476,7 @@ t.start();
 
 
         Wave w = new Wave(toggle, enemySpeed, waves);
-        Menu frame = new Menu(toggle);
+        Menu frame = new Menu(toggle,enemySpeed);
         frame.setTitle("You Win!");
         frame.setUndecorated(true);
 
@@ -480,7 +487,7 @@ t.start();
 
         JButton nextLevel = new JButton("Next Level");
         JButton mainMenu = new JButton("Main Menu");
-        JButton options = new JButton("Options");
+        JButton options = new JButton("Settings");
         JButton levelSelect = new JButton("Level Select");
 
         for (JButton button : new JButton[]{nextLevel, mainMenu, options, levelSelect}) {
@@ -520,7 +527,7 @@ t.start();
                     case 3 -> startWave(3);
                     case 4 -> startWave(4);
                     case 5 -> startWave(5);
-                    case 6 -> {
+                    case 6 -> {startWave(6);
                     }
                     default -> System.out.println("undefined");
                 }
@@ -549,7 +556,7 @@ t.start();
      * Opens the info screen that explains gameplay mechanics and rules.
      */
     public void mainInfo() {
-        Menu frame = new Menu(toggle);
+        Menu frame = new Menu(toggle,enemySpeed);
         frame.setUndecorated(true);
 
         // Read the info text from a file
@@ -595,7 +602,7 @@ t.start();
             frame.dispose();
         });
     }
-
+int currentEnemySpeed =1000;
     /**
      * Displays the options menu allowing the player to change volume and difficulty.
      * Returns to appropriate menu based on input.
@@ -605,15 +612,15 @@ t.start();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
 
-        Menu frame = new Menu(toggle);
+        Menu frame = new Menu(toggle,enemySpeed);
         frame.setUndecorated(true);
-        // === Volume label ===
+
         JLabel volumeLabel = new JLabel("Volume");
         volumeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         volumeLabel.setFont(new Font("Impact", Font.PLAIN, 18));
 
-        // === Slider and value label side-by-side ===
-        JSlider volume = new JSlider(0, 100, 50); // Default at 50%
+
+        JSlider volume = new JSlider(0, 100, 50);
         volume.setBackground(new Color(194, 155, 99));
 
         JLabel volumeValues = new JLabel(volume.getValue() + "%");
@@ -637,7 +644,7 @@ t.start();
         volumePanel.add(volume);
         volumePanel.add(volumeValues);
 
-        // === Difficulty dropdown ===
+        //dropdown
         JLabel diffLabel = new JLabel("Difficulty:");
         diffLabel.setFont(new Font("Impact", Font.PLAIN, 18));
 
@@ -649,6 +656,7 @@ t.start();
             switch (dropOptions.getSelectedIndex()) {
                 case 0:
                     enemySpeed = 2000;
+
                     break;
                 case 1:
                     enemySpeed = 1000;
@@ -658,6 +666,9 @@ t.start();
                     break;
                 case 3:
                     enemySpeed = 300;
+                    break;
+                default:
+                    enemySpeed=1000;
                     break;
             }
 
@@ -680,7 +691,7 @@ t.start();
                 case 0 -> mainMenu();
                 case 1 -> winMenu();
                 case 2 -> this.lostMenu();
-                default -> mainMenu(); // fallback
+                default -> mainMenu();
             }
         });
 
@@ -708,7 +719,7 @@ t.start();
      */
 
     public void openLevelMap() {
-        Menu m = new Menu(toggle);
+        Menu m = new Menu(toggle,enemySpeed);
         JFrame frame = new JFrame("Level Selection");
         frame.setUndecorated(true);
         frame.setSize(600, 400);
@@ -779,7 +790,6 @@ t.start();
     }
 
 
-
     /**
      * Shows the main menu screen with navigation buttons: Play, Options, Info, and Level Select.
      */
@@ -787,7 +797,7 @@ t.start();
         Wave w = new Wave(toggle, enemySpeed);
         System.out.println(currentWave + " this is current wave");
 
-        Menu frame = new Menu(toggle);
+        Menu frame = new Menu(toggle, enemySpeed);
         frame.setTitle("Main Menu");
         frame.setUndecorated(true);
 
@@ -795,7 +805,7 @@ t.start();
         JLabel title = new JLabel("MAIN MENU");
         title.setFont(new Font("Verdana", Font.BOLD, 32));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setForeground(Color.DARK_GRAY); // black text
+        title.setForeground(Color.GRAY); // black text
 
         JButton mode1 = new JButton("Play");       // ▶
         JButton options = new JButton("Options");  // ⚙
@@ -820,8 +830,8 @@ t.start();
         panel.add(options);
         panel.add(getSpacer(12));
         panel.add(info);
-        panel.add(getSpacer(12));
-        panel.add(levelSelect);
+      //  panel.add(getSpacer(12));
+     //   panel.add(levelSelect);
         panel.add(getSpacer(25));
 
         JPanel borderWrapper = new JPanel(new BorderLayout());
