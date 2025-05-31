@@ -9,23 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cc6f03ff-8f68-4040-8d1b-eb9573294c86" name="Changes" comment="minor errors fixed">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/TowerDefensesdf_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/TowerDefensesdf_jar2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Audio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Audio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Knight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ProgramToggle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ProgramToggle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnitTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Wave.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wave.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/knight100.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/tower1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/tower2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/tower3.png" beforeDir="false" />
-    </list>
+    <list default="true" id="cc6f03ff-8f68-4040-8d1b-eb9573294c86" name="Changes" comment="Final commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,33 +35,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.UnitTests.testKnightInitialPosition.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UnitTests.testKnightIsAlive.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UnitTests.testKnightTakeDamage.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UnitTests.testTowerActivation.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UnitTests.testTowerInitialPosition.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.UnitTests.testKnightInitialPosition.executor": "Run",
+    "JUnit.UnitTests.testKnightIsAlive.executor": "Run",
+    "JUnit.UnitTests.testKnightTakeDamage.executor": "Run",
+    "JUnit.UnitTests.testTowerActivation.executor": "Run",
+    "JUnit.UnitTests.testTowerInitialPosition.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ivose\IdeaProjects\TowerDefense" />
@@ -149,8 +134,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
       </set>
     </attachedChunks>
   </component>
@@ -163,6 +147,7 @@
       <option name="presentableId" value="Default" />
       <updated>1748247153834</updated>
       <workItem from="1748247155077" duration="4621000" />
+      <workItem from="1748691664634" duration="583000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <option name="closed" value="true" />
@@ -212,7 +197,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748589193902</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Final commit">
+      <option name="closed" value="true" />
+      <created>1748691724189</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748691724189</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +214,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
     <MESSAGE value="minor errors fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor errors fixed" />
+    <MESSAGE value="Final commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final commit" />
   </component>
 </project>
